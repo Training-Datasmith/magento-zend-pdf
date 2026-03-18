@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +22,6 @@
  * @version    $Id$
  */
 
-
 /**
  * PDF target (action or destination)
  *
@@ -38,10 +39,11 @@ abstract class Zend_Pdf_Target
      * @return Zend_Pdf_Destination|
      * @throws Zend_Pdf_Exception
      */
-    public static function load(Zend_Pdf_Element $resource) {
+    public static function load(Zend_Pdf_Element $resource)
+    {
         #require_once 'Zend/Pdf/Element.php';
         if ($resource->getType() == Zend_Pdf_Element::TYPE_DICTIONARY) {
-            if (($resource->Type === null  ||  $resource->Type->value =='Action')  &&  $resource->S !== null) {
+            if (($resource->Type === null  ||  $resource->Type->value == 'Action')  &&  $resource->S !== null) {
                 // It's a well-formed action, load it
                 #require_once 'Zend/Pdf/Action.php';
                 return Zend_Pdf_Action::load($resource);
@@ -63,7 +65,7 @@ abstract class Zend_Pdf_Target
             return Zend_Pdf_Destination::load($resource);
         }
         #require_once 'Zend/Pdf/Exception.php';
-        throw new Zend_Pdf_Exception( 'Wrong resource type.' );
+        throw new Zend_Pdf_Exception('Wrong resource type.');
     }
 
     /**

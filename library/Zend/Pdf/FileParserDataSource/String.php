@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -34,8 +36,7 @@
  */
 class Zend_Pdf_FileParserDataSource_String extends Zend_Pdf_FileParserDataSource
 {
-  /**** Instance Variables ****/
-
+    /**** Instance Variables ****/
 
     /**
      * The string to parse.
@@ -43,12 +44,9 @@ class Zend_Pdf_FileParserDataSource_String extends Zend_Pdf_FileParserDataSource
      */
     protected $_string = '';
 
+    /**** Public Interface ****/
 
-
-  /**** Public Interface ****/
-
-
-  /* Concrete Class Implementation */
+    /* Concrete Class Implementation */
 
     /**
      * Object constructor.
@@ -61,8 +59,10 @@ class Zend_Pdf_FileParserDataSource_String extends Zend_Pdf_FileParserDataSource
     {
         if (empty($string)) {
             #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception('String is empty',
-                                         Zend_Pdf_Exception::PARAMETER_VALUE_OUT_OF_RANGE);
+            throw new Zend_Pdf_Exception(
+                'String is empty',
+                Zend_Pdf_Exception::PARAMETER_VALUE_OUT_OF_RANGE
+            );
         }
         $this->_size = strlen($string);
         $this->_string = $string;
@@ -92,8 +92,10 @@ class Zend_Pdf_FileParserDataSource_String extends Zend_Pdf_FileParserDataSource
     {
         if (($this->_offset + $byteCount) > $this->_size) {
             #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception("Insufficient data to read $byteCount bytes",
-                                         Zend_Pdf_Exception::INSUFFICIENT_DATA);
+            throw new Zend_Pdf_Exception(
+                "Insufficient data to read $byteCount bytes",
+                Zend_Pdf_Exception::INSUFFICIENT_DATA
+            );
         }
         $bytes = substr($this->_string, $this->_offset, $byteCount);
         $this->_offset += $byteCount;
@@ -112,8 +114,7 @@ class Zend_Pdf_FileParserDataSource_String extends Zend_Pdf_FileParserDataSource
         return $this->_string;
     }
 
-
-  /* Object Magic Methods */
+    /* Object Magic Methods */
     /**
      * Returns a string containing the parsed string's length.
      */

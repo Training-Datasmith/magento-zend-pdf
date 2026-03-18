@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,10 +21,8 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Null.php';
-
 
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
@@ -66,7 +66,6 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
      */
     private $_context;
 
-
     /**
      * Reference to the factory.
      *
@@ -91,12 +90,12 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
         $genNum,
         Zend_Pdf_Element_Reference_Context $context,
         Zend_Pdf_ElementFactory $factory
-    ){
-        if ( !(is_integer($objNum) && $objNum > 0) ) {
+    ) {
+        if (!(is_integer($objNum) && $objNum > 0)) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Object number must be positive integer');
         }
-        if ( !(is_integer($genNum) && $genNum >= 0) ) {
+        if (!(is_integer($genNum) && $genNum >= 0)) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Generation number must be non-negative integer');
         }
@@ -118,7 +117,6 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
         return $this->_factory;
     }
 
-
     /**
      * Return type of the element.
      *
@@ -132,7 +130,6 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
 
         return $this->_ref->getType();
     }
-
 
     /**
      * Return reference to the object
@@ -150,7 +147,6 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
         return $this->_objNum + $shift . ' ' . $this->_genNum . ' R';
     }
 
-
     /**
      * Dereference.
      * Take inderect object, take $value member of this object (must be Zend_Pdf_Element),
@@ -164,12 +160,12 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
     {
         if (($obj = $this->_factory->fetchObject($this->_objNum . ' ' . $this->_genNum)) === null) {
             $obj = $this->_context->getParser()->getObject(
-                           $this->_context->getRefTable()->getOffset($this->_objNum . ' ' . $this->_genNum . ' R'),
-                           $this->_context
-                                                          );
+                $this->_context->getRefTable()->getOffset($this->_objNum . ' ' . $this->_genNum . ' R'),
+                $this->_context
+            );
         }
 
-        if ($obj === null ) {
+        if ($obj === null) {
             $this->_ref = new Zend_Pdf_Element_Null();
             return;
         }

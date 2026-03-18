@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -28,7 +30,6 @@
 #require_once 'Zend/Pdf/Element/Numeric.php';
 #require_once 'Zend/Pdf/Element/String.php';
 
-
 /** Zend_Pdf_Annotation */
 #require_once 'Zend/Pdf/Annotation.php';
 
@@ -45,10 +46,10 @@ class Zend_Pdf_Annotation_Markup extends Zend_Pdf_Annotation
     /**
      * Annotation subtypes
      */
-    const SUBTYPE_HIGHLIGHT = 'Highlight';
-    const SUBTYPE_UNDERLINE = 'Underline';
-    const SUBTYPE_SQUIGGLY  = 'Squiggly';
-    const SUBTYPE_STRIKEOUT = 'StrikeOut';
+    public const SUBTYPE_HIGHLIGHT = 'Highlight';
+    public const SUBTYPE_UNDERLINE = 'Underline';
+    public const SUBTYPE_SQUIGGLY  = 'Squiggly';
+    public const SUBTYPE_STRIKEOUT = 'StrikeOut';
 
     /**
      * Annotation object constructor
@@ -64,11 +65,13 @@ class Zend_Pdf_Annotation_Markup extends Zend_Pdf_Annotation
 
         if ($annotationDictionary->Subtype === null  ||
             $annotationDictionary->Subtype->getType() != Zend_Pdf_Element::TYPE_NAME  ||
-            !in_array( $annotationDictionary->Subtype->value,
-                       [self::SUBTYPE_HIGHLIGHT,
+            !in_array(
+                $annotationDictionary->Subtype->value,
+                [self::SUBTYPE_HIGHLIGHT,
                              self::SUBTYPE_UNDERLINE,
                              self::SUBTYPE_SQUIGGLY,
-                             self::SUBTYPE_STRIKEOUT] )) {
+                             self::SUBTYPE_STRIKEOUT]
+            )) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Subtype => Markup entry is omitted or has wrong value.');
         }

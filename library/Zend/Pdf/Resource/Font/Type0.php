@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,11 +22,9 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Array.php';
 #require_once 'Zend/Pdf/Element/Name.php';
-
 
 /** Zend_Pdf_Resource_Font */
 #require_once 'Zend/Pdf/Resource/Font.php';
@@ -69,11 +69,10 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
      */
     private $_descendantFont;
 
-
     /**
      * Generate ToUnicode character map data
      */
-    static private function getToUnicodeCMapData(): string
+    private static function getToUnicodeCMapData(): string
     {
         return '/CIDInit /ProcSet findresource begin '              . "\n"
              . '12 dict begin '                                     . "\n"
@@ -95,7 +94,7 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
              . 'CMapName currentdict /CMap defineresource pop '     . "\n"
              . 'end '
              . 'end ';
-            }
+    }
 
     /**
      * Object constructor
@@ -109,7 +108,6 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
 
         $this->_fontType       = Zend_Pdf_Font::TYPE_TYPE_0;
         $this->_descendantFont = $descendantFont;
-
 
         $this->_fontNames    = $descendantFont->getFontNames();
 
@@ -127,7 +125,6 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
         $this->_ascent  = $descendantFont->getAscent();
         $this->_descent = $descendantFont->getDescent();
         $this->_lineGap = $descendantFont->getLineGap();
-
 
         $this->_resource->Subtype         = new Zend_Pdf_Element_Name('Type0');
         $this->_resource->BaseFont        = new Zend_Pdf_Element_Name($descendantFont->getResource()->BaseFont->value);
@@ -248,7 +245,7 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
      * @param string $charEncoding Character encoding of resulting text.
      * @return string
      */
-        public function decodeString($string, $charEncoding)
+    public function decodeString($string, $charEncoding)
     {
         return iconv('UTF-16BE', $charEncoding, $string);
     }

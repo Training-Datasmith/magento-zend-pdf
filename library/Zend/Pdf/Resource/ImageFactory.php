@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,7 +21,6 @@
  * @version    $Id$
  */
 
-
 /**
  * Zend_Pdf_ImageFactory
  *
@@ -32,10 +33,11 @@
  */
 class Zend_Pdf_Resource_ImageFactory
 {
-    public static function factory($filename) {
-        if(!is_file($filename)) {
+    public static function factory($filename)
+    {
+        if (!is_file($filename)) {
             #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception("Cannot create image resource. File not found.");
+            throw new Zend_Pdf_Exception('Cannot create image resource. File not found.');
         }
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         /*
@@ -60,8 +62,7 @@ class Zend_Pdf_Resource_ImageFactory
                 return new Zend_Pdf_Resource_Image_Jpeg($filename);
             default:
                 #require_once 'Zend/Pdf/Exception.php';
-                throw new Zend_Pdf_Exception("Cannot create image resource. File extension not known or unsupported type.");
+                throw new Zend_Pdf_Exception('Cannot create image resource. File extension not known or unsupported type.');
         }
     }
 }
-

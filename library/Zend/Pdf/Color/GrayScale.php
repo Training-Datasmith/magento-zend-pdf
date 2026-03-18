@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,10 +21,8 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 
 /** Zend_Pdf_Color */
 #require_once 'Zend/Pdf/Color.php';
@@ -52,8 +52,12 @@ class Zend_Pdf_Color_GrayScale extends Zend_Pdf_Color
      */
     public function __construct($grayLevel)
     {
-        if ($grayLevel < 0) { $grayLevel = 0; }
-        if ($grayLevel > 1) { $grayLevel = 1; }
+        if ($grayLevel < 0) {
+            $grayLevel = 0;
+        }
+        if ($grayLevel > 1) {
+            $grayLevel = 1;
+        }
 
         $this->_grayLevel = new Zend_Pdf_Element_Numeric($grayLevel);
     }
@@ -67,7 +71,7 @@ class Zend_Pdf_Color_GrayScale extends Zend_Pdf_Color
      */
     public function instructions($stroking): string
     {
-        return $this->_grayLevel->toString() . ($stroking? " G\n" : " g\n");
+        return $this->_grayLevel->toString() . ($stroking ? " G\n" : " g\n");
     }
 
     /**
@@ -78,4 +82,3 @@ class Zend_Pdf_Color_GrayScale extends Zend_Pdf_Color
         return [$this->_grayLevel->value];
     }
 }
-

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,10 +21,8 @@
  * @version    $Id$
  */
 
-
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
-
 
 /**
  * PDF file 'null' element implementation
@@ -41,7 +41,6 @@ class Zend_Pdf_Element_Null extends Zend_Pdf_Element
      */
     public $value;
 
-
     /**
      * Object constructor
      */
@@ -50,7 +49,6 @@ class Zend_Pdf_Element_Null extends Zend_Pdf_Element
         $this->value = null;
     }
 
-
     /**
      * Return type of the element.
      */
@@ -58,7 +56,6 @@ class Zend_Pdf_Element_Null extends Zend_Pdf_Element
     {
         return Zend_Pdf_Element::TYPE_NULL;
     }
-
 
     /**
      * Return object as string
@@ -69,7 +66,6 @@ class Zend_Pdf_Element_Null extends Zend_Pdf_Element
     {
         return 'null';
     }
-
 
     /**
      * Convert PDF element to PHP type.

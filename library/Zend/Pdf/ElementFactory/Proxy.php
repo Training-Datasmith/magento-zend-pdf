@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -38,7 +40,6 @@ class Zend_Pdf_ElementFactory_Proxy implements Zend_Pdf_ElementFactory_Interface
      * @var Zend_Pdf_ElementFactory_Interface
      */
     private $_factory;
-
 
     /**
      * Object constructor

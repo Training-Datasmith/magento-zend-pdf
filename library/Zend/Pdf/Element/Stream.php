@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,10 +21,8 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf.php';
-
 
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
@@ -44,7 +44,6 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
      */
     public $value;
 
-
     /**
      * Object constructor
      *
@@ -55,7 +54,6 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
         $this->value = Zend_Pdf::getMemoryManager()->create($val);
     }
 
-
     /**
      * Return type of the element.
      */
@@ -63,7 +61,6 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
     {
         return Zend_Pdf_Element::TYPE_STREAM;
     }
-
 
     /**
      * Stream length.
@@ -73,7 +70,6 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
     {
         return strlen($this->value->getRef());
     }
-
 
     /**
      * Clear stream
@@ -86,7 +82,6 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
         $this->value->touch();
     }
 
-
     /**
      * Append value to a stream
      *
@@ -98,7 +93,6 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
         $ref .= (string)$val;
         $this->value->touch();
     }
-
 
     /**
      * Detach PDF object from the factory (if applicable), clone it and attach to new factory.

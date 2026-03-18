@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,12 +22,10 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Array.php';
 #require_once 'Zend/Pdf/Element/Name.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 
 /** Zend_Pdf_Resource_Font_Simple */
 #require_once 'Zend/Pdf/Resource/Font/Simple.php';
@@ -52,7 +52,6 @@ abstract class Zend_Pdf_Resource_Font_Simple_Parsed extends Zend_Pdf_Resource_Fo
     {
         parent::__construct();
 
-
         $fontParser->parse();
 
         /* Object properties */
@@ -77,9 +76,7 @@ abstract class Zend_Pdf_Resource_Font_Simple_Parsed extends Zend_Pdf_Resource_Fo
         $this->_glyphWidths       = $fontParser->glyphWidths;
         $this->_missingGlyphWidth = $this->_glyphWidths[0];
 
-
         $this->_cmap = $fontParser->cmap;
-
 
         /* Resource dictionary */
 

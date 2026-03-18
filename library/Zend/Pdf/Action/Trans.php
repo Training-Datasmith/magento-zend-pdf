@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -23,7 +25,6 @@
 /** Zend_Pdf_Action */
 #require_once 'Zend/Pdf/Action.php';
 
-
 /**
  * PDF 'Updates the display of a document, using a transition dictionary' action
  * PDF 1.5+ feature
@@ -36,4 +37,3 @@
 class Zend_Pdf_Action_Trans extends Zend_Pdf_Action
 {
 }
-

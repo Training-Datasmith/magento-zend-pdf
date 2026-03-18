@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /** Zend_Pdf_Filter_Interface */
 #require_once 'Zend/Pdf/Filter/Interface.php';
@@ -53,7 +54,7 @@ class Zend_Pdf_Filter_Ascii85 implements Zend_Pdf_Filter_Interface
                 break;
             }
 
-            $b = unpack("N", $chunk);
+            $b = unpack('N', $chunk);
             $b = $b[1];
 
             //special char for all 4 bytes = 0
@@ -80,7 +81,7 @@ class Zend_Pdf_Filter_Ascii85 implements Zend_Pdf_Filter_Interface
                 $chunk .= "\0";
             }
 
-            $b = unpack("N", $chunk);
+            $b = unpack('N', $chunk);
             $b = $b[1];
 
             //encode just $n + 1
@@ -128,15 +129,15 @@ class Zend_Pdf_Filter_Ascii85 implements Zend_Pdf_Filter_Interface
         for ($i = 0; $i < $dataLength; $i += 5) {
             $b = 0;
 
-            if (substr($data, $i, 1) == "z") {
+            if (substr($data, $i, 1) == 'z') {
                 $i -= 4;
-                $output .= pack("N", 0);
+                $output .= pack('N', 0);
                 continue;
             }
 
             $c = substr($data, $i, 5);
 
-            if(strlen($c) < 5) {
+            if (strlen($c) < 5) {
                 //partial chunk
                 break;
             }
@@ -148,7 +149,7 @@ class Zend_Pdf_Filter_Ascii85 implements Zend_Pdf_Filter_Interface
                 $value += (($c[$j] - 33) * 85 ** (5 - $j));
             }
 
-            $output .= pack("N", $value);
+            $output .= pack('N', $value);
         }
 
         //decode partial
@@ -169,7 +170,7 @@ class Zend_Pdf_Filter_Ascii85 implements Zend_Pdf_Filter_Interface
                 $value += (($c[$j] - 33) * 85 ** (5 - $j));
             }
 
-            $foo = pack("N", $value);
+            $foo = pack('N', $value);
             $output .= substr($foo, 0, ($partialLength - 1));
         }
 

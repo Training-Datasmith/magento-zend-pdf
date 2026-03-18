@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,10 +21,8 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
-
 
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
@@ -44,7 +44,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      * @var array
      */
     private $_items = [];
-
 
     /**
      * Object constructor
@@ -75,7 +74,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
         }
     }
 
-
     /**
      * Add element to an array
      *
@@ -95,7 +93,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
     {
         return array_keys($this->_items);
     }
-
 
     /**
      * Get handler
@@ -131,7 +128,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
         return Zend_Pdf_Element::TYPE_DICTIONARY;
     }
 
-
     /**
      * Return object as string
      *
@@ -148,7 +144,7 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
                 throw new Zend_Pdf_Exception('Wrong data');
             }
 
-            if (strlen($outStr) - $lastNL > 128)  {
+            if (strlen($outStr) - $lastNL > 128) {
                 $outStr .= "\n";
                 $lastNL = strlen($outStr);
             }

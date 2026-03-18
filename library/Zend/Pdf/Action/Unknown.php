@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -23,7 +25,6 @@
 /** Zend_Pdf_Action */
 #require_once 'Zend/Pdf/Action.php';
 
-
 /**
  * Unrecognized PDF action
  *
@@ -35,4 +36,3 @@
 class Zend_Pdf_Action_Unknown extends Zend_Pdf_Action
 {
 }
-

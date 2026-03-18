@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,7 +21,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /**
  * Abstract PDF outline representation class
@@ -90,7 +91,6 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      */
     public $childOutlines = [];
 
-
     /**
      * Get outline title.
      *
@@ -157,7 +157,6 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      * @return Zend_Pdf_Outline
      */
     abstract public function setIsBold($isBold);
-
 
     /**
      * Get outline text color.
@@ -317,12 +316,13 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      * @param SplObjectStorage $processedOutlines  List of already processed outlines
      * @return Zend_Pdf_Element
      */
-    abstract public function dumpOutline(Zend_Pdf_ElementFactory_Interface $factory,
-                                                                           $updateNavigation,
-                                                          Zend_Pdf_Element $parent,
-                                                          ?Zend_Pdf_Element $prev = null,
-                                                          ?SplObjectStorage $processedOutlines = null);
-
+    abstract public function dumpOutline(
+        Zend_Pdf_ElementFactory_Interface $factory,
+        $updateNavigation,
+        Zend_Pdf_Element $parent,
+        ?Zend_Pdf_Element $prev = null,
+        ?SplObjectStorage $processedOutlines = null
+    );
 
     ////////////////////////////////////////////////////////////////////////
     //  RecursiveIterator interface methods
@@ -400,7 +400,6 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
     {
         return count($this->childOutlines) > 0;
     }
-
 
     ////////////////////////////////////////////////////////////////////////
     //  Countable interface methods

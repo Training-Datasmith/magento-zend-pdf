@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
@@ -50,7 +51,6 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
         $this->value   = (string)$val;
     }
 
-
     /**
      * Return type of the element.
      */
@@ -58,7 +58,6 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
     {
         return Zend_Pdf_Element::TYPE_STRING;
     }
-
 
     /**
      * Return object as string
@@ -70,7 +69,6 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
         return '(' . self::escape((string)$this->value) . ')';
     }
 
-
     /**
      * Convert PDF element to PHP type.
      *
@@ -80,7 +78,6 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
     {
         return $this->value;
     }
-
 
     /**
      * Escape string according to the PDF rules
@@ -104,37 +101,37 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
                         $chunkOut .= '\\n';
                         break;
 
-                    // "\r" - carriage return (CR)
+                        // "\r" - carriage return (CR)
                     case 13:
                         $chunkOut .= '\\r';
                         break;
 
-                    // "\t" - horizontal tab (HT)
+                        // "\t" - horizontal tab (HT)
                     case 9:
                         $chunkOut .= '\\t';
                         break;
 
-                    // "\b" - backspace (BS)
+                        // "\b" - backspace (BS)
                     case 8:
                         $chunkOut .= '\\b';
                         break;
 
-                    // "\f" - form feed (FF)
+                        // "\f" - form feed (FF)
                     case 12:
                         $chunkOut .= '\\f';
                         break;
 
-                    // '(' - left paranthesis
+                        // '(' - left paranthesis
                     case 40:
                         $chunkOut .= '\\(';
                         break;
 
-                    // ')' - right paranthesis
+                        // ')' - right paranthesis
                     case 41:
                         $chunkOut .= '\\)';
                         break;
 
-                    // '\' - backslash
+                        // '\' - backslash
                     case 92:
                         $chunkOut .= '\\\\';
                         break;
@@ -165,7 +162,6 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
         return implode("\\\n", $outEntries);
     }
 
-
     /**
      * Unescape string according to the PDF rules
      *
@@ -195,42 +191,42 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
                         $outEntries[] = "\n";
                         break;
 
-                    // '\\r' - carriage return (CR)
+                        // '\\r' - carriage return (CR)
                     case 'r':
                         $outEntries[] = "\r";
                         break;
 
-                    // '\\t' - horizontal tab (HT)
+                        // '\\t' - horizontal tab (HT)
                     case 't':
                         $outEntries[] = "\t";
                         break;
 
-                    // '\\b' - backspace (BS)
+                        // '\\b' - backspace (BS)
                     case 'b':
                         $outEntries[] = "\x08";
                         break;
 
-                    // '\\f' - form feed (FF)
+                        // '\\f' - form feed (FF)
                     case 'f':
                         $outEntries[] = "\x0C";
                         break;
 
-                    // '\\(' - left paranthesis
+                        // '\\(' - left paranthesis
                     case '(':
                         $outEntries[] = '(';
                         break;
 
-                    // '\\)' - right paranthesis
+                        // '\\)' - right paranthesis
                     case ')':
                         $outEntries[] = ')';
                         break;
 
-                    // '\\\\' - backslash
+                        // '\\\\' - backslash
                     case '\\':
                         $outEntries[] = '\\';
                         break;
 
-                    // "\\\n" or "\\\n\r"
+                        // "\\\n" or "\\\n\r"
                     case "\n":
                         // skip new line symbol
                         if ($str[$offset + 1] == "\r") {

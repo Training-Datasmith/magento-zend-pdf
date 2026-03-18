@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -22,7 +24,6 @@
 
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
-
 
 /**
  * PDF name tree representation class
@@ -78,9 +79,9 @@ class Zend_Pdf_NameTree implements ArrayAccess, Iterator, Countable
         }
 
         foreach ($leafNodes as $leafNode) {
-            $destinationsCount = count($leafNode->Names->items)/2;
+            $destinationsCount = count($leafNode->Names->items) / 2;
             for ($count = 0; $count < $destinationsCount; $count++) {
-                $this->_items[$leafNode->Names->items[$count*2]->value] = $leafNode->Names->items[$count*2 + 1];
+                $this->_items[$leafNode->Names->items[$count * 2]->value] = $leafNode->Names->items[$count * 2 + 1];
             }
         }
     }
@@ -106,7 +107,7 @@ class Zend_Pdf_NameTree implements ArrayAccess, Iterator, Countable
     #[\ReturnTypeWillChange]
     public function valid()
     {
-        return current($this->_items)!==false;
+        return current($this->_items) !== false;
     }
 
     #[\ReturnTypeWillChange]

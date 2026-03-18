@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -29,7 +31,6 @@
 #require_once 'Zend/Pdf/Element/Null.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
 #require_once 'Zend/Pdf/Element/String.php';
-
 
 /**
  * Resource extractor class is used to detach resources from original PDF document.
@@ -83,4 +84,3 @@ class Zend_Pdf_Resource_Extractor
         return $page->clonePage($this->_factory, $this->_processed);
     }
 }
-

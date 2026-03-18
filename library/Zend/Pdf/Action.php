@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,15 +22,12 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
 #require_once 'Zend/Pdf/Element/Array.php';
 
-
 /** Zend_Pdf_Target */
 #require_once 'Zend/Pdf/Target.php';
-
 
 /**
  * Abstract PDF action representation class
@@ -46,7 +45,6 @@ abstract class Zend_Pdf_Action extends Zend_Pdf_Target implements RecursiveItera
      * @var Zend_Pdf_Element_Dictionary|Zend_Pdf_Element_Object|Zend_Pdf_Element_Reference
      */
     protected $_actionDictionary;
-
 
     /**
      * An original list of chained actions
@@ -86,7 +84,7 @@ abstract class Zend_Pdf_Action extends Zend_Pdf_Target implements RecursiveItera
                     $processedActions->attach($dictionary->Next);
                     $this->next[] = Zend_Pdf_Action::load($dictionary->Next, $processedActions);
                 }
-            } else if ($dictionary->Next instanceof Zend_Pdf_Element_Array) {
+            } elseif ($dictionary->Next instanceof Zend_Pdf_Element_Array) {
                 foreach ($dictionary->Next->items as $chainedActionDictionary) {
                     // Check if dictionary object is not already processed
                     if (!$processedActions->contains($chainedActionDictionary)) {
@@ -248,7 +246,7 @@ abstract class Zend_Pdf_Action extends Zend_Pdf_Target implements RecursiveItera
         if (count($this->_originalNextList) != count($this->next)) {
             // If original and current children arrays have different size then children list was updated
             $childListUpdated = true;
-        } else if ( !(array_keys($this->_originalNextList) === array_keys($this->next)) ) {
+        } elseif (!(array_keys($this->_originalNextList) === array_keys($this->next))) {
             // If original and current children arrays have different keys (with a glance to an order) then children list was updated
             $childListUpdated = true;
         } else {
@@ -295,7 +293,6 @@ abstract class Zend_Pdf_Action extends Zend_Pdf_Target implements RecursiveItera
         // It's a loaded object
         return $this->_actionDictionary;
     }
-
 
     ////////////////////////////////////////////////////////////////////////
     //  RecursiveIterator interface methods
@@ -373,7 +370,6 @@ abstract class Zend_Pdf_Action extends Zend_Pdf_Target implements RecursiveItera
     {
         return count($this->next) > 0;
     }
-
 
     ////////////////////////////////////////////////////////////////////////
     //  Countable interface methods

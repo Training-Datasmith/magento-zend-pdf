@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /**
  * PDF file trailer
@@ -46,13 +47,12 @@ abstract class Zend_Pdf_Trailer
      */
     private function _checkDictKey($key)
     {
-        if ( !in_array($key, self::$_allowedKeys) ) {
+        if (!in_array($key, self::$_allowedKeys)) {
             /** @todo Make warning (log entry) instead of an exception */
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception("Unknown trailer dictionary key: '$key'.");
         }
     }
-
 
     /**
      * Object constructor
@@ -96,7 +96,6 @@ abstract class Zend_Pdf_Trailer
     {
         return "trailer\n" . $this->_dict->toString() . "\n";
     }
-
 
     /**
      * Get length of source PDF

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,10 +21,8 @@
  * @version    $Id$
  */
 
-
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
-
 
 /**
  * PDF file 'array' element implementation
@@ -43,7 +43,6 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
      */
     public $items;
 
-
     /**
      * Object constructor
      *
@@ -62,23 +61,22 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
                 }
                 $this->items[] = $element;
             }
-        } else if ($val !== null){
+        } elseif ($val !== null) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Argument must be an array');
         }
     }
-
 
     /**
      * Getter
      *
      * @throws Zend_Pdf_Exception
      */
-    public function __get(string $property) {
+    public function __get(string $property)
+    {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Undefined property: Zend_Pdf_Element_Array::$' . $property);
     }
-
 
     /**
      * Setter
@@ -87,7 +85,8 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
      * @param mixed $value
      * @throws Zend_Pdf_Exception
      */
-    public function __set(string $property, $value) {
+    public function __set(string $property, $value)
+    {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Undefined property: Zend_Pdf_Element_Array::$' . $property);
     }
@@ -100,7 +99,6 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
         return Zend_Pdf_Element::TYPE_ARRAY;
     }
 
-
     /**
      * Return object as string
      *
@@ -112,7 +110,7 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
         $lastNL = 0;
 
         foreach ($this->items as $element) {
-            if (strlen($outStr) - $lastNL > 128)  {
+            if (strlen($outStr) - $lastNL > 128) {
                 $outStr .= "\n";
                 $lastNL = strlen($outStr);
             }

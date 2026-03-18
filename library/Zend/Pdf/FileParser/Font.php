@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -23,7 +25,6 @@
 /** Internally used classes */
 #require_once 'Zend/Pdf/Font.php';
 
-
 /** Zend_Pdf_FileParser */
 #require_once 'Zend/Pdf/FileParser.php';
 
@@ -41,8 +42,7 @@
  */
 abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
 {
-  /**** Instance Variables ****/
-
+    /**** Instance Variables ****/
 
     /**
      * Array of parsed font properties. Used with {@link __get()} and
@@ -57,9 +57,7 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      */
     private $_debug = false;
 
-
-
-  /**** Public Interface ****/
+    /**** Public Interface ****/
     /* Object Lifecycle */
     /**
      * Object constructor.
@@ -74,8 +72,7 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
         $this->fontType = Zend_Pdf_Font::TYPE_UNKNOWN;
     }
 
-
-  /* Accessors */
+    /* Accessors */
     /**
      * Get handler
      *
@@ -88,8 +85,7 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
 
     /* NOTE: The set handler is defined below in the internal methods group. */
 
-
-  /* Parser Methods */
+    /* Parser Methods */
 
     /**
      * Reads the Unicode UTF-16-encoded string from the binary file at the
@@ -105,10 +101,11 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      * @return string
      * @throws Zend_Pdf_Exception
      */
-    public function readStringUTF16($byteCount,
-                                    $byteOrder = Zend_Pdf_FileParser::BYTE_ORDER_BIG_ENDIAN,
-                                    $characterSet = '')
-    {
+    public function readStringUTF16(
+        $byteCount,
+        $byteOrder = Zend_Pdf_FileParser::BYTE_ORDER_BIG_ENDIAN,
+        $characterSet = ''
+    ) {
         return parent::readStringUTF16($byteCount, $byteOrder, 'UTF-16BE');
     }
 
@@ -141,8 +138,7 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
         return parent::readStringPascal('UTF-16BE');
     }
 
-
-  /* Utility Methods */
+    /* Utility Methods */
 
     /**
      * Writes the entire font properties array to STDOUT. Used only for debugging.
@@ -152,9 +148,7 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
         print_r($this->_fontProperties);
     }
 
-
-
-  /**** Internal Methods ****/
+    /**** Internal Methods ****/
     /* Internal Accessors */
     /**
      * Set handler
@@ -173,8 +167,7 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
         }
     }
 
-
-  /* Internal Utility Methods */
+    /* Internal Utility Methods */
 
     /**
      * If debug logging is enabled, writes the log message.

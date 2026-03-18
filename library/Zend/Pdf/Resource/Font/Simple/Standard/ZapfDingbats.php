@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +22,8 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
-
 
 /** Zend_Pdf_Resource_Font_Simple_Standard */
 #require_once 'Zend/Pdf/Resource/Font/Simple/Standard.php';
@@ -48,8 +48,7 @@
  */
 class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resource_Font_Simple_Standard
 {
-  /**** Instance Variables ****/
-
+    /**** Instance Variables ****/
 
     /**
      * Array for conversion from local encoding to special font encoding.
@@ -184,12 +183,9 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
             0xfb => "\x27\xbb",   0xfc => "\x27\xbc",   0xfd => "\x27\xbd",
             0xfe => "\x27\xbe"];
 
+    /**** Public Interface ****/
 
-
-  /**** Public Interface ****/
-
-
-  /* Object Lifecycle */
+    /* Object Lifecycle */
 
     /**
      * Object constructor
@@ -197,7 +193,6 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
     public function __construct()
     {
         parent::__construct();
-
 
         /* Object properties */
 
@@ -374,8 +369,9 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
           0x27bd =>   0xc9, 0x27be =>   0xca];
         #require_once 'Zend/Pdf/Cmap.php';
         $this->_cmap = Zend_Pdf_Cmap::cmapWithTypeData(
-            Zend_Pdf_Cmap::TYPE_BYTE_ENCODING_STATIC, $cmapData);
-
+            Zend_Pdf_Cmap::TYPE_BYTE_ENCODING_STATIC,
+            $cmapData
+        );
 
         /* Resource dictionary */
 
@@ -392,8 +388,7 @@ class Zend_Pdf_Resource_Font_Simple_Standard_ZapfDingbats extends Zend_Pdf_Resou
         $this->_resource->Encoding = null;
     }
 
-
-  /* Information and Conversion Methods */
+    /* Information and Conversion Methods */
     /**
      * Convert string encoding from local encoding to font encoding. Overridden
      * to defeat the conversion behavior for this ornamental font.

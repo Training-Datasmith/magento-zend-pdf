@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /**
  * PDF provides a powerfull facilities for specifying the colors of graphics objects.
@@ -50,4 +51,3 @@ abstract class Zend_Pdf_Color
      */
     abstract public function getComponents();
 }
-

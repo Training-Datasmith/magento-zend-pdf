@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +22,8 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
-
 
 /** Zend_Pdf_Resource_Font */
 #require_once 'Zend/Pdf/Resource/Font.php';
@@ -92,11 +92,9 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      */
     protected $_missingGlyphWidth = 0;
 
-
     /**** Public Interface ****/
 
-
-  /* Object Lifecycle */
+    /* Object Lifecycle */
 
     /**
      * Object constructor

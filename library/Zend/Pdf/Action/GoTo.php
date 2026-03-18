@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -26,7 +28,6 @@
 #require_once 'Zend/Pdf/Element/Dictionary.php';
 #require_once 'Zend/Pdf/Element/Name.php';
 
-
 /** Zend_Pdf_Action */
 #require_once 'Zend/Pdf/Action.php';
 
@@ -46,7 +47,6 @@ class Zend_Pdf_Action_GoTo extends Zend_Pdf_Action
      * @var Zend_Pdf_Destination
      */
     protected $_destination;
-
 
     /**
      * Object constructor

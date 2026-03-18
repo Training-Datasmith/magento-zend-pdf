@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /**
  * PDF file reference table
@@ -69,18 +70,17 @@ class Zend_Pdf_Element_Reference_Table
      */
     private $_usedObjects;
 
-
-
     /**
      * Object constructor
      */
-    public function  __construct()
+    public function __construct()
     {
         $this->_parent = null;
-        $this->_free   = [];  $this->_generations = [];
-        $this->_inuse  = [];  $this->_usedObjects = [];
+        $this->_free   = [];
+        $this->_generations = [];
+        $this->_inuse  = [];
+        $this->_usedObjects = [];
     }
-
 
     /**
      * Add reference to the reference table
@@ -108,7 +108,6 @@ class Zend_Pdf_Element_Reference_Table
         }
     }
 
-
     /**
      * Set parent reference table
      */
@@ -116,7 +115,6 @@ class Zend_Pdf_Element_Reference_Table
     {
         $this->_parent = $parent;
     }
-
 
     /**
      * Get object offset
@@ -140,7 +138,6 @@ class Zend_Pdf_Element_Reference_Table
 
         return null;
     }
-
 
     /**
      * Get next object from a list of free objects.
@@ -167,7 +164,6 @@ class Zend_Pdf_Element_Reference_Table
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Object not found.');
     }
-
 
     /**
      * Get next generation number for free object

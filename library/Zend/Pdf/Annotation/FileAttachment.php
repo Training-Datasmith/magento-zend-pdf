@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -27,7 +29,6 @@
 #require_once 'Zend/Pdf/Element/Name.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
 #require_once 'Zend/Pdf/Element/String.php';
-
 
 /** Zend_Pdf_Annotation */
 #require_once 'Zend/Pdf/Annotation.php';
@@ -93,7 +94,6 @@ class Zend_Pdf_Annotation_FileAttachment extends Zend_Pdf_Annotation
         $fsDictionary->F    = new Zend_Pdf_Element_String($fileSpecification);
 
         $annotationDictionary->FS = $fsDictionary;
-
 
         return new Zend_Pdf_Annotation_FileAttachment($annotationDictionary);
     }

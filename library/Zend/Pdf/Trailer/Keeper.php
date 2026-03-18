@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /** Zend_Pdf_Trailer */
 #require_once 'Zend/Pdf/Trailer.php';
@@ -47,16 +48,16 @@ class Zend_Pdf_Trailer_Keeper extends Zend_Pdf_Trailer
      */
     private $_prev;
 
-
     /**
      * Object constructor
      *
      * @param Zend_Pdf_Trailer $prev
      */
-    public function __construct(Zend_Pdf_Element_Dictionary $dict,
-                                Zend_Pdf_Element_Reference_Context $context,
-                                ?Zend_Pdf_Trailer $prev = null)
-    {
+    public function __construct(
+        Zend_Pdf_Element_Dictionary $dict,
+        Zend_Pdf_Element_Reference_Context $context,
+        ?Zend_Pdf_Trailer $prev = null
+    ) {
         parent::__construct($dict);
 
         $this->_context = $context;

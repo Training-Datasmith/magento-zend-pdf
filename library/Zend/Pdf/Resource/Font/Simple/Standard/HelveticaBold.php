@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -23,7 +25,6 @@
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
 
-
 /** Zend_Pdf_Resource_Font_Simple_Standard */
 #require_once 'Zend/Pdf/Resource/Font/Simple/Standard.php';
 
@@ -47,10 +48,9 @@
  */
 class Zend_Pdf_Resource_Font_Simple_Standard_HelveticaBold extends Zend_Pdf_Resource_Font_Simple_Standard
 {
-  /**** Public Interface ****/
+    /**** Public Interface ****/
 
-
-  /* Object Lifecycle */
+    /* Object Lifecycle */
 
     /**
      * Object constructor
@@ -58,7 +58,6 @@ class Zend_Pdf_Resource_Font_Simple_Standard_HelveticaBold extends Zend_Pdf_Reso
     public function __construct()
     {
         parent::__construct();
-
 
         /* Object properties */
 
@@ -291,8 +290,9 @@ class Zend_Pdf_Resource_Font_Simple_Standard_HelveticaBold extends Zend_Pdf_Reso
             0xb9 => 0x0139, 0x012b => 0x013a, 0x20ac => 0x013b];
         #require_once 'Zend/Pdf/Cmap.php';
         $this->_cmap = Zend_Pdf_Cmap::cmapWithTypeData(
-            Zend_Pdf_Cmap::TYPE_BYTE_ENCODING_STATIC, $cmapData);
-
+            Zend_Pdf_Cmap::TYPE_BYTE_ENCODING_STATIC,
+            $cmapData
+        );
 
         /* Resource dictionary */
 

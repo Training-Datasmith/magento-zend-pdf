@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /**
  * PDF file Resource abstraction
@@ -91,24 +92,24 @@ abstract class Zend_Pdf_Resource
     {
         /** @todo implementation*/
 
-//        $factory = Zend_Pdf_ElementFactory::createFactory(1);
-//        $processed = array();
-//
-//        // Clone dictionary object.
-//        // Do it explicitly to prevent sharing resource attributes between different
-//        // results of clone operation (other resources are still shared)
-//        $dictionary = new Zend_Pdf_Element_Dictionary();
-//        foreach ($this->_pageDictionary->getKeys() as $key) {
-//         $dictionary->$key = $this->_pageDictionary->$key->makeClone($factory->getFactory(),
-//                                                                     $processed,
-//                                                                     Zend_Pdf_Element::CLONE_MODE_SKIP_PAGES);
-//        }
-//
-//        $this->_pageDictionary = $factory->newObject($dictionary);
-//        $this->_objectFactory  = $factory;
-//        $this->_attached       = false;
-//        $this->_style          = null;
-//        $this->_font           = null;
+        //        $factory = Zend_Pdf_ElementFactory::createFactory(1);
+        //        $processed = array();
+        //
+        //        // Clone dictionary object.
+        //        // Do it explicitly to prevent sharing resource attributes between different
+        //        // results of clone operation (other resources are still shared)
+        //        $dictionary = new Zend_Pdf_Element_Dictionary();
+        //        foreach ($this->_pageDictionary->getKeys() as $key) {
+        //         $dictionary->$key = $this->_pageDictionary->$key->makeClone($factory->getFactory(),
+        //                                                                     $processed,
+        //                                                                     Zend_Pdf_Element::CLONE_MODE_SKIP_PAGES);
+        //        }
+        //
+        //        $this->_pageDictionary = $factory->newObject($dictionary);
+        //        $this->_objectFactory  = $factory;
+        //        $this->_attached       = false;
+        //        $this->_style          = null;
+        //        $this->_font           = null;
     }
 
     /**
@@ -124,20 +125,20 @@ abstract class Zend_Pdf_Resource
     {
         /** @todo implementation*/
 
-//        // Clone dictionary object.
-//        // Do it explicitly to prevent sharing page attributes between different
-//        // results of clonePage() operation (other resources are still shared)
-//        $dictionary = new Zend_Pdf_Element_Dictionary();
-//        foreach ($this->_pageDictionary->getKeys() as $key) {
-//            $dictionary->$key = $this->_pageDictionary->$key->makeClone($factory->getFactory(),
-//                                                                        $processed,
-//                                                                        Zend_Pdf_Element::CLONE_MODE_SKIP_PAGES);
-//        }
-//
-//        $clonedPage = new Zend_Pdf_Page($factory->newObject($dictionary), $factory);
-//        $clonedPage->_attached = false;
-//
-//        return $clonedPage;
+        //        // Clone dictionary object.
+        //        // Do it explicitly to prevent sharing page attributes between different
+        //        // results of clonePage() operation (other resources are still shared)
+        //        $dictionary = new Zend_Pdf_Element_Dictionary();
+        //        foreach ($this->_pageDictionary->getKeys() as $key) {
+        //            $dictionary->$key = $this->_pageDictionary->$key->makeClone($factory->getFactory(),
+        //                                                                        $processed,
+        //                                                                        Zend_Pdf_Element::CLONE_MODE_SKIP_PAGES);
+        //        }
+        //
+        //        $clonedPage = new Zend_Pdf_Page($factory->newObject($dictionary), $factory);
+        //        $clonedPage->_attached = false;
+        //
+        //        return $clonedPage;
     }
 
     /**

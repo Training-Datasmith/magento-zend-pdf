@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +22,6 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Array.php';
 #require_once 'Zend/Pdf/Element/Dictionary.php';
@@ -29,7 +30,6 @@
 
 /** Zend_Pdf_Font */
 #require_once 'Zend/Pdf/Font.php';
-
 
 /**
  * FontDescriptor implementation
@@ -76,7 +76,7 @@ class Zend_Pdf_Resource_Font_FontDescriptor
      * @param integer $embeddingOptions Options for font embedding.
      * @throws Zend_Pdf_Exception
      */
-    static public function factory(Zend_Pdf_Resource_Font $font, Zend_Pdf_FileParser_Font_OpenType $fontParser, $embeddingOptions): \Zend_Pdf_Element_Dictionary
+    public static function factory(Zend_Pdf_Resource_Font $font, Zend_Pdf_FileParser_Font_OpenType $fontParser, $embeddingOptions): \Zend_Pdf_Element_Dictionary
     {
         /* The font descriptor object contains the rest of the font metrics and
          * the information about the embedded font program (if applicible).
@@ -190,7 +190,7 @@ class Zend_Pdf_Resource_Font_FontDescriptor
                 }
                 if ($fontParser instanceof Zend_Pdf_FileParser_Font_OpenType_Type1 /* not implemented now */) {
                     $fontDescriptor->FontFile  = $fontFileObject;
-                } else if ($fontParser instanceof Zend_Pdf_FileParser_Font_OpenType_TrueType) {
+                } elseif ($fontParser instanceof Zend_Pdf_FileParser_Font_OpenType_TrueType) {
                     $fontDescriptor->FontFile2 = $fontFileObject;
                 } else {
                     $fontDescriptor->FontFile3 = $fontFileObject;

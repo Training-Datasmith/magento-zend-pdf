@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,17 +21,14 @@
  * @version    $Id: Image.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Object.php';
 #require_once 'Zend/Pdf/Element/Dictionary.php';
 #require_once 'Zend/Pdf/Element/Name.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
 
-
 /** Zend_Pdf_Resource */
 #require_once 'Zend/Pdf/Resource.php';
-
 
 /**
  * Content stream (drawing instructions container)

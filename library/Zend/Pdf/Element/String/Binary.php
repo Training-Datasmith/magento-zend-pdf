@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -19,10 +21,8 @@
  * @version    $Id$
  */
 
-
 /** Zend_Pdf_Element_String */
 #require_once 'Zend/Pdf/Element/String.php';
-
 
 /**
  * PDF file 'binary string' element implementation
@@ -41,7 +41,6 @@ class Zend_Pdf_Element_String_Binary extends Zend_Pdf_Element_String
      */
     public $value;
 
-
     /**
      * Escape string according to the PDF rules
      *
@@ -51,7 +50,6 @@ class Zend_Pdf_Element_String_Binary extends Zend_Pdf_Element_String
     {
         return strtoupper(bin2hex($inStr));
     }
-
 
     /**
      * Unescape string according to the PDF rules
@@ -66,12 +64,12 @@ class Zend_Pdf_Element_String_Binary extends Zend_Pdf_Element_String
         while ($offset < strlen($inStr)) {
             // Collect hexadecimal characters
             $start = $offset;
-            $offset += strspn($inStr, "0123456789abcdefABCDEF", $offset);
+            $offset += strspn($inStr, '0123456789abcdefABCDEF', $offset);
             $chunks[] = substr($inStr, $start, $offset - $start);
             $length += strlen(end($chunks));
 
             // Skip non-hexadecimal characters
-            $offset += strcspn($inStr, "0123456789abcdefABCDEF", $offset);
+            $offset += strcspn($inStr, '0123456789abcdefABCDEF', $offset);
         }
         if ($length % 2 != 0) {
             // We have odd number of digits.
@@ -79,9 +77,8 @@ class Zend_Pdf_Element_String_Binary extends Zend_Pdf_Element_String
             $chunks[] = '0';
         }
 
-        return pack('H*' , implode('', $chunks));
+        return pack('H*', implode('', $chunks));
     }
-
 
     /**
      * Return object as string

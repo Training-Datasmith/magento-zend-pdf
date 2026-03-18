@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /**
  * Style object.
@@ -86,8 +87,6 @@ class Zend_Pdf_Style
      */
     private $_fontSize;
 
-
-
     /**
      * Create style.
      *
@@ -105,7 +104,6 @@ class Zend_Pdf_Style
             $this->_fontSize           = $anotherStyle->_fontSize;
         }
     }
-
 
     /**
      * Set fill color.
@@ -134,7 +132,6 @@ class Zend_Pdf_Style
         $this->_lineWidth = new Zend_Pdf_Element_Numeric($width);
     }
 
-
     /**
      * Set line dashing pattern
      *
@@ -153,7 +150,6 @@ class Zend_Pdf_Style
         $this->_lineDashingPattern = $pattern;
         $this->_lineDashingPhase   = new Zend_Pdf_Element_Numeric($phase);
     }
-
 
     /**
      * Set current font.
@@ -216,7 +212,6 @@ class Zend_Pdf_Style
         return $this->_lineDashingPattern;
     }
 
-
     /**
      * Get current font.
      *
@@ -246,7 +241,6 @@ class Zend_Pdf_Style
     {
         return $this->_lineDashingPhase->value;
     }
-
 
     /**
      * Dump style to a string, which can be directly inserted into content stream

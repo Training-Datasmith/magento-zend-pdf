@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +22,8 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
-
 
 /** Zend_Pdf_Resource_Font_Simple */
 #require_once 'Zend/Pdf/Resource/Font/Simple.php';
@@ -64,10 +64,9 @@
  */
 abstract class Zend_Pdf_Resource_Font_Simple_Standard extends Zend_Pdf_Resource_Font_Simple
 {
-  /**** Public Interface ****/
+    /**** Public Interface ****/
 
-
-  /* Object Lifecycle */
+    /* Object Lifecycle */
 
     /**
      * Object constructor

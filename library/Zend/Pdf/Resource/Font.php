@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -49,8 +51,7 @@
  */
 abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
 {
-  /**** Instance Variables ****/
-
+    /**** Instance Variables ****/
 
     /**
      * The type of font. Use TYPE_ constants defined in {@link Zend_Pdf_Font}.
@@ -130,12 +131,9 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      */
     protected $_lineGap = 0;
 
+    /**** Public Interface ****/
 
-
-  /**** Public Interface ****/
-
-
-  /* Object Lifecycle */
+    /* Object Lifecycle */
 
     /**
      * Object constructor.
@@ -147,8 +145,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
         $this->_resource->Type = new Zend_Pdf_Element_Name('Font');
     }
 
-
-  /* Object Magic Methods */
+    /* Object Magic Methods */
     /**
      * Returns the full name of the font in the encoding method of the current
      * locale. Transliterates any characters that cannot be naturally
@@ -159,8 +156,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
         return $this->getFontName(Zend_Pdf_Font::NAME_FULL, '', '//TRANSLIT');
     }
 
-
-  /* Accessors */
+    /* Accessors */
 
     /**
      * Returns the type of font.
@@ -407,8 +403,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
         return $this->_ascent - $this->_descent + $this->_lineGap;
     }
 
-
-  /* Information and Conversion Methods */
+    /* Information and Conversion Methods */
 
     /**
      * Returns an array of glyph numbers corresponding to the Unicode characters.
@@ -504,10 +499,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      */
     abstract public function decodeString($string, $charEncoding);
 
-
-
-  /**** Internal Methods ****/
-
+    /**** Internal Methods ****/
 
     /**
      * If the font's glyph space is not 1000 units per em, converts the value.
@@ -524,4 +516,3 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
         return ceil(($value / $this->_unitsPerEm) * 1000);    // always round up
     }
 }
-

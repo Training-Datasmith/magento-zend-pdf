@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -26,10 +28,8 @@
 #require_once 'Zend/Pdf/Element/String.php';
 #require_once 'Zend/Pdf/Element/Boolean.php';
 
-
 /** Zend_Pdf_Action */
 #require_once 'Zend/Pdf/Action.php';
-
 
 /**
  * PDF 'Resolve a uniform resource identifier' action

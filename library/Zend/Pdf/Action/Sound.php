@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -23,7 +25,6 @@
 /** Zend_Pdf_Action */
 #require_once 'Zend/Pdf/Action.php';
 
-
 /**
  * PDF 'Play a sound' action representation class
  * PDF 1.2+ feature
@@ -36,4 +37,3 @@
 class Zend_Pdf_Action_Sound extends Zend_Pdf_Action
 {
 }
-

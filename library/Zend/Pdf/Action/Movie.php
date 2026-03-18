@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -22,7 +24,6 @@
 
 /** Zend_Pdf_Action */
 #require_once 'Zend/Pdf/Action.php';
-
 
 /**
  * PDF 'Play a movie' action

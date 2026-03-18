@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -18,7 +20,6 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 
 /**
  * PDF reference object context
@@ -48,13 +49,13 @@ class Zend_Pdf_Element_Reference_Context
     /**
      * Object constructor
      */
-    public function __construct(Zend_Pdf_StringParser $parser,
-                                Zend_Pdf_Element_Reference_Table $refTable)
-    {
+    public function __construct(
+        Zend_Pdf_StringParser $parser,
+        Zend_Pdf_Element_Reference_Table $refTable
+    ) {
         $this->_stringParser = $parser;
         $this->_refTable     = $refTable;
     }
-
 
     /**
      * Context parser
@@ -66,7 +67,6 @@ class Zend_Pdf_Element_Reference_Context
         return $this->_stringParser;
     }
 
-
     /**
      * Context reference table
      *
@@ -77,4 +77,3 @@ class Zend_Pdf_Element_Reference_Context
         return $this->_refTable;
     }
 }
-

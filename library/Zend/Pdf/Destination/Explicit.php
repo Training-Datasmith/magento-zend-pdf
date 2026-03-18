@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +22,8 @@
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
-
 
 /** Zend_Pdf_Destination */
 #require_once 'Zend/Pdf/Destination.php';

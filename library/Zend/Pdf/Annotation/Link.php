@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Zend Framework
  *
@@ -26,7 +28,6 @@
 #require_once 'Zend/Pdf/Element/Dictionary.php';
 #require_once 'Zend/Pdf/Element/Name.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 
 /** Zend_Pdf_Annotation */
 #require_once 'Zend/Pdf/Annotation.php';
