@@ -72,9 +72,8 @@ class Zend_Pdf_Annotation_Text extends Zend_Pdf_Annotation
      * @param float $x2
      * @param float $y2
      * @param string $text
-     * @return Zend_Pdf_Annotation_Text
      */
-    public static function create($x1, $y1, $x2, $y2, $text)
+    public static function create($x1, $y1, $x2, $y2, $text): \Zend_Pdf_Annotation_Text
     {
         $annotationDictionary = new Zend_Pdf_Element_Dictionary();
 

@@ -59,7 +59,7 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
      * @param string $title
      * @return Zend_Pdf_Outline
      */
-    public function setTitle($title)
+    public function setTitle($title): self
     {
         $this->_title = $title;
         return $this;
@@ -81,7 +81,7 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
      * @param boolean $isItalic
      * @return Zend_Pdf_Outline
      */
-    public function setIsItalic($isItalic)
+    public function setIsItalic($isItalic): self
     {
         $this->_italic = $isItalic;
         return $this;
@@ -103,7 +103,7 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
      * @param boolean $isBold
      * @return Zend_Pdf_Outline
      */
-    public function setIsBold($isBold)
+    public function setIsBold($isBold): self
     {
         $this->_bold = $isBold;
         return $this;
@@ -124,10 +124,9 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
      * Set outline text color.
      * (null means default color which is black)
      *
-     * @param Zend_Pdf_Color_Rgb $color
      * @return Zend_Pdf_Outline
      */
-    public function setColor(Zend_Pdf_Color_Rgb $color)
+    public function setColor(Zend_Pdf_Color_Rgb $color): self
     {
         $this->_color = $color;
         return $this;
@@ -151,7 +150,7 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
      * @return Zend_Pdf_Outline
      * @throws Zend_Pdf_Exception
      */
-    public function setTarget($target = null)
+    public function setTarget($target = null): self
     {
         if (is_string($target)) {
             #require_once 'Zend/Pdf/Destination/Named.php';
@@ -172,10 +171,9 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
     /**
      * Object constructor
      *
-     * @param array $options
      * @throws Zend_Pdf_Exception
      */
-    public function __construct($options = array())
+    public function __construct(array $options = [])
     {
         if (!isset($options['title'])) {
             #require_once 'Zend/Pdf/Exception.php';
@@ -229,9 +227,9 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
         $color = $this->getColor();
         if ($color !== null) {
             $components = $color->getComponents();
-            $colorComponentElements = array(new Zend_Pdf_Element_Numeric($components[0]),
+            $colorComponentElements = [new Zend_Pdf_Element_Numeric($components[0]),
                                             new Zend_Pdf_Element_Numeric($components[1]),
-                                            new Zend_Pdf_Element_Numeric($components[2]));
+                                            new Zend_Pdf_Element_Numeric($components[2])];
             $outlineDictionary->C = new Zend_Pdf_Element_Array($colorComponentElements);
         }
 

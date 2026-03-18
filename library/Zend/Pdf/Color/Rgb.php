@@ -92,9 +92,8 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
      * Color set instructions differ for stroking and nonstroking operations.
      *
      * @param boolean $stroking
-     * @return string
      */
-    public function instructions($stroking)
+    public function instructions($stroking): string
     {
         return $this->_r->toString() . ' '
              . $this->_g->toString() . ' '
@@ -103,12 +102,10 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
 
     /**
      * Get color components (color space dependent)
-     *
-     * @return array
      */
-    public function getComponents()
+    public function getComponents(): array
     {
-        return array($this->_r->value, $this->_g->value, $this->_b->value);
+        return [$this->_r->value, $this->_g->value, $this->_b->value];
     }
 }
 

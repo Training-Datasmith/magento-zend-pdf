@@ -58,7 +58,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @var Zend_Pdf_Resource_Font
      */
-    protected $_font = null;
+    protected $_font;
 
     /**
      * Current font size
@@ -72,7 +72,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @var Zend_Pdf_Style
      */
-    protected $_style = null;
+    protected $_style;
 
     /**
      * Page dictionary (refers to an inderect Zend_Pdf_Element_Dictionary object).
@@ -106,7 +106,6 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * 'XObject', 'Font', 'Properties'
      *
      * @param string $type
-     * @param Zend_Pdf_Resource $resource
      * @return string
      */
     abstract protected function _attachResource($type, Zend_Pdf_Resource $resource);
@@ -117,7 +116,6 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * If upper right corner is not specified then canvas heght and width
      * are used.
      *
-     * @param Zend_Pdf_Canvas_Interface $canvas
      * @param float $x1
      * @param float $y1
      * @param float $x2
@@ -160,7 +158,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
             $this->scale($xScale, $yScale);
         }
 
-        $contentsToDraw = $canvas->getContents();
+        $canvas->getContents();
         /** @todo implementation */
 
         $this->restoreGS();
@@ -171,7 +169,6 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     /**
      * Set fill color.
      *
-     * @param Zend_Pdf_Color $color
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setFillColor(Zend_Pdf_Color $color)
@@ -185,7 +182,6 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     /**
      * Set line color.
      *
-     * @param Zend_Pdf_Color $color
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setLineColor(Zend_Pdf_Color $color)
@@ -228,7 +224,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
 
         #require_once 'Zend/Pdf/Page.php';
         if ($pattern === Zend_Pdf_Page::LINE_DASHING_SOLID) {
-            $pattern = array();
+            $pattern = [];
             $phase   = 0;
         }
 
@@ -249,7 +245,6 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     /**
      * Set current font.
      *
-     * @param Zend_Pdf_Resource_Font $font
      * @param float $fontSize
      * @return Zend_Pdf_Canvas_Interface
      */
@@ -271,7 +266,6 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     /**
      * Set the style to use for future drawing operations on this page
      *
-     * @param Zend_Pdf_Style $style
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setStyle(Zend_Pdf_Style $style)
@@ -920,7 +914,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
         $this->_addProcSet('PDF');
 
         if(!is_array($radius)) {
-            $radius = array($radius, $radius, $radius, $radius);
+            $radius = [$radius, $radius, $radius, $radius];
         } else {
             for ($i = 0; $i < 4; $i++) {
                 if(!isset($radius[$i])) {

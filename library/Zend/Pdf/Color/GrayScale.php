@@ -64,21 +64,18 @@ class Zend_Pdf_Color_GrayScale extends Zend_Pdf_Color
      * Color set instructions differ for stroking and nonstroking operations.
      *
      * @param boolean $stroking
-     * @return string
      */
-    public function instructions($stroking)
+    public function instructions($stroking): string
     {
         return $this->_grayLevel->toString() . ($stroking? " G\n" : " g\n");
     }
 
     /**
      * Get color components (color space dependent)
-     *
-     * @return array
      */
-    public function getComponents()
+    public function getComponents(): array
     {
-        return array($this->_grayLevel->value);
+        return [$this->_grayLevel->value];
     }
 }
 

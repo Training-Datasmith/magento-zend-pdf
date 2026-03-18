@@ -52,7 +52,7 @@ class Zend_Pdf_FileParserDataSource_File extends Zend_Pdf_FileParserDataSource
      * File resource handle .
      * @var resource
      */
-    protected $_fileResource = null;
+    protected $_fileResource;
 
 
 
@@ -119,10 +119,9 @@ class Zend_Pdf_FileParserDataSource_File extends Zend_Pdf_FileParserDataSource
      * if there is insufficient data to completely fulfill the request.
      *
      * @param integer $byteCount Number of bytes to read.
-     * @return string
      * @throws Zend_Pdf_Exception
      */
-    public function readBytes($byteCount)
+    public function readBytes($byteCount): string
     {
         $bytes = @fread($this->_fileResource, $byteCount);
         if ($bytes === false) {
@@ -153,13 +152,10 @@ class Zend_Pdf_FileParserDataSource_File extends Zend_Pdf_FileParserDataSource
 
 
   /* Object Magic Methods */
-
     /**
      * Returns the full filesystem path of the file.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->_filePath;
     }

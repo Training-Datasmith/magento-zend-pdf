@@ -103,9 +103,8 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      * Color set instructions differ for stroking and nonstroking operations.
      *
      * @param boolean $stroking
-     * @return string
      */
-    public function instructions($stroking)
+    public function instructions($stroking): string
     {
         return $this->_c->toString() . ' '
              . $this->_m->toString() . ' '
@@ -115,12 +114,10 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
 
     /**
      * Get color components (color space dependent)
-     *
-     * @return array
      */
-    public function getComponents()
+    public function getComponents(): array
     {
-        return array($this->_c->value, $this->_m->value, $this->_y->value, $this->_k->value);
+        return [$this->_c->value, $this->_m->value, $this->_y->value, $this->_k->value];
     }
 }
 

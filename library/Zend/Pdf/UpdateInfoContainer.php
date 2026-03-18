@@ -56,7 +56,7 @@ class Zend_Pdf_UpdateInfoContainer
      *
      * @var Zend_Memory_Container|null
      */
-    private $_dump = null;
+    private $_dump;
 
     /**
      * Object constructor

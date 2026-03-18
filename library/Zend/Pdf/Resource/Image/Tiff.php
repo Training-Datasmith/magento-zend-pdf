@@ -112,22 +112,18 @@ class Zend_Pdf_Resource_Image_Tiff extends Zend_Pdf_Resource_Image
                 $format = 'C';
                 $unpacked = unpack($format, $bytes);
                 return $unpacked[1];
-                break;
             case Zend_Pdf_Resource_Image_Tiff::UNPACK_TYPE_SHORT:
                 $format = ($this->_endianType == Zend_Pdf_Resource_Image_Tiff::TIFF_ENDIAN_LITTLE)?'v':'n';
                 $unpacked = unpack($format, $bytes);
                 return $unpacked[1];
-                break;
             case Zend_Pdf_Resource_Image_Tiff::UNPACK_TYPE_LONG:
                 $format = ($this->_endianType == Zend_Pdf_Resource_Image_Tiff::TIFF_ENDIAN_LITTLE)?'V':'N';
                 $unpacked = unpack($format, $bytes);
                 return $unpacked[1];
-                break;
             case Zend_Pdf_Resource_Image_Tiff::UNPACK_TYPE_RATIONAL:
                 $format = ($this->_endianType == Zend_Pdf_Resource_Image_Tiff::TIFF_ENDIAN_LITTLE)?'V2':'N2';
                 $unpacked = unpack($format, $bytes);
                 return ($unpacked[1]/$unpacked[2]);
-                break;
         }
     }
 
@@ -195,8 +191,6 @@ class Zend_Pdf_Resource_Image_Tiff extends Zend_Pdf_Resource_Image
 
                 switch($fieldType) {
                     case Zend_Pdf_Resource_Image_Tiff::TIFF_FIELD_TYPE_BYTE:
-                        $fieldLength = $valueCount;
-                        break;
                     case Zend_Pdf_Resource_Image_Tiff::TIFF_FIELD_TYPE_ASCII:
                         $fieldLength = $valueCount;
                         break;
@@ -270,24 +264,20 @@ class Zend_Pdf_Resource_Image_Tiff extends Zend_Pdf_Resource_Image
                                 $this->_filter = 'CCITTFaxDecode';
                                 #require_once 'Zend/Pdf/Exception.php';
                                 throw new Zend_Pdf_Exception("CCITTFaxDecode Compression Mode Not Currently Supported");
-                                break;
                             case Zend_Pdf_Resource_Image_Tiff::TIFF_COMPRESSION_LZW:
                                 $this->_filter = 'LZWDecode';
                                 #require_once 'Zend/Pdf/Exception.php';
                                 throw new Zend_Pdf_Exception("LZWDecode Compression Mode Not Currently Supported");
-                                break;
                             case Zend_Pdf_Resource_Image_Tiff::TIFF_COMPRESSION_JPEG:
                                 $this->_filter = 'DCTDecode'; //Should work, doesnt...
                                 #require_once 'Zend/Pdf/Exception.php';
                                 throw new Zend_Pdf_Exception("JPEG Compression Mode Not Currently Supported");
-                                break;
                             case Zend_Pdf_Resource_Image_Tiff::TIFF_COMPRESSION_FLATE:
                                 //fall through to next case
                             case Zend_Pdf_Resource_Image_Tiff::TIFF_COMPRESSION_FLATE_OBSOLETE_CODE:
                                 $this->_filter = 'FlateDecode';
                                 #require_once 'Zend/Pdf/Exception.php';
                                 throw new Zend_Pdf_Exception("ZIP/Flate Compression Mode Not Currently Supported");
-                                break;
                             case Zend_Pdf_Resource_Image_Tiff::TIFF_COMPRESSION_PACKBITS:
                                 $this->_filter = 'RunLengthDecode';
                                 break;
@@ -391,7 +381,7 @@ class Zend_Pdf_Resource_Image_Tiff extends Zend_Pdf_Resource_Image
             throw new Zend_Pdf_Exception("Problem reading tiff file. Tiff is probably corrupt.");
         }
 
-        $this->_imageProperties = array();
+        $this->_imageProperties = [];
         $this->_imageProperties['bitDepth'] = $this->_bitsPerSample;
         $this->_imageProperties['fileSize'] = $this->_fileSize;
         $this->_imageProperties['TIFFendianType'] = $this->_endianType;
@@ -406,7 +396,7 @@ class Zend_Pdf_Resource_Image_Tiff extends Zend_Pdf_Resource_Image
 
         $imageDictionary->Width            = new Zend_Pdf_Element_Numeric($this->_width);
         if($this->_whiteIsZero === true) {
-            $imageDictionary->Decode       = new Zend_Pdf_Element_Array(array(new Zend_Pdf_Element_Numeric(1), new Zend_Pdf_Element_Numeric(0)));
+            $imageDictionary->Decode       = new Zend_Pdf_Element_Array([new Zend_Pdf_Element_Numeric(1), new Zend_Pdf_Element_Numeric(0)]);
         }
         $imageDictionary->Height           = new Zend_Pdf_Element_Numeric($this->_height);
         $imageDictionary->ColorSpace       = new Zend_Pdf_Element_Name($this->_colorSpace);

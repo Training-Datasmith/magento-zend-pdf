@@ -51,7 +51,7 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      *
      * @var string
      */
-    protected $_encoding = null;
+    protected $_encoding;
 
     /**
      * Object constructor

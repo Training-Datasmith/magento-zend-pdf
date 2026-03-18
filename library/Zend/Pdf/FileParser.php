@@ -71,7 +71,7 @@ abstract class Zend_Pdf_FileParser
      * Object representing the data source to be parsed.
      * @var Zend_Pdf_FileParserDataSource
      */
-    protected $_dataSource = null;
+    protected $_dataSource;
 
 
 
@@ -101,13 +101,11 @@ abstract class Zend_Pdf_FileParser
 
 
   /* Object Lifecycle */
-
     /**
      * Object constructor.
      *
      * Verifies that the data source has been properly initialized.
      *
-     * @param Zend_Pdf_FileParserDataSource $dataSource
      * @throws Zend_Pdf_Exception
      */
     public function __construct(Zend_Pdf_FileParserDataSource $dataSource)
@@ -339,8 +337,7 @@ abstract class Zend_Pdf_FileParser
     public function isBitSet($bit, $bitField)
     {
         $bitMask = 1 << $bit;
-        $isSet = (($bitField & $bitMask) == $bitMask);
-        return $isSet;
+        return ($bitField & $bitMask) == $bitMask;
     }
 
     /**
@@ -369,8 +366,7 @@ abstract class Zend_Pdf_FileParser
             throw new Zend_Pdf_Exception('Fixed-point numbers are whole bytes',
                                          Zend_Pdf_Exception::BAD_FIXED_POINT_SIZE);
         }
-        $number = $this->readInt(($bitsToRead >> 3), $byteOrder) / (1 << $fractionBits);
-        return $number;
+        return $this->readInt(($bitsToRead >> 3), $byteOrder) / (1 << $fractionBits);
     }
 
     /**
@@ -411,16 +407,16 @@ abstract class Zend_Pdf_FileParser
                 return $bytes;
             }
             return iconv('UTF-16BE', $characterSet, $bytes);
-        } else if ($byteOrder == Zend_Pdf_FileParser::BYTE_ORDER_LITTLE_ENDIAN) {
+        }
+        if ($byteOrder == Zend_Pdf_FileParser::BYTE_ORDER_LITTLE_ENDIAN) {
             if ($characterSet == 'UTF-16LE') {
                 return $bytes;
             }
             return iconv('UTF-16LE', $characterSet, $bytes);
-        } else {
-            #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception("Invalid byte order: $byteOrder",
-                                         Zend_Pdf_Exception::INVALID_BYTE_ORDER);
         }
+        #require_once 'Zend/Pdf/Exception.php';
+        throw new Zend_Pdf_Exception("Invalid byte order: $byteOrder",
+                                     Zend_Pdf_Exception::INVALID_BYTE_ORDER);
     }
 
     /**

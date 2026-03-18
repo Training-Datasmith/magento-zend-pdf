@@ -56,7 +56,7 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
      *
      * @var array
      */
-    protected $_originalChildOutlines = array();
+    protected $_originalChildOutlines = [];
 
     /**
      * Get outline title.
@@ -79,7 +79,7 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
      * @param string $title
      * @return Zend_Pdf_Outline
      */
-    public function setTitle($title)
+    public function setTitle($title): self
     {
         $this->_outlineDictionary->Title->touch();
         $this->_outlineDictionary->Title = new Zend_Pdf_Element_String($title);
@@ -130,7 +130,7 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
      * @param boolean $isItalic
      * @return Zend_Pdf_Outline
      */
-    public function setIsItalic($isItalic)
+    public function setIsItalic($isItalic): self
     {
         if ($this->_outlineDictionary->F === null) {
             $this->_outlineDictionary->touch();
@@ -165,7 +165,7 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
      * @param boolean $isBold
      * @return Zend_Pdf_Outline
      */
-    public function setIsBold($isBold)
+    public function setIsBold($isBold): self
     {
         if ($this->_outlineDictionary->F === null) {
             $this->_outlineDictionary->touch();
@@ -203,10 +203,9 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
      * Set outline text color.
      * (null means default color which is black)
      *
-     * @param Zend_Pdf_Color_Rgb $color
      * @return Zend_Pdf_Outline
      */
-    public function setColor(Zend_Pdf_Color_Rgb $color)
+    public function setColor(Zend_Pdf_Color_Rgb $color): self
     {
         $this->_outlineDictionary->touch();
 
@@ -214,9 +213,9 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
             $this->_outlineDictionary->C = null;
         } else {
             $components = $color->getComponents();
-            $colorComponentElements = array(new Zend_Pdf_Element_Numeric($components[0]),
+            $colorComponentElements = [new Zend_Pdf_Element_Numeric($components[0]),
                                             new Zend_Pdf_Element_Numeric($components[1]),
-                                            new Zend_Pdf_Element_Numeric($components[2]));
+                                            new Zend_Pdf_Element_Numeric($components[2])];
             $this->_outlineDictionary->C = new Zend_Pdf_Element_Array($colorComponentElements);
         }
 
@@ -239,7 +238,8 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
 
             #require_once 'Zend/Pdf/Destination.php';
             return Zend_Pdf_Destination::load($this->_outlineDictionary->Dest);
-        } else if ($this->_outlineDictionary->A !== null) {
+        }
+        if ($this->_outlineDictionary->A !== null) {
             #require_once 'Zend/Pdf/Action.php';
             return Zend_Pdf_Action::load($this->_outlineDictionary->A);
         }
@@ -255,7 +255,7 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
      * @return Zend_Pdf_Outline
      * @throws Zend_Pdf_Exception
      */
-    public function setTarget($target = null)
+    public function setTarget($target = null): self
     {
         $this->_outlineDictionary->touch();
 
@@ -284,11 +284,10 @@ class Zend_Pdf_Outline_Loaded extends Zend_Pdf_Outline
     /**
      * Set outline options
      *
-     * @param array $options
      * @return Zend_Pdf_Actions_Traceable
      * @throws Zend_Pdf_Exception
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): self
     {
         parent::setOptions($options);
 

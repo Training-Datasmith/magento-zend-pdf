@@ -72,10 +72,9 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
     /**
      * Getter
      *
-     * @param string $property
      * @throws Zend_Pdf_Exception
      */
-    public function __get($property) {
+    public function __get(string $property) {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Undefined property: Zend_Pdf_Element_Array::$' . $property);
     }
@@ -88,17 +87,15 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
      * @param mixed $value
      * @throws Zend_Pdf_Exception
      */
-    public function __set($property, $value) {
+    public function __set(string $property, $value) {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Undefined property: Zend_Pdf_Element_Array::$' . $property);
     }
 
     /**
      * Return type of the element.
-     *
-     * @return integer
      */
-    public function getType()
+    public function getType(): int
     {
         return Zend_Pdf_Element::TYPE_ARRAY;
     }
@@ -108,9 +105,8 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
-     * @return string
      */
-    public function toString($factory = null)
+    public function toString($factory = null): string
     {
         $outStr = '[';
         $lastNL = 0;
@@ -123,9 +119,8 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
 
             $outStr .= $element->toString($factory) . ' ';
         }
-        $outStr .= ']';
 
-        return $outStr;
+        return $outStr . ']';
     }
 
     /**
@@ -136,7 +131,7 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
      * @param integer $mode  Cloning mode (defines filter for objects cloning)
      * @returns Zend_Pdf_Element
      */
-    public function makeClone(Zend_Pdf_ElementFactory $factory, array &$processed, $mode)
+    public function makeClone(Zend_Pdf_ElementFactory $factory, array &$processed, $mode): self
     {
         $newArray = new self();
 
@@ -149,8 +144,6 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
 
     /**
      * Set top level parent indirect object.
-     *
-     * @param Zend_Pdf_Element_Object $parent
      */
     public function setParentObject(Zend_Pdf_Element_Object $parent)
     {
@@ -166,11 +159,11 @@ class Zend_Pdf_Element_Array extends Zend_Pdf_Element
      *
      * Dictionary is returned as an associative array
      *
-     * @return mixed
+     * @return mixed[]
      */
-    public function toPhp()
+    public function toPhp(): array
     {
-        $phpArray = array();
+        $phpArray = [];
 
         foreach ($this->items as $item) {
             $phpArray[] = $item->toPhp();

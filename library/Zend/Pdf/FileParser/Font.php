@@ -49,7 +49,7 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      * {@link __set()}.
      * @var array
      */
-    private $_fontProperties = array();
+    private $_fontProperties = [];
 
     /**
      * Flag indicating whether or not debug logging is active.
@@ -60,16 +60,12 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
 
 
   /**** Public Interface ****/
-
-
-  /* Object Lifecycle */
-
+    /* Object Lifecycle */
     /**
      * Object constructor.
      *
      * Validates the data source and enables debug logging if so configured.
      *
-     * @param Zend_Pdf_FileParserDataSource $dataSource
      * @throws Zend_Pdf_Exception
      */
     public function __construct(Zend_Pdf_FileParserDataSource $dataSource)
@@ -80,20 +76,14 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
 
 
   /* Accessors */
-
     /**
      * Get handler
      *
-     * @param string $property
      * @return mixed
      */
-    public function __get($property)
+    public function __get(string $property)
     {
-        if (isset($this->_fontProperties[$property])) {
-            return $this->_fontProperties[$property];
-        } else {
-            return null;
-        }
+        return $this->_fontProperties[$property] ?? null;
     }
 
     /* NOTE: The set handler is defined below in the internal methods group. */
@@ -165,20 +155,16 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
 
 
   /**** Internal Methods ****/
-
-
-  /* Internal Accessors */
-
+    /* Internal Accessors */
     /**
      * Set handler
      *
      * NOTE: This method is protected. Other classes may freely interrogate
      * the font properties, but only this and its subclasses may set them.
      *
-     * @param string $property
      * @param  mixed $value
      */
-    public function __set($property, $value)
+    public function __set(string $property, $value)
     {
         if ($value === null) {
             unset($this->_fontProperties[$property]);

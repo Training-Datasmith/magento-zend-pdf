@@ -84,8 +84,6 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
      *
      * @param int $objNum
      * @param int $genNum
-     * @param Zend_Pdf_Element_Reference_Context $context
-     * @param Zend_Pdf_ElementFactory $factory
      * @throws Zend_Pdf_Exception
      */
     public function __construct(
@@ -140,9 +138,8 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
      * Return reference to the object
      *
      * @param Zend_Pdf_Factory $factory
-     * @return string
      */
-    public function toString($factory = null)
+    public function toString($factory = null): string
     {
         if ($factory === null) {
             $shift = 0;
@@ -202,13 +199,8 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
         // This code duplicates code in Zend_Pdf_Element_Object class,
         // but allows to avoid unnecessary method call in most cases
         $id = spl_object_hash($this->_ref);
-        if (isset($processed[$id])) {
-            // Do nothing if object is already processed
-            // return it
-            return $processed[$id];
-        }
 
-        return $this->_ref->makeClone($factory, $processed, $mode);
+        return $processed[$id] ?? $this->_ref->makeClone($factory, $processed, $mode);
     }
 
     /**
@@ -240,10 +232,9 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
     /**
      * Get handler
      *
-     * @param string $property
      * @return mixed
      */
-    public function __get($property)
+    public function __get(string $property)
     {
         if ($this->_ref === null) {
             $this->_dereference();
@@ -255,10 +246,9 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
     /**
      * Set handler
      *
-     * @param string $property
      * @param  mixed $value
      */
-    public function __set($property, $value)
+    public function __set(string $property, $value)
     {
         if ($this->_ref === null) {
             $this->_dereference();
@@ -270,17 +260,16 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
     /**
      * Call handler
      *
-     * @param string $method
      * @param array  $args
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         if ($this->_ref === null) {
             $this->_dereference();
         }
 
-        return call_user_func_array(array($this->_ref, $method), $args);
+        return call_user_func_array([$this->_ref, $method], $args);
     }
 
     /**

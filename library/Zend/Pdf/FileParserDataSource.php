@@ -99,16 +99,13 @@ abstract class Zend_Pdf_FileParserDataSource
 
 
   /* Object Magic Methods */
-
     /**
      * Returns a description of the object for debugging purposes.
      *
      * Subclasses should override this method to provide a more specific
      * description of the actual object being represented.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return get_class($this);
     }

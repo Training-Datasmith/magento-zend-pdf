@@ -53,10 +53,8 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
 
     /**
      * Return type of the element.
-     *
-     * @return integer
      */
-    public function getType()
+    public function getType(): int
     {
         return Zend_Pdf_Element::TYPE_STRING;
     }
@@ -66,9 +64,8 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
-     * @return string
      */
-    public function toString($factory = null)
+    public function toString($factory = null): string
     {
         return '(' . self::escape((string)$this->value) . ')';
     }
@@ -89,11 +86,10 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
      * Escape string according to the PDF rules
      *
      * @param string $str
-     * @return string
      */
-    public static function escape($str)
+    public static function escape($str): string
     {
-        $outEntries = array();
+        $outEntries = [];
 
         foreach (str_split($str, 128) as $chunk) {
             // Collect sequence of unescaped characters
@@ -174,11 +170,10 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
      * Unescape string according to the PDF rules
      *
      * @param string $str
-     * @return string
      */
-    public static function unescape($str)
+    public static function unescape($str): string
     {
-        $outEntries = array();
+        $outEntries = [];
 
         $offset = 0;
         while ($offset < strlen($str)) {
@@ -268,7 +263,7 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
             }
         }
 
-        return implode($outEntries);
+        return implode('', $outEntries);
     }
 
 }

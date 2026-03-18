@@ -47,9 +47,6 @@ class Zend_Pdf_Element_Reference_Context
 
     /**
      * Object constructor
-     *
-     * @param Zend_Pdf_StringParser $parser
-     * @param Zend_Pdf_Element_Reference_Table $refTable
      */
     public function __construct(Zend_Pdf_StringParser $parser,
                                 Zend_Pdf_Element_Reference_Table $refTable)

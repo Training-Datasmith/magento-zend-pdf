@@ -62,7 +62,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      * Array containing descriptive names for the font. See {@link fontName()}.
      * @var array
      */
-    protected $_fontNames = array();
+    protected $_fontNames = [];
 
     /**
      * Flag indicating whether or not this font is bold.
@@ -149,15 +149,12 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
 
 
   /* Object Magic Methods */
-
     /**
      * Returns the full name of the font in the encoding method of the current
      * locale. Transliterates any characters that cannot be naturally
      * represented in that character set.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getFontName(Zend_Pdf_Font::NAME_FULL, '', '//TRANSLIT');
     }
@@ -248,7 +245,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
         /* Convert the character set if requested.
          */
         if (($characterSet !== null) && ($characterSet != 'UTF-16BE') && PHP_OS != 'AIX') { // AIX knows not this charset
-            $name = iconv('UTF-16BE', $characterSet, $name);
+            return iconv('UTF-16BE', $characterSet, $name);
         }
         return $name;
     }

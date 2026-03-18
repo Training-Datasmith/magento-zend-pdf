@@ -91,7 +91,6 @@ interface Zend_Pdf_Canvas_Interface
      * If upper right corner is not specified then canvas heght and width
      * are used.
      *
-     * @param Zend_Pdf_Canvas_Interface $canvas
      * @param float $x1
      * @param float $y1
      * @param float $x2
@@ -103,7 +102,6 @@ interface Zend_Pdf_Canvas_Interface
     /**
      * Set fill color.
      *
-     * @param Zend_Pdf_Color $color
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setFillColor(Zend_Pdf_Color $color);
@@ -111,7 +109,6 @@ interface Zend_Pdf_Canvas_Interface
     /**
      * Set line color.
      *
-     * @param Zend_Pdf_Color $color
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setLineColor(Zend_Pdf_Color $color);
@@ -140,7 +137,6 @@ interface Zend_Pdf_Canvas_Interface
     /**
      * Set current font.
      *
-     * @param Zend_Pdf_Resource_Font $font
      * @param float $fontSize
      * @return Zend_Pdf_Canvas_Interface
      */
@@ -149,7 +145,6 @@ interface Zend_Pdf_Canvas_Interface
     /**
      * Set the style to use for future drawing operations on this page
      *
-     * @param Zend_Pdf_Style $style
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setStyle(Zend_Pdf_Style $style);

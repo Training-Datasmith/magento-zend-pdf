@@ -54,7 +54,6 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
     /**
      * Named destination object constructor
      *
-     * @param Zend_Pdf_Element $resource
      * @throws Zend_Pdf_Exception
      */
     public function __construct(Zend_Pdf_Element $resource)
@@ -71,9 +70,8 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
      * Create named destination object
      *
      * @param string $name
-     * @return Zend_Pdf_Destination_Named
      */
-    public static function create($name)
+    public static function create($name): \Zend_Pdf_Destination_Named
     {
         return new Zend_Pdf_Destination_Named(new Zend_Pdf_Element_String($name));
     }

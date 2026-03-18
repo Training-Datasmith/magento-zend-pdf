@@ -73,9 +73,8 @@ class Zend_Pdf_Annotation_FileAttachment extends Zend_Pdf_Annotation
      * @param float $x2
      * @param float $y2
      * @param string $fileSpecification
-     * @return Zend_Pdf_Annotation_FileAttachment
      */
-    public static function create($x1, $y1, $x2, $y2, $fileSpecification)
+    public static function create($x1, $y1, $x2, $y2, $fileSpecification): \Zend_Pdf_Annotation_FileAttachment
     {
         $annotationDictionary = new Zend_Pdf_Element_Dictionary();
 

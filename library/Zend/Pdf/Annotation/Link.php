@@ -75,10 +75,9 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
      * @param float                  $x2
      * @param float                  $y2
      * @param Zend_Pdf_Target|string $target
-     * @return Zend_Pdf_Annotation_Link
      * @throws Zend_Pdf_Exception
      */
-    public static function create($x1, $y1, $x2, $y2, $target)
+    public static function create($x1, $y1, $x2, $y2, $target): \Zend_Pdf_Annotation_Link
     {
         if (is_string($target)) {
             #require_once 'Zend/Pdf/Destination/Named.php';
@@ -114,9 +113,8 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
      * Set link annotation destination
      *
      * @param Zend_Pdf_Target|string $target
-     * @return Zend_Pdf_Annotation_Link
      */
-    public function setDestination($target)
+    public function setDestination($target): self
     {
         if (is_string($target)) {
             #require_once 'Zend/Pdf/Destination/Named.php';
@@ -155,9 +153,8 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
         if ($this->_annotationDictionary->Dest !== null) {
             #require_once 'Zend/Pdf/Destination.php';
             return Zend_Pdf_Destination::load($this->_annotationDictionary->Dest);
-        } else {
-            #require_once 'Zend/Pdf/Action.php';
-            return Zend_Pdf_Action::load($this->_annotationDictionary->A);
         }
+        #require_once 'Zend/Pdf/Action.php';
+        return Zend_Pdf_Action::load($this->_annotationDictionary->A);
     }
 }

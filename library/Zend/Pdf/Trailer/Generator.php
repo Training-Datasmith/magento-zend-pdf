@@ -33,21 +33,9 @@
 class Zend_Pdf_Trailer_Generator extends Zend_Pdf_Trailer
 {
     /**
-     * Object constructor
-     *
-     * @param Zend_Pdf_Element_Dictionary $dict
-     */
-    public function __construct(Zend_Pdf_Element_Dictionary $dict)
-    {
-        parent::__construct($dict);
-    }
-
-    /**
      * Get length of source PDF
-     *
-     * @return string
      */
-    public function getPDFLength()
+    public function getPDFLength(): int
     {
         #require_once 'Zend/Pdf.php';
         return strlen(Zend_Pdf::PDF_HEADER);
@@ -55,10 +43,8 @@ class Zend_Pdf_Trailer_Generator extends Zend_Pdf_Trailer
 
     /**
      * Get PDF String
-     *
-     * @return string
      */
-    public function getPDFString()
+    public function getPDFString(): string
     {
         #require_once 'Zend/Pdf.php';
         return Zend_Pdf::PDF_HEADER;
@@ -67,10 +53,8 @@ class Zend_Pdf_Trailer_Generator extends Zend_Pdf_Trailer
     /**
      * Get header of free objects list
      * Returns object number of last free object
-     *
-     * @return integer
      */
-    public function getLastFreeObject()
+    public function getLastFreeObject(): int
     {
         return 0;
     }

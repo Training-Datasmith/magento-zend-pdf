@@ -51,10 +51,9 @@ class Zend_Pdf_Destination_FitVertically extends Zend_Pdf_Destination_Explicit
      *
      * @param Zend_Pdf_Page|integer $page  Page object or page number
      * @param float $left  Left edge of displayed page
-     * @return Zend_Pdf_Destination_FitVertically
      * @throws Zend_Pdf_Exception
      */
-    public static function create($page, $left)
+    public static function create($page, $left): \Zend_Pdf_Destination_FitVertically
     {
         $destinationArray = new Zend_Pdf_Element_Array();
 
@@ -89,7 +88,7 @@ class Zend_Pdf_Destination_FitVertically extends Zend_Pdf_Destination_Explicit
      * @param float $left
      * @return Zend_Pdf_Action_FitVertically
      */
-    public function setLeftEdge($left)
+    public function setLeftEdge($left): self
     {
         $this->_destinationArray->items[2] = new Zend_Pdf_Element_Numeric($left);
 

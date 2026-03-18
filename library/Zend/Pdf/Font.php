@@ -417,14 +417,14 @@ abstract class Zend_Pdf_Font
      * The values are the font objects themselves.
      * @var array
      */
-    private static $_fontNames = array();
+    private static $_fontNames = [];
 
     /**
      * Array whose keys are the md5 hash of the full paths on disk for parsed
      * fonts. The values are the font objects themselves.
      * @var array
      */
-    private static $_fontFilePaths = array();
+    private static $_fontFilePaths = [];
 
 
 
@@ -634,7 +634,7 @@ abstract class Zend_Pdf_Font
             // OpenType
 
             // TrueType
-            if (($font === null) && ($fileExtension != 'ttf')) {
+            if ($fileExtension != 'ttf') {
                 $font = Zend_Pdf_Font::_extractTrueTypeFont($dataSource, $embeddingOptions);
             }
 
@@ -644,11 +644,6 @@ abstract class Zend_Pdf_Font
 
             // others?
         }
-
-
-        /* Done with the data source object.
-         */
-        $dataSource = null;
 
         if ($font !== null) {
             /* Parsing was successful. Add this font instance to the cache arrays
@@ -660,13 +655,12 @@ abstract class Zend_Pdf_Font
             Zend_Pdf_Font::$_fontFilePaths[$filePathKey] = $font;
             return $font;
 
-        } else {
-            /* The type of font could not be determined. Give up.
-             */
-            #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception("Cannot determine font type: $filePath",
-                                         Zend_Pdf_Exception::CANT_DETERMINE_FONT_TYPE);
-         }
+        }
+        /* The type of font could not be determined. Give up.
+         */
+        #require_once 'Zend/Pdf/Exception.php';
+        throw new Zend_Pdf_Exception("Cannot determine font type: $filePath",
+                                     Zend_Pdf_Exception::CANT_DETERMINE_FONT_TYPE);
 
     }
 

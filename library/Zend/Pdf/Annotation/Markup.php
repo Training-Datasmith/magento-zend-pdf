@@ -65,10 +65,10 @@ class Zend_Pdf_Annotation_Markup extends Zend_Pdf_Annotation
         if ($annotationDictionary->Subtype === null  ||
             $annotationDictionary->Subtype->getType() != Zend_Pdf_Element::TYPE_NAME  ||
             !in_array( $annotationDictionary->Subtype->value,
-                       array(self::SUBTYPE_HIGHLIGHT,
+                       [self::SUBTYPE_HIGHLIGHT,
                              self::SUBTYPE_UNDERLINE,
                              self::SUBTYPE_SQUIGGLY,
-                             self::SUBTYPE_STRIKEOUT) )) {
+                             self::SUBTYPE_STRIKEOUT] )) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Subtype => Markup entry is omitted or has wrong value.');
         }
@@ -108,10 +108,9 @@ class Zend_Pdf_Annotation_Markup extends Zend_Pdf_Annotation
      * @param string $text
      * @param string $subType
      * @param array $quadPoints  [x1 y1 x2 y2 x3 y3 x4 y4]
-     * @return Zend_Pdf_Annotation_Markup
      * @throws Zend_Pdf_Exception
      */
-    public static function create($x1, $y1, $x2, $y2, $text, $subType, $quadPoints)
+    public static function create($x1, $y1, $x2, $y2, $text, $subType, $quadPoints): \Zend_Pdf_Annotation_Markup
     {
         $annotationDictionary = new Zend_Pdf_Element_Dictionary();
 

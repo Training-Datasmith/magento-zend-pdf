@@ -52,10 +52,9 @@ class Zend_Pdf_Destination_Fit extends Zend_Pdf_Destination_Explicit
      * Create destination object
      *
      * @param Zend_Pdf_Page|integer $page  Page object or page number
-     * @return Zend_Pdf_Destination_Fit
      * @throws Zend_Pdf_Exception
      */
-    public static function create($page)
+    public static function create($page): \Zend_Pdf_Destination_Fit
     {
         $destinationArray = new Zend_Pdf_Element_Array();
 

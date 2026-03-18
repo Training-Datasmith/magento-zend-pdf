@@ -65,10 +65,8 @@ class Zend_Pdf_Element_Object extends Zend_Pdf_Element
     /**
      * Object constructor
      *
-     * @param Zend_Pdf_Element $val
      * @param integer $objNum
      * @param integer $genNum
-     * @param Zend_Pdf_ElementFactory $factory
      * @throws Zend_Pdf_Exception
      */
     public function __construct(Zend_Pdf_Element $val, $objNum, $genNum, Zend_Pdf_ElementFactory $factory)
@@ -146,9 +144,8 @@ class Zend_Pdf_Element_Object extends Zend_Pdf_Element
      * Return reference to the object
      *
      * @param Zend_Pdf_Factory $factory
-     * @return string
      */
-    public function toString($factory = null)
+    public function toString($factory = null): string
     {
         if ($factory === null) {
             $shift = 0;
@@ -164,11 +161,8 @@ class Zend_Pdf_Element_Object extends Zend_Pdf_Element
      * Dump object to a string to save within PDF file.
      *
      * $factory parameter defines operation context.
-     *
-     * @param Zend_Pdf_ElementFactory $factory
-     * @return string
      */
-    public function dump(Zend_Pdf_ElementFactory $factory)
+    public function dump(Zend_Pdf_ElementFactory $factory): string
     {
         $shift = $factory->getEnumerationShift($this->_factory);
 
@@ -180,10 +174,9 @@ class Zend_Pdf_Element_Object extends Zend_Pdf_Element
     /**
      * Get handler
      *
-     * @param string $property
      * @return mixed
      */
-    public function __get($property)
+    public function __get(string $property)
     {
         return $this->_value->$property;
     }
@@ -191,10 +184,9 @@ class Zend_Pdf_Element_Object extends Zend_Pdf_Element
     /**
      * Set handler
      *
-     * @param string $property
      * @param  mixed $value
      */
-    public function __set($property, $value)
+    public function __set(string $property, $value)
     {
         $this->_value->$property = $value;
     }
@@ -202,13 +194,12 @@ class Zend_Pdf_Element_Object extends Zend_Pdf_Element
     /**
      * Call handler
      *
-     * @param string $method
      * @param array  $args
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
-        return call_user_func_array(array($this->_value, $method), $args);
+        return call_user_func_array([$this->_value, $method], $args);
     }
 
     /**
@@ -256,10 +247,8 @@ class Zend_Pdf_Element_Object extends Zend_Pdf_Element
 
     /**
      * Return object, which can be used to identify object and its references identity
-     *
-     * @return Zend_Pdf_Element_Object
      */
-    public function getObject()
+    public function getObject(): self
     {
         return $this;
     }

@@ -52,22 +52,21 @@ abstract class Zend_Pdf_Filter_Compression implements Zend_Pdf_Filter_Interface
         // breaking ties in order a,b,c.
         if ($pa <= $pb && $pa <= $pc) {
             return $a;
-        } else if ($pb <= $pc) {
-            return $b;
-        } else {
-            return $c;
         }
+        if ($pb <= $pc) {
+            return $b;
+        }
+        return $c;
     }
 
 
     /**
      * Get Predictor decode param value
      *
-     * @param array $params
      * @return integer
      * @throws Zend_Pdf_Exception
      */
-    private static function _getPredictorValue(&$params)
+    private static function _getPredictorValue(array &$params)
     {
         if (isset($params['Predictor'])) {
             $predictor = $params['Predictor'];
@@ -79,19 +78,17 @@ abstract class Zend_Pdf_Filter_Compression implements Zend_Pdf_Filter_Interface
                 throw new Zend_Pdf_Exception('Invalid value of \'Predictor\' decode param - ' . $predictor . '.' );
             }
             return $predictor;
-        } else {
-            return 1;
         }
+        return 1;
     }
 
     /**
      * Get Colors decode param value
      *
-     * @param array $params
      * @return integer
      * @throws Zend_Pdf_Exception
      */
-    private static function _getColorsValue(&$params)
+    private static function _getColorsValue(array &$params)
     {
         if (isset($params['Colors'])) {
             $colors = $params['Colors'];
@@ -101,19 +98,17 @@ abstract class Zend_Pdf_Filter_Compression implements Zend_Pdf_Filter_Interface
                 throw new Zend_Pdf_Exception('Invalid value of \'Color\' decode param - ' . $colors . '.' );
             }
             return $colors;
-        } else {
-            return 1;
         }
+        return 1;
     }
 
     /**
      * Get BitsPerComponent decode param value
      *
-     * @param array $params
      * @return integer
      * @throws Zend_Pdf_Exception
      */
-    private static function _getBitsPerComponentValue(&$params)
+    private static function _getBitsPerComponentValue(array &$params)
     {
         if (isset($params['BitsPerComponent'])) {
             $bitsPerComponent = $params['BitsPerComponent'];
@@ -125,24 +120,18 @@ abstract class Zend_Pdf_Filter_Compression implements Zend_Pdf_Filter_Interface
                 throw new Zend_Pdf_Exception('Invalid value of \'BitsPerComponent\' decode param - ' . $bitsPerComponent . '.' );
             }
             return $bitsPerComponent;
-        } else {
-            return 8;
         }
+        return 8;
     }
 
     /**
      * Get Columns decode param value
      *
-     * @param array $params
      * @return integer
      */
-    private static function _getColumnsValue(&$params)
+    private static function _getColumnsValue(array &$params)
     {
-        if (isset($params['Columns'])) {
-            return $params['Columns'];
-        } else {
-            return 1;
-        }
+        return $params['Columns'] ?? 1;
     }
 
 
@@ -257,7 +246,7 @@ abstract class Zend_Pdf_Filter_Compression implements Zend_Pdf_Filter_Interface
 
                 case 4: // Paeth prediction
                     $lastRow    = array_fill(0, $bytesPerRow, 0);
-                    $currentRow = array();
+                    $currentRow = [];
                     for ($count = 0; $count < $rows; $count++) {
                         $output .= chr($predictor);
 
@@ -363,7 +352,7 @@ abstract class Zend_Pdf_Filter_Compression implements Zend_Pdf_Filter_Interface
                         break;
 
                     case 4: // Paeth prediction
-                        $currentRow = array();
+                        $currentRow = [];
                         for ($count2 = 0; $count2 < $bytesPerRow  &&  $offset < strlen($data); $count2++) {
                             $decodedByte = (ord($data[$offset++]) +
                                             self::_paeth($lastSample[$count2 % $bytesPerSample],

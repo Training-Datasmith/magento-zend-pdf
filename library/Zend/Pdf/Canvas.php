@@ -38,7 +38,7 @@ class Zend_Pdf_Canvas extends Zend_Pdf_Canvas_Abstract
      *
      * @var array
      */
-    protected $_procSet = array();
+    protected $_procSet = [];
 
     /**
      * Canvas width expressed in default user space units (1/72 inch)
@@ -54,9 +54,9 @@ class Zend_Pdf_Canvas extends Zend_Pdf_Canvas_Abstract
      */
     protected $_height;
 
-    protected $_resources = array('Font'      => array(),
-                                  'XObject'   => array(),
-                                  'ExtGState' => array());
+    protected $_resources = ['Font'      => [],
+                                  'XObject'   => [],
+                                  'ExtGState' => []];
 
     /**
      * Object constructor
@@ -89,7 +89,6 @@ class Zend_Pdf_Canvas extends Zend_Pdf_Canvas_Abstract
      * 'XObject', 'Font', 'Properties'
      *
      * @param string $type
-     * @param Zend_Pdf_Resource $resource
      * @return string
      */
     protected function _attachResource($type, Zend_Pdf_Resource $resource)

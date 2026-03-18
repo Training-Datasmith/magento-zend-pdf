@@ -58,10 +58,8 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
 
     /**
      * Return type of the element.
-     *
-     * @return integer
      */
-    public function getType()
+    public function getType(): int
     {
         return Zend_Pdf_Element::TYPE_STREAM;
     }
@@ -70,10 +68,8 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
     /**
      * Stream length.
      * (Method is used to avoid string copying, which may occurs in some cases)
-     *
-     * @return integer
      */
-    public function length()
+    public function length(): int
     {
         return strlen($this->value->getRef());
     }
@@ -112,7 +108,7 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
      * @param integer $mode  Cloning mode (defines filter for objects cloning)
      * @returns Zend_Pdf_Element
      */
-    public function makeClone(Zend_Pdf_ElementFactory $factory, array &$processed, $mode)
+    public function makeClone(Zend_Pdf_ElementFactory $factory, array &$processed, $mode): self
     {
         return new self($this->value->getRef());
     }
@@ -121,9 +117,8 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
-     * @return string
      */
-    public function toString($factory = null)
+    public function toString($factory = null): string
     {
         return "stream\n" . $this->value->getRef() . "\nendstream";
     }

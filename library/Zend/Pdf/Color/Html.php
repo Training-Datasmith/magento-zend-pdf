@@ -96,13 +96,11 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
             if (($r == $g) && ($g == $b)) {
                 #require_once 'Zend/Pdf/Color/GrayScale.php';
                 return new Zend_Pdf_Color_GrayScale($r);
-            } else {
-                #require_once 'Zend/Pdf/Color/Rgb.php';
-                return new Zend_Pdf_Color_Rgb($r, $g, $b);
             }
-        } else {
-            return Zend_Pdf_Color_Html::namedColor($color);
+            #require_once 'Zend/Pdf/Color/Rgb.php';
+            return new Zend_Pdf_Color_Rgb($r, $g, $b);
         }
+        return Zend_Pdf_Color_Html::namedColor($color);
     }
 
     /**
@@ -112,16 +110,18 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
      *    blue, etc.)
      * @return Zend_Pdf_Color
      */
-    public static function namedColor($color)
+    public static function namedColor(string $color)
     {
         switch (strtolower($color)) {
             case 'aqua':
+            case 'cyan':
                 $r = 0.0;   $g = 1.0;   $b = 1.0;   break;
             case 'black':
                 $r = 0.0;   $g = 0.0;   $b = 0.0;   break;
             case 'blue':
                 $r = 0.0;   $g = 0.0;   $b = 1.0;   break;
             case 'fuchsia':
+            case 'magenta':
                 $r = 1.0;   $g = 0.0;   $b = 1.0;   break;
             case 'gray':
                 $r = 0.502; $g = 0.502; $b = 0.502; break;
@@ -182,8 +182,6 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
                 $r = 1.0;   $g = 0.973; $b = 0.863; break;
             case 'crimson':
                 $r = 0.863; $g = 0.078; $b = 0.235; break;
-            case 'cyan':
-                $r = 0.0;   $g = 1.0;   $b = 1.0;   break;
             case 'darkblue':
                 $r = 0.0;   $g = 0.0;   $b = 0.545; break;
             case 'darkcyan':
@@ -292,8 +290,6 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
                 $r = 0.196; $g = 0.804; $b = 0.196; break;
             case 'linen':
                 $r = 0.980; $g = 0.941; $b = 0.902; break;
-            case 'magenta':
-                $r = 1.0;   $g = 0.0;   $b = 1.0;   break;
             case 'mediumaquamarine':
                 $r = 0.4;   $g = 0.804; $b = 0.667; break;
             case 'mediumblue':
@@ -341,7 +337,6 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
             case 'palevioletred':
                 $r = 0.859; $g = 0.439; $b = 0.576; break;
             case 'papayawhip':
-                $r = 1.0;   $g = 0.937; $b = 0.835; break;
             case 'peachpuff':
                 $r = 1.0;   $g = 0.937; $b = 0.835; break;
             case 'peru':
@@ -404,9 +399,8 @@ class Zend_Pdf_Color_Html extends Zend_Pdf_Color
         if (($r == $g) && ($g == $b)) {
             #require_once 'Zend/Pdf/Color/GrayScale.php';
             return new Zend_Pdf_Color_GrayScale($r);
-        } else {
-            #require_once 'Zend/Pdf/Color/Rgb.php';
-            return new Zend_Pdf_Color_Rgb($r, $g, $b);
         }
+        #require_once 'Zend/Pdf/Color/Rgb.php';
+        return new Zend_Pdf_Color_Rgb($r, $g, $b);
     }
 }

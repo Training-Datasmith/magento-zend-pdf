@@ -37,10 +37,9 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
      *
      * @param string $data
      * @param array $params
-     * @return string
      * @throws Zend_Pdf_Exception
      */
-    public static function encode($data, $params = null)
+    public static function encode($data, $params = null): string
     {
         $output = '';
 
@@ -79,9 +78,7 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
             $output .= chr($offset - $chainStartOffset - 1) . substr($data, $chainStartOffset, $offset - $chainStartOffset);
         }
 
-        $output .= "\x80";
-
-        return $output;
+        return $output . "\x80";
     }
 
     /**
@@ -89,10 +86,9 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
      *
      * @param string $data
      * @param array $params
-     * @return string
      * @throws Zend_Pdf_Exception
      */
-    public static function decode($data, $params = null)
+    public static function decode($data, $params = null): string
     {
         $dataLength = strlen($data);
         $output = '';
@@ -112,9 +108,8 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
                 $output .= substr($data, $offset, $length);
 
                 $offset += $length;
-            } else if ($length > 128) {
+            } else {
                 $output .= str_repeat($data[$offset], 257 - $length);
-
                 $offset++;
             }
         }

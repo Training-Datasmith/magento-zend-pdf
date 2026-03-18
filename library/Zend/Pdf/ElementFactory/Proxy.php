@@ -42,8 +42,6 @@ class Zend_Pdf_ElementFactory_Proxy implements Zend_Pdf_ElementFactory_Interface
 
     /**
      * Object constructor
-     *
-     * @param Zend_Pdf_ElementFactory_Interface $factory
      */
     public function __construct(Zend_Pdf_ElementFactory_Interface $factory)
     {
@@ -118,8 +116,6 @@ class Zend_Pdf_ElementFactory_Proxy implements Zend_Pdf_ElementFactory_Interface
 
     /**
      * Attach factory to the current;
-     *
-     * @param Zend_Pdf_ElementFactory_Interface $factory
      */
     public function attach(Zend_Pdf_ElementFactory_Interface $factory)
     {
@@ -130,7 +126,6 @@ class Zend_Pdf_ElementFactory_Proxy implements Zend_Pdf_ElementFactory_Interface
      * Calculate object enumeration shift.
      *
      * @internal
-     * @param Zend_Pdf_ElementFactory_Interface $factory
      * @return integer
      */
     public function calculateShift(Zend_Pdf_ElementFactory_Interface $factory)
@@ -153,7 +148,6 @@ class Zend_Pdf_ElementFactory_Proxy implements Zend_Pdf_ElementFactory_Interface
     /**
      * Retrive object enumeration shift.
      *
-     * @param Zend_Pdf_ElementFactory_Interface $factory
      * @return integer
      * @throws Zend_Pdf_Exception
      */
@@ -165,7 +159,6 @@ class Zend_Pdf_ElementFactory_Proxy implements Zend_Pdf_ElementFactory_Interface
     /**
      * Mark object as modified in context of current factory.
      *
-     * @param Zend_Pdf_Element_Object $obj
      * @throws Zend_Pdf_Exception
      */
     public function markAsModified(Zend_Pdf_Element_Object $obj)
@@ -176,7 +169,6 @@ class Zend_Pdf_ElementFactory_Proxy implements Zend_Pdf_ElementFactory_Interface
     /**
      * Remove object in context of current factory.
      *
-     * @param Zend_Pdf_Element_Object $obj
      * @throws Zend_Pdf_Exception
      */
     public function remove(Zend_Pdf_Element_Object $obj)
@@ -189,7 +181,6 @@ class Zend_Pdf_ElementFactory_Proxy implements Zend_Pdf_ElementFactory_Interface
      *
      * @todo Reusage of the freed object. It's not a support of new feature, but only improvement.
      *
-     * @param Zend_Pdf_Element $objectValue
      * @return Zend_Pdf_Element_Object
      */
     public function newObject(Zend_Pdf_Element $objectValue)

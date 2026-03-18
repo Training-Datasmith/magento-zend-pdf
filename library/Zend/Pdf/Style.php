@@ -38,7 +38,7 @@ class Zend_Pdf_Style
      *
      * @var Zend_Pdf_Color|null
      */
-    private $_fillColor = null;
+    private $_fillColor;
 
     /**
      * Line color.
@@ -109,8 +109,6 @@ class Zend_Pdf_Style
 
     /**
      * Set fill color.
-     *
-     * @param Zend_Pdf_Color $color
      */
     public function setFillColor(Zend_Pdf_Color $color)
     {
@@ -119,8 +117,6 @@ class Zend_Pdf_Style
 
     /**
      * Set line color.
-     *
-     * @param Zend_Pdf_Color $color
      */
     public function setLineColor(Zend_Pdf_Color $color)
     {
@@ -149,7 +145,7 @@ class Zend_Pdf_Style
     {
         #require_once 'Zend/Pdf/Page.php';
         if ($pattern === Zend_Pdf_Page::LINE_DASHING_SOLID) {
-            $pattern = array();
+            $pattern = [];
             $phase   = 0;
         }
 
@@ -162,7 +158,6 @@ class Zend_Pdf_Style
     /**
      * Set current font.
      *
-     * @param Zend_Pdf_Resource_Font $font
      * @param float $fontSize
      */
     public function setFont(Zend_Pdf_Resource_Font $font, $fontSize)
@@ -255,10 +250,8 @@ class Zend_Pdf_Style
 
     /**
      * Dump style to a string, which can be directly inserted into content stream
-     *
-     * @return string
      */
-    public function instructions()
+    public function instructions(): string
     {
         $instructions = '';
 

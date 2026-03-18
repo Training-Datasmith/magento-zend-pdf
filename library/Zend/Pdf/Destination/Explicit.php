@@ -55,7 +55,6 @@ abstract class Zend_Pdf_Destination_Explicit extends Zend_Pdf_Destination
     /**
      * Explicit destination object constructor
      *
-     * @param Zend_Pdf_Element $destinationArray
      * @throws Zend_Pdf_Exception
      */
     public function __construct(Zend_Pdf_Element $destinationArray)
@@ -71,12 +70,10 @@ abstract class Zend_Pdf_Destination_Explicit extends Zend_Pdf_Destination
             case 0:
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Destination array must contain a page reference.');
-                break;
 
             case 1:
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Destination array must contain a destination type name.');
-                break;
 
             default:
                 // Do nothing
@@ -95,7 +92,6 @@ abstract class Zend_Pdf_Destination_Explicit extends Zend_Pdf_Destination
             default:
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Destination target must be a page number or page dictionary object.');
-                break;
         }
     }
 

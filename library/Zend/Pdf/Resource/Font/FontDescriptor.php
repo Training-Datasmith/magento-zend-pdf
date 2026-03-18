@@ -74,10 +74,9 @@ class Zend_Pdf_Resource_Font_FontDescriptor
      * @param Zend_Pdf_Resource_Font $font Font
      * @param Zend_Pdf_FileParser_Font_OpenType $fontParser Font parser object containing parsed TrueType file.
      * @param integer $embeddingOptions Options for font embedding.
-     * @return Zend_Pdf_Element_Dictionary
      * @throws Zend_Pdf_Exception
      */
-    static public function factory(Zend_Pdf_Resource_Font $font, Zend_Pdf_FileParser_Font_OpenType $fontParser, $embeddingOptions)
+    static public function factory(Zend_Pdf_Resource_Font $font, Zend_Pdf_FileParser_Font_OpenType $fontParser, $embeddingOptions): \Zend_Pdf_Element_Dictionary
     {
         /* The font descriptor object contains the rest of the font metrics and
          * the information about the embedded font program (if applicible).
@@ -113,10 +112,10 @@ class Zend_Pdf_Resource_Font_FontDescriptor
         // bits 17-19: AllCap, SmallCap, ForceBold; not available
         $fontDescriptor->Flags = new Zend_Pdf_Element_Numeric($flags);
 
-        $fontBBox = array(new Zend_Pdf_Element_Numeric($font->toEmSpace($fontParser->xMin)),
+        $fontBBox = [new Zend_Pdf_Element_Numeric($font->toEmSpace($fontParser->xMin)),
                           new Zend_Pdf_Element_Numeric($font->toEmSpace($fontParser->yMin)),
                           new Zend_Pdf_Element_Numeric($font->toEmSpace($fontParser->xMax)),
-                          new Zend_Pdf_Element_Numeric($font->toEmSpace($fontParser->yMax)));
+                          new Zend_Pdf_Element_Numeric($font->toEmSpace($fontParser->yMax))];
         $fontDescriptor->FontBBox     = new Zend_Pdf_Element_Array($fontBBox);
 
         $fontDescriptor->ItalicAngle  = new Zend_Pdf_Element_Numeric($fontParser->italicAngle);

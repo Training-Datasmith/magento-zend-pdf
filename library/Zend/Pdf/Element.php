@@ -43,7 +43,7 @@ abstract class Zend_Pdf_Element
      *
      * @var Zend_Pdf_Element_Object
      */
-    private $_parentObject = null;
+    private $_parentObject;
 
     /**
      * Return type of the element.
@@ -85,8 +85,6 @@ abstract class Zend_Pdf_Element
 
     /**
      * Set top level parent indirect object.
-     *
-     * @param Zend_Pdf_Element_Object $parent
      */
     public function setParentObject(Zend_Pdf_Element_Object $parent)
     {
@@ -144,11 +142,13 @@ abstract class Zend_Pdf_Element
         if (is_numeric($input)) {
             #require_once 'Zend/Pdf/Element/Numeric.php';
             return new Zend_Pdf_Element_Numeric($input);
-        } else if (is_bool($input)) {
+        }
+        if (is_bool($input)) {
             #require_once 'Zend/Pdf/Element/Boolean.php';
             return new Zend_Pdf_Element_Boolean($input);
-        } else if (is_array($input)) {
-            $pdfElementsArray = array();
+        }
+        if (is_array($input)) {
+            $pdfElementsArray = [];
             $isDictionary = false;
 
             foreach ($input as $key => $value) {
@@ -161,13 +161,11 @@ abstract class Zend_Pdf_Element
             if ($isDictionary) {
                 #require_once 'Zend/Pdf/Element/Dictionary.php';
                 return new Zend_Pdf_Element_Dictionary($pdfElementsArray);
-            } else {
-                #require_once 'Zend/Pdf/Element/Array.php';
-                return new Zend_Pdf_Element_Array($pdfElementsArray);
             }
-        } else {
-            #require_once 'Zend/Pdf/Element/String.php';
-            return new Zend_Pdf_Element_String((string)$input);
+            #require_once 'Zend/Pdf/Element/Array.php';
+            return new Zend_Pdf_Element_Array($pdfElementsArray);
         }
+        #require_once 'Zend/Pdf/Element/String.php';
+        return new Zend_Pdf_Element_String((string)$input);
     }
 }

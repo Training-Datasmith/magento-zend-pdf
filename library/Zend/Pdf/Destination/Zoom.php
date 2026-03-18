@@ -55,10 +55,9 @@ class Zend_Pdf_Destination_Zoom extends Zend_Pdf_Destination_Explicit
      * @param float $left  Left edge of displayed page
      * @param float $top   Top edge of displayed page
      * @param float $zoom  Zoom factor
-     * @return Zend_Pdf_Destination_Zoom
      * @throws Zend_Pdf_Exception
      */
-    public static function create($page, $left = null, $top = null, $zoom = null)
+    public static function create($page, $left = null, $top = null, $zoom = null): \Zend_Pdf_Destination_Zoom
     {
         $destinationArray = new Zend_Pdf_Element_Array();
 
@@ -110,7 +109,7 @@ class Zend_Pdf_Destination_Zoom extends Zend_Pdf_Destination_Explicit
      * @param float $left
      * @return Zend_Pdf_Action_Zoom
      */
-    public function setLeftEdge($left)
+    public function setLeftEdge($left): self
     {
         if ($left === null) {
             $this->_destinationArray->items[2] = new Zend_Pdf_Element_Null();
@@ -137,7 +136,7 @@ class Zend_Pdf_Destination_Zoom extends Zend_Pdf_Destination_Explicit
      * @param float $top
      * @return Zend_Pdf_Action_Zoom
      */
-    public function setTopEdge($top)
+    public function setTopEdge($top): self
     {
         if ($top === null) {
             $this->_destinationArray->items[3] = new Zend_Pdf_Element_Null();
@@ -164,7 +163,7 @@ class Zend_Pdf_Destination_Zoom extends Zend_Pdf_Destination_Explicit
      * @param float $zoom
      * @return Zend_Pdf_Action_Zoom
      */
-    public function setZoomFactor($zoom)
+    public function setZoomFactor($zoom): self
     {
         if ($zoom === null) {
             $this->_destinationArray->items[4] = new Zend_Pdf_Element_Null();

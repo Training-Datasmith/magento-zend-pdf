@@ -55,16 +55,14 @@ class Zend_Pdf_Element_Name extends Zend_Pdf_Element
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Null character is not allowed in PDF Names');
         }
-        $this->value   = (string)$val;
+        $this->value   = $val;
     }
 
 
     /**
      * Return type of the element.
-     *
-     * @return integer
      */
-    public function getType()
+    public function getType(): int
     {
         return Zend_Pdf_Element::TYPE_NAME;
     }
@@ -74,9 +72,8 @@ class Zend_Pdf_Element_Name extends Zend_Pdf_Element
      * Escape string according to the PDF rules
      *
      * @param string $inStr
-     * @return string
      */
-    public static function escape($inStr)
+    public static function escape($inStr): string
     {
         $outStr = '';
 
@@ -129,9 +126,8 @@ class Zend_Pdf_Element_Name extends Zend_Pdf_Element
      * Unescape string according to the PDF rules
      *
      * @param string $inStr
-     * @return string
      */
-    public static function unescape($inStr)
+    public static function unescape($inStr): string
     {
         $outStr = '';
 
@@ -152,9 +148,8 @@ class Zend_Pdf_Element_Name extends Zend_Pdf_Element
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
-     * @return string
      */
-    public function toString($factory = null)
+    public function toString($factory = null): string
     {
         return '/' . self::escape((string)$this->value);
     }

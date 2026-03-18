@@ -111,7 +111,7 @@ class Zend_Pdf
      *
      * @var array   - array of Zend_Pdf_Page object
      */
-    public $pages = array();
+    public $pages = [];
 
     /**
      * Document properties
@@ -128,7 +128,7 @@ class Zend_Pdf
      *
      * @var array
      */
-    public $properties = array();
+    public $properties = [];
 
     /**
      * Original properties set.
@@ -137,14 +137,14 @@ class Zend_Pdf
      *
      * @var array
      */
-    protected $_originalProperties = array();
+    protected $_originalProperties = [];
 
     /**
      * Document level javascript
      *
      * @var string
      */
-    protected $_javaScript = null;
+    protected $_javaScript;
 
     /**
      * Document named destinations or "GoTo..." actions, used to refer
@@ -152,14 +152,14 @@ class Zend_Pdf
      *
      * @var array   - array of Zend_Pdf_Target objects
      */
-    protected $_namedTargets = array();
+    protected $_namedTargets = [];
 
     /**
      * Document outlines
      *
      * @var array - array of Zend_Pdf_Outline objects
      */
-    public $outlines = array();
+    public $outlines = [];
 
     /**
      * Original document outlines list
@@ -167,7 +167,7 @@ class Zend_Pdf
      *
      * @var array - array of Zend_Pdf_Outline objects
      */
-    protected $_originalOutlines = array();
+    protected $_originalOutlines = [];
 
     /**
      * Original document outlines open elements count
@@ -182,21 +182,21 @@ class Zend_Pdf
      *
      * @var Zend_Pdf_Trailer
      */
-    protected $_trailer = null;
+    protected $_trailer;
 
     /**
      * PDF objects factory.
      *
      * @var Zend_Pdf_ElementFactory_Interface
      */
-    protected $_objFactory = null;
+    protected $_objFactory;
 
     /**
      * Memory manager for stream objects
      *
      * @var Zend_Memory_Manager|null
      */
-    protected static $_memoryManager = null;
+    protected static $_memoryManager;
 
     /**
      * Pdf file parser.
@@ -218,14 +218,14 @@ class Zend_Pdf
      *
      * @var array
      */
-    protected static $_inheritableAttributes = array('Resources', 'MediaBox', 'CropBox', 'Rotate');
+    protected static $_inheritableAttributes = ['Resources', 'MediaBox', 'CropBox', 'Rotate'];
 
     /**
      * List of form fields
      *
      * @var array - Associative array, key: name of form field, value: Zend_Pdf_Element
      */
-    protected $_formFields = array();
+    protected $_formFields = [];
 
     /**
      * True if the object is a newly created PDF document (affects save() method behavior)
@@ -252,8 +252,6 @@ class Zend_Pdf
 
     /**
      * Set user defined memory manager
-     *
-     * @param Zend_Memory_Manager $memoryManager
      */
     static public function setMemoryManager(Zend_Memory_Manager $memoryManager)
     {
@@ -266,9 +264,8 @@ class Zend_Pdf
      *
      * @param string $source
      * @param integer $revision
-     * @return Zend_Pdf
      */
-    public static function parse(&$source = null, $revision = null)
+    public static function parse(&$source = null, $revision = null): \Zend_Pdf
     {
         return new Zend_Pdf($source, $revision);
     }
@@ -278,9 +275,8 @@ class Zend_Pdf
      *
      * @param string $source
      * @param integer $revision
-     * @return Zend_Pdf
      */
-    public static function load($source = null, $revision = null)
+    public static function load($source = null, $revision = null): \Zend_Pdf
     {
         return new Zend_Pdf($source, $revision, true);
     }
@@ -387,7 +383,7 @@ class Zend_Pdf
             /**
              * Document id
              */
-            $docId = md5(uniqid(rand(), true));   // 32 byte (128 bit) identifier
+            $docId = md5(uniqid(random_int(0, mt_getrandmax()), true));   // 32 byte (128 bit) identifier
             $docIdLow  = substr($docId,  0, 16);  // first 16 bytes
             $docIdHigh = substr($docId, 16, 16);  // second 16 bytes
 
@@ -421,10 +417,8 @@ class Zend_Pdf
 
     /**
      * Retrive number of revisions.
-     *
-     * @return integer
      */
-    public function revisions()
+    public function revisions(): int
     {
         $revisions = 1;
         $currentTrailer = $this->_trailer;
@@ -458,18 +452,17 @@ class Zend_Pdf
         // Mark content as modified to force new trailer generation at render time
         $this->_trailer->Root->touch();
 
-        $this->pages = array();
+        $this->pages = [];
         $this->_loadPages($this->_trailer->Root->Pages);
     }
 
     /**
      * Load pages recursively
      *
-     * @param Zend_Pdf_Element_Reference $pages
      * @param array|null                 $attributes
      * @throws Zend_Pdf_Exception
      */
-    protected function _loadPages(Zend_Pdf_Element_Reference $pages, $attributes = array())
+    protected function _loadPages(Zend_Pdf_Element_Reference $pages, $attributes = [])
     {
         if ($pages->getType() != Zend_Pdf_Element::TYPE_DICTIONARY) {
             #require_once 'Zend/Pdf/Exception.php';
@@ -659,7 +652,7 @@ class Zend_Pdf
      *
      * @return array of strings
      */
-    public function getTextFieldNames()
+    public function getTextFieldNames(): array
     {
         return array_keys($this->_formFields);
     }
@@ -734,7 +727,7 @@ class Zend_Pdf
         $pagesContainer = $root->Pages;
 
         $pagesContainer->touch();
-        $pagesContainer->Kids->items = array();
+        $pagesContainer->Kids->items = [];
 
         foreach ($this->pages as $page ) {
             $page->render($this->_objFactory);
@@ -802,12 +795,12 @@ class Zend_Pdf
                 // OpenAction is an action
                 if ($this->_cleanUpAction($openAction, false) === null) {
                     // Action is a GoTo action with an unresolved destination
-                    $this->setOpenAction(null);
+                    $this->setOpenAction();
                 }
             } else if ($openAction instanceof Zend_Pdf_Destination) {
                 // OpenAction target is a destination
                 if ($this->resolveDestination($openAction, false) === null) {
-                    $this->setOpenAction(null);
+                    $this->setOpenAction();
                 }
             } else {
                 #require_once 'Zend/Pdf/Exception.php';
@@ -825,7 +818,7 @@ class Zend_Pdf
     {
         ksort($this->_namedTargets, SORT_STRING);
 
-        $destArrayItems = array();
+        $destArrayItems = [];
         foreach ($this->_namedTargets as $name => $destination) {
             $destArrayItems[] = new Zend_Pdf_Element_String($name);
 
@@ -862,11 +855,10 @@ class Zend_Pdf
         if ($root->Outlines === null) {
             if (count($this->outlines) == 0) {
                 return;
-            } else {
-                $root->Outlines = $this->_objFactory->newObject(new Zend_Pdf_Element_Dictionary());
-                $root->Outlines->Type = new Zend_Pdf_Element_Name('Outlines');
-                $updateOutlinesNavigation = true;
             }
+            $root->Outlines = $this->_objFactory->newObject(new Zend_Pdf_Element_Dictionary());
+            $root->Outlines->Type = new Zend_Pdf_Element_Name('Outlines');
+            $updateOutlinesNavigation = true;
         } else {
             $updateOutlinesNavigation = false;
             if (count($this->_originalOutlines) != count($this->outlines)) {
@@ -938,16 +930,14 @@ class Zend_Pdf
      *
      * @param mixed $param1
      * @param mixed $param2
-     * @return Zend_Pdf_Page
      */
-    public function newPage($param1, $param2 = null)
+    public function newPage($param1, $param2 = null): \Zend_Pdf_Page
     {
         #require_once 'Zend/Pdf/Page.php';
         if ($param2 === null) {
             return new Zend_Pdf_Page($param1, $this->_objFactory);
-        } else {
-            return new Zend_Pdf_Page($param1, $param2, $this->_objFactory);
         }
+        return new Zend_Pdf_Page($param1, $param2, $this->_objFactory);
     }
 
     /**
@@ -960,9 +950,8 @@ class Zend_Pdf
     {
         if ($this->_trailer->Root->Metadata !== null) {
             return $this->_trailer->Root->Metadata->value;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
@@ -1002,9 +991,8 @@ class Zend_Pdf
         if ($this->_trailer->Root->OpenAction !== null) {
             #require_once 'Zend/Pdf/Target.php';
             return Zend_Pdf_Target::load($this->_trailer->Root->OpenAction);
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
@@ -1013,7 +1001,7 @@ class Zend_Pdf
      * @param Zend_Pdf_Target $openAction
      * @returns Zend_Pdf
      */
-    public function setOpenAction(?Zend_Pdf_Target $openAction = null)
+    public function setOpenAction(?Zend_Pdf_Target $openAction = null): self
     {
         $root = $this->_trailer->Root;
         $root->touch();
@@ -1051,11 +1039,7 @@ class Zend_Pdf
      */
     public function getNamedDestination($name)
     {
-        if (isset($this->_namedTargets[$name])) {
-            return $this->_namedTargets[$name];
-        } else {
-            return null;
-        }
+        return $this->_namedTargets[$name] ?? null;
     }
 
     /**
@@ -1087,7 +1071,7 @@ class Zend_Pdf
      *
      * @var SplObjectStorage
      */
-    protected $_pageReferences = null;
+    protected $_pageReferences;
 
     /**
      * Pages collection hash:
@@ -1095,17 +1079,15 @@ class Zend_Pdf
      *
      * @var array
      */
-    protected $_pageNumbers = null;
+    protected $_pageNumbers;
 
     /**
      * Refresh page collection hashes
-     *
-     * @return Zend_Pdf
      */
-    protected function _refreshPagesHash()
+    protected function _refreshPagesHash(): self
     {
-        $this->_pageReferences = array();
-        $this->_pageNumbers    = array();
+        $this->_pageReferences = [];
+        $this->_pageNumbers    = [];
         $count = 1;
         foreach ($this->pages as $page) {
             $pageDictionaryHashId = spl_object_hash($page->getPageDictionary()->getObject());
@@ -1179,7 +1161,6 @@ class Zend_Pdf
      *
      * @todo Give appropriate name and make method public
      *
-     * @param Zend_Pdf_Action $action
      * @param bool $refreshPageCollectionHashes Refresh page collection hashes before processing
      * @return Zend_Pdf_Action|null
      */
@@ -1199,8 +1180,8 @@ class Zend_Pdf
         // Walk through child actions
         $iterator = new RecursiveIteratorIterator($action, RecursiveIteratorIterator::SELF_FIRST);
 
-        $actionsToClean        = array();
-        $deletionCandidateKeys = array();
+        $actionsToClean        = [];
+        $deletionCandidateKeys = [];
         foreach ($iterator as $chainedAction) {
             if ($chainedAction instanceof Zend_Pdf_Action_GoTo  &&
                 $this->resolveDestination($chainedAction->getDestination(), false) === null) {
@@ -1222,12 +1203,11 @@ class Zend_Pdf
      *
      * returns array of Zend_Pdf_Resource_Font_Extracted objects
      *
-     * @return array
      * @throws Zend_Pdf_Exception
      */
-    public function extractFonts()
+    public function extractFonts(): array
     {
-        $fontResourcesUnique = array();
+        $fontResourcesUnique = [];
         foreach ($this->pages as $page) {
             $pageResources = $page->extractResources();
 
@@ -1251,7 +1231,7 @@ class Zend_Pdf
             }
         }
 
-        $fonts = array();
+        $fonts = [];
         #require_once 'Zend/Pdf/Exception.php';
         foreach ($fontResourcesUnique as $resourceId => $fontDictionary) {
             try {
@@ -1281,7 +1261,7 @@ class Zend_Pdf
      */
     public function extractFont($fontName)
     {
-        $fontResourcesUnique = array();
+        $fontResourcesUnique = [];
         #require_once 'Zend/Pdf/Exception.php';
         foreach ($this->pages as $page) {
             $pageResources = $page->extractResources();
@@ -1305,10 +1285,9 @@ class Zend_Pdf
                 $resourceId = spl_object_hash($fontDictionary->getObject());
                 if (isset($fontResourcesUnique[$resourceId])) {
                     continue;
-                } else {
-                    // Mark resource as processed
-                    $fontResourcesUnique[$resourceId] = 1;
                 }
+                // Mark resource as processed
+                $fontResourcesUnique[$resourceId] = 1;
 
                 if ($fontDictionary->BaseFont->value != $fontName) {
                     continue;
@@ -1371,7 +1350,6 @@ class Zend_Pdf
                             default:
                                 #require_once 'Zend/Pdf/Exception.php';
                                 throw new Zend_Pdf_Exception('Wrong Trapped document property vale: \'' . $value . '\'. Only true, false and null values are allowed.');
-                                break;
                         }
 
                     case 'CreationDate':
@@ -1424,14 +1402,12 @@ class Zend_Pdf
 
             if ($outputStream === null) {
                 return $this->_trailer->getPDFString();
-            } else {
-                $pdfData = $this->_trailer->getPDFString();
-                while ( strlen($pdfData) > 0 && ($byteCount = fwrite($outputStream, $pdfData)) != false ) {
-                    $pdfData = substr($pdfData, $byteCount);
-                }
-
-                return '';
             }
+            $pdfData = $this->_trailer->getPDFString();
+            while ( strlen($pdfData) > 0 && ($byteCount = fwrite($outputStream, $pdfData)) != false ) {
+                $pdfData = substr($pdfData, $byteCount);
+            }
+            return '';
         }
 
         // offset (from a start of PDF file) of new PDF file segment
@@ -1440,12 +1416,12 @@ class Zend_Pdf
         $lastFreeObject = $this->_trailer->getLastFreeObject();
 
         // Array of cross-reference table subsections
-        $xrefTable = array();
+        $xrefTable = [];
         // Object numbers of first objects in each subsection
-        $xrefSectionStartNums = array();
+        $xrefSectionStartNums = [];
 
         // Last cross-reference table subsection
-        $xrefSection = array();
+        $xrefSection = [];
         // Dummy initialization of the first element (specail case - header of linked list of free objects).
         $xrefSection[] = 0;
         $xrefSectionStartNums[] = 0;
@@ -1462,7 +1438,7 @@ class Zend_Pdf
                 }
             }
         } else {
-            $pdfSegmentBlocks = ($newSegmentOnly) ? array() : array($this->_trailer->getPDFString());
+            $pdfSegmentBlocks = ($newSegmentOnly) ? [] : [$this->_trailer->getPDFString()];
         }
 
         // Iterate objects to create new reference table
@@ -1472,7 +1448,7 @@ class Zend_Pdf
             if ($objNum - $lastObjNum != 1) {
                 // Save cross-reference table subsection and start new one
                 $xrefTable[] = $xrefSection;
-                $xrefSection = array();
+                $xrefSection = [];
                 $xrefSectionStartNums[] = $objNum;
             }
 
@@ -1524,13 +1500,11 @@ class Zend_Pdf
             $pdfSegmentBlocks[] = $pdfBlock;
 
             return implode('', $pdfSegmentBlocks);
-        } else {
-            while ( strlen($pdfBlock) > 0 && ($byteCount = fwrite($outputStream, $pdfBlock)) != false ) {
-                $pdfBlock = substr($pdfBlock, $byteCount);
-            }
-
-            return '';
         }
+        while ( strlen($pdfBlock) > 0 && ($byteCount = fwrite($outputStream, $pdfBlock)) != false ) {
+            $pdfBlock = substr($pdfBlock, $byteCount);
+        }
+        return '';
     }
 
     /**
@@ -1576,7 +1550,7 @@ class Zend_Pdf
         }
 
         if (!is_array($javaScript)) {
-            $javaScript = array($javaScript);
+            $javaScript = [$javaScript];
         }
 
         if (null === $this->_javaScript) {
@@ -1586,13 +1560,13 @@ class Zend_Pdf
         }
 
         if (!empty($this->_javaScript)) {
-            $items = array();
+            $items = [];
 
             foreach ($this->_javaScript as $javaScript) {
-                $jsCode = array(
+                $jsCode = [
                     'S'  => new Zend_Pdf_Element_Name('JavaScript'),
                     'JS' => new Zend_Pdf_Element_String($javaScript)
-                );
+                ];
                 $items[] = new Zend_Pdf_Element_String('EmbeddedJS');
                 $items[] = $this->_objFactory->newObject(
                     new Zend_Pdf_Element_Dictionary($jsCode)
@@ -1601,7 +1575,7 @@ class Zend_Pdf
 
             $jsRef = $this->_objFactory->newObject(
                 new Zend_Pdf_Element_Dictionary(
-                    array('Names' => new Zend_Pdf_Element_Array($items))
+                    ['Names' => new Zend_Pdf_Element_Array($items)]
                 )
             );
 

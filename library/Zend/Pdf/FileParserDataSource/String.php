@@ -86,10 +86,9 @@ class Zend_Pdf_FileParserDataSource_String extends Zend_Pdf_FileParserDataSource
      * the request.
      *
      * @param integer $byteCount Number of bytes to read.
-     * @return string
      * @throws Zend_Pdf_Exception
      */
-    public function readBytes($byteCount)
+    public function readBytes($byteCount): string
     {
         if (($this->_offset + $byteCount) > $this->_size) {
             #require_once 'Zend/Pdf/Exception.php';
@@ -115,13 +114,10 @@ class Zend_Pdf_FileParserDataSource_String extends Zend_Pdf_FileParserDataSource
 
 
   /* Object Magic Methods */
-
     /**
      * Returns a string containing the parsed string's length.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return "String ($this->_size bytes)";
     }

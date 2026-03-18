@@ -51,8 +51,6 @@ class Zend_Pdf_Trailer_Keeper extends Zend_Pdf_Trailer
     /**
      * Object constructor
      *
-     * @param Zend_Pdf_Element_Dictionary $dict
-     * @param Zend_Pdf_Element_Reference_Context $context
      * @param Zend_Pdf_Trailer $prev
      */
     public function __construct(Zend_Pdf_Element_Dictionary $dict,
@@ -67,8 +65,6 @@ class Zend_Pdf_Trailer_Keeper extends Zend_Pdf_Trailer
 
     /**
      * Setter for $this->_prev
-     *
-     * @param Zend_Pdf_Trailer_Keeper $prev
      */
     public function setPrev(Zend_Pdf_Trailer_Keeper $prev)
     {

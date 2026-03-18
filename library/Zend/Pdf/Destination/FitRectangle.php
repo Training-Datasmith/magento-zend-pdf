@@ -56,10 +56,9 @@ class Zend_Pdf_Destination_FitRectangle extends Zend_Pdf_Destination_Explicit
      * @param float $bottom  Bottom edge of displayed page
      * @param float $right   Right edge of displayed page
      * @param float $top     Top edge of displayed page
-     * @return Zend_Pdf_Destination_FitRectangle
      * @throws Zend_Pdf_Exception
      */
-    public static function create($page, $left, $bottom, $right, $top)
+    public static function create($page, $left, $bottom, $right, $top): \Zend_Pdf_Destination_FitRectangle
     {
         $destinationArray = new Zend_Pdf_Element_Array();
 
@@ -97,7 +96,7 @@ class Zend_Pdf_Destination_FitRectangle extends Zend_Pdf_Destination_Explicit
      * @param float $left
      * @return Zend_Pdf_Action_FitRectangle
      */
-    public function setLeftEdge($left)
+    public function setLeftEdge($left): self
     {
         $this->_destinationArray->items[2] = new Zend_Pdf_Element_Numeric($left);
         return $this;
@@ -119,7 +118,7 @@ class Zend_Pdf_Destination_FitRectangle extends Zend_Pdf_Destination_Explicit
      * @param float $bottom
      * @return Zend_Pdf_Action_FitRectangle
      */
-    public function setBottomEdge($bottom)
+    public function setBottomEdge($bottom): self
     {
         $this->_destinationArray->items[3] = new Zend_Pdf_Element_Numeric($bottom);
         return $this;
@@ -141,7 +140,7 @@ class Zend_Pdf_Destination_FitRectangle extends Zend_Pdf_Destination_Explicit
      * @param float $right
      * @return Zend_Pdf_Action_FitRectangle
      */
-    public function setRightEdge($right)
+    public function setRightEdge($right): self
     {
         $this->_destinationArray->items[4] = new Zend_Pdf_Element_Numeric($right);
         return $this;
@@ -163,7 +162,7 @@ class Zend_Pdf_Destination_FitRectangle extends Zend_Pdf_Destination_Explicit
      * @param float $top
      * @return Zend_Pdf_Action_FitRectangle
      */
-    public function setTopEdge($top)
+    public function setTopEdge($top): self
     {
         $this->_destinationArray->items[5] = new Zend_Pdf_Element_Numeric($top);
         return $this;

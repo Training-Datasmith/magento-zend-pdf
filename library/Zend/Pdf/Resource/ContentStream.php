@@ -68,11 +68,8 @@ class Zend_Pdf_Resource_ContentStream extends Zend_Pdf_Resource
 
     /**
      * Appends instructions to the end of the content stream
-     *
-     * @param string $instructions
-     * @return Zend_Pdf_Resource_ContentStream
      */
-    public function addInstructions($instructions)
+    public function addInstructions(string $instructions): self
     {
         $this->_bufferedContent .= $instructions;
         return $this;
@@ -91,10 +88,8 @@ class Zend_Pdf_Resource_ContentStream extends Zend_Pdf_Resource
 
     /**
      * Clear stream content.
-     *
-     * @return Zend_Pdf_Resource_ContentStream
      */
-    public function clear()
+    public function clear(): self
     {
         $this->_resource->value = '';
         $this->_bufferedContent = '';
@@ -104,7 +99,7 @@ class Zend_Pdf_Resource_ContentStream extends Zend_Pdf_Resource
     /**
      * Flush buffered content
      */
-    public function flush()
+    public function flush(): self
     {
         $this->_resource->value .= $this->_bufferedContent;
         $this->_bufferedContent = '';

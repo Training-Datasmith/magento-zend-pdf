@@ -65,7 +65,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * Object representing the font's cmap (character to glyph map).
      * @var Zend_Pdf_Cmap
      */
-    protected $_cmap = null;
+    protected $_cmap;
 
     /**
      * Array containing the widths of each of the glyphs contained in the font.
@@ -77,7 +77,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      *
      * @var array
      */
-    protected $_glyphWidths = null;
+    protected $_glyphWidths;
 
     /**
      * Width for glyphs missed in the font
@@ -222,7 +222,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      */
     public function widthsForGlyphs($glyphNumbers)
     {
-        $widths = array();
+        $widths = [];
         foreach ($glyphNumbers as $key => $glyphNumber) {
             if (!isset($this->_glyphWidths[$glyphNumber])) {
                 $widths[$key] = $this->_missingGlyphWidth;

@@ -72,10 +72,8 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
 
     /**
      * Generate ToUnicode character map data
-     *
-     * @return string
      */
-    static private function getToUnicodeCMapData()
+    static private function getToUnicodeCMapData(): string
     {
         return '/CIDInit /ProcSet findresource begin '              . "\n"
              . '12 dict begin '                                     . "\n"
@@ -133,7 +131,7 @@ class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font
 
         $this->_resource->Subtype         = new Zend_Pdf_Element_Name('Type0');
         $this->_resource->BaseFont        = new Zend_Pdf_Element_Name($descendantFont->getResource()->BaseFont->value);
-        $this->_resource->DescendantFonts = new Zend_Pdf_Element_Array(array( $descendantFont->getResource() ));
+        $this->_resource->DescendantFonts = new Zend_Pdf_Element_Array([ $descendantFont->getResource() ]);
         $this->_resource->Encoding        = new Zend_Pdf_Element_Name('Identity-H');
 
         $toUnicode = $this->_objectFactory->newStreamObject(self::getToUnicodeCMapData());

@@ -62,10 +62,8 @@ class Zend_Pdf_Parser
 
     /**
      * Get length of source PDF
-     *
-     * @return integer
      */
-    public function getPDFLength()
+    public function getPDFLength(): int
     {
         return strlen($this->_stringParser->data);
     }
@@ -95,9 +93,8 @@ class Zend_Pdf_Parser
      *
      * @param integer $offset
      * @throws Zend_Pdf_Exception
-     * @return Zend_Pdf_Trailer_Keeper
      */
-    private function _loadXRefTable($offset)
+    private function _loadXRefTable($offset): \Zend_Pdf_Trailer_Keeper
     {
         $this->_stringParser->offset = $offset;
 
@@ -356,7 +353,6 @@ class Zend_Pdf_Parser
      * Thus we don't need to care about overhead
      *
      * @param mixed $source
-     * @param Zend_Pdf_ElementFactory_Interface $factory
      * @param boolean $load
      * @throws Zend_Exception
      */

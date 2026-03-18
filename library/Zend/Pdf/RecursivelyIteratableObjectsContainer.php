@@ -31,9 +31,6 @@ class Zend_Pdf_RecursivelyIteratableObjectsContainer implements RecursiveIterato
 {
     protected $_objects = [];
 
-    /**
-     * @param array $objects
-     */
     public function __construct(array $objects)
     {
         $this->_objects = $objects;

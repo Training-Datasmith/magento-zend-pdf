@@ -53,10 +53,8 @@ class Zend_Pdf_Element_Null extends Zend_Pdf_Element
 
     /**
      * Return type of the element.
-     *
-     * @return integer
      */
-    public function getType()
+    public function getType(): int
     {
         return Zend_Pdf_Element::TYPE_NULL;
     }
@@ -66,9 +64,8 @@ class Zend_Pdf_Element_Null extends Zend_Pdf_Element
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
-     * @return string
      */
-    public function toString($factory = null)
+    public function toString($factory = null): string
     {
         return 'null';
     }

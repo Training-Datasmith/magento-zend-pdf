@@ -65,9 +65,8 @@ class Zend_Pdf_Action_GoTo extends Zend_Pdf_Action
      * Create new Zend_Pdf_Action_GoTo object using specified destination
      *
      * @param Zend_Pdf_Destination|string $destination
-     * @return Zend_Pdf_Action_GoTo
      */
-    public static function create($destination)
+    public static function create($destination): \Zend_Pdf_Action_GoTo
     {
         if (is_string($destination)) {
             #require_once 'Zend/Pdf/Destination/Named.php';
@@ -92,9 +91,8 @@ class Zend_Pdf_Action_GoTo extends Zend_Pdf_Action
      * Set goto action destination
      *
      * @param Zend_Pdf_Destination|string $destination
-     * @return Zend_Pdf_Action_GoTo
      */
-    public function setDestination(Zend_Pdf_Destination $destination)
+    public function setDestination(Zend_Pdf_Destination $destination): self
     {
         $this->_destination = $destination;
 

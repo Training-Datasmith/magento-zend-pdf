@@ -57,7 +57,7 @@ class Zend_Pdf_Cmap_TrimmedTable extends Zend_Pdf_Cmap
      * Glyph index array. Stores the actual glyph numbers.
      * @var array
      */
-    protected $_glyphIndexArray = array();
+    protected $_glyphIndexArray = [];
 
 
 
@@ -77,9 +77,9 @@ class Zend_Pdf_Cmap_TrimmedTable extends Zend_Pdf_Cmap
      * @param array $characterCodes Array of Unicode character codes (code points).
      * @return array Array of glyph numbers.
      */
-    public function glyphNumbersForCharacters($characterCodes)
+    public function glyphNumbersForCharacters($characterCodes): array
     {
-        $glyphNumbers = array();
+        $glyphNumbers = [];
         foreach ($characterCodes as $key => $characterCode) {
 
             if (($characterCode < $this->_startCode) || ($characterCode > $this->_endCode)) {
@@ -121,9 +121,9 @@ class Zend_Pdf_Cmap_TrimmedTable extends Zend_Pdf_Cmap
      *
      * @return array Unicode character codes.
      */
-    public function getCoveredCharacters()
+    public function getCoveredCharacters(): array
     {
-        $characterCodes = array();
+        $characterCodes = [];
         for ($code = $this->_startCode; $code <= $this->_endCode; $code++) {
             $characterCodes[] = $code;
         }
@@ -142,9 +142,9 @@ class Zend_Pdf_Cmap_TrimmedTable extends Zend_Pdf_Cmap
      * @internal
      * @return array Array representing <Unicode character code> => <glyph number> pairs.
      */
-    public function getCoveredCharactersGlyphs()
+    public function getCoveredCharactersGlyphs(): array
     {
-        $glyphNumbers = array();
+        $glyphNumbers = [];
         for ($code = $this->_startCode; $code <= $this->_endCode; $code++) {
             $glyphNumbers[$code] = $this->_glyphIndexArray[$code - $this->_startCode];
         }

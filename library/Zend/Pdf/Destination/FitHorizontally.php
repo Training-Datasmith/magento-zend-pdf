@@ -51,10 +51,9 @@ class Zend_Pdf_Destination_FitHorizontally extends Zend_Pdf_Destination_Explicit
      *
      * @param Zend_Pdf_Page|integer $page  Page object or page number
      * @param float $top  Top edge of displayed page
-     * @return Zend_Pdf_Destination_FitHorizontally
      * @throws Zend_Pdf_Exception
      */
-    public static function create($page, $top)
+    public static function create($page, $top): \Zend_Pdf_Destination_FitHorizontally
     {
         $destinationArray = new Zend_Pdf_Element_Array();
 
@@ -89,7 +88,7 @@ class Zend_Pdf_Destination_FitHorizontally extends Zend_Pdf_Destination_Explicit
      * @param float $top
      * @return Zend_Pdf_Action_FitHorizontally
      */
-    public function setTopEdge($top)
+    public function setTopEdge($top): self
     {
         $this->_destinationArray->items[2] = new Zend_Pdf_Element_Numeric($top);
 

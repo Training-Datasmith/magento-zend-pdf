@@ -43,7 +43,7 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      *
      * @var array
      */
-    private $_items = array();
+    private $_items = [];
 
 
     /**
@@ -56,7 +56,8 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
     {
         if ($val === null) {
             return;
-        } else if (!is_array($val)) {
+        }
+        if (!is_array($val)) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Argument must be an array');
         }
@@ -89,10 +90,8 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
 
     /**
      * Return dictionary keys
-     *
-     * @return array
      */
-    public function getKeys()
+    public function getKeys(): array
     {
         return array_keys($this->_items);
     }
@@ -104,12 +103,9 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      * @param string $property
      * @return Zend_Pdf_Element | null
      */
-    public function __get($item)
+    public function __get(string $item)
     {
-        $element = isset($this->_items[$item]) ? $this->_items[$item]
-                                               : null;
-
-        return $element;
+        return $this->_items[$item] ?? null;
     }
 
     /**
@@ -118,7 +114,7 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      * @param string $property
      * @param  mixed $value
      */
-    public function __set($item, $value)
+    public function __set(string $item, $value)
     {
         if ($value === null) {
             unset($this->_items[$item]);
@@ -129,10 +125,8 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
 
     /**
      * Return type of the element.
-     *
-     * @return integer
      */
-    public function getType()
+    public function getType(): int
     {
         return Zend_Pdf_Element::TYPE_DICTIONARY;
     }
@@ -142,9 +136,8 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
-     * @return string
      */
-    public function toString($factory = null)
+    public function toString($factory = null): string
     {
         $outStr = '<<';
         $lastNL = 0;
@@ -163,9 +156,8 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
             $nameObj = new Zend_Pdf_Element_Name($name);
             $outStr .= $nameObj->toString($factory) . ' ' . $element->toString($factory) . ' ';
         }
-        $outStr .= '>>';
 
-        return $outStr;
+        return $outStr . '>>';
     }
 
     /**
@@ -204,8 +196,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
 
     /**
      * Set top level parent indirect object.
-     *
-     * @param Zend_Pdf_Element_Object $parent
      */
     public function setParentObject(Zend_Pdf_Element_Object $parent)
     {
@@ -221,11 +211,11 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      *
      * Dictionary is returned as an associative array
      *
-     * @return mixed
+     * @return mixed[]
      */
-    public function toPhp()
+    public function toPhp(): array
     {
-        $phpArray = array();
+        $phpArray = [];
 
         foreach ($this->_items as $itemName => $item) {
             $phpArray[$itemName] = $item->toPhp();
