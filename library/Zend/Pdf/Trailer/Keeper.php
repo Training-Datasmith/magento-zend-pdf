@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Trailer */
 #require_once 'Zend/Pdf/Trailer.php';
-
 /**
  * PDF file trailer.
  * Stores and provides access to the trailer parced from a PDF file
@@ -40,79 +38,67 @@ class Zend_Pdf_Trailer_Keeper extends Zend_Pdf_Trailer
      * @var Zend_Pdf_Element_Reference_Context
      */
     private $_context;
-
     /**
      * Previous trailer
      *
      * @var Zend_Pdf_Trailer
      */
     private $_prev;
-
     /**
      * Object constructor
      *
      * @param Zend_Pdf_Trailer $prev
      */
-    public function __construct(
-        Zend_Pdf_Element_Dictionary $dict,
-        Zend_Pdf_Element_Reference_Context $context,
-        ?Zend_Pdf_Trailer $prev = null
-    ) {
+    public function __construct(Zend_Pdf_Element_Dictionary $dict, Zend_Pdf_Element_Reference_Context $context, ?Zend_Pdf_Trailer $prev = null)
+    {
         parent::__construct($dict);
-
         $this->_context = $context;
-        $this->_prev    = $prev;
+        $this->_prev = $prev;
     }
-
     /**
      * Setter for $this->_prev
      */
-    public function setPrev(Zend_Pdf_Trailer_Keeper $prev)
+    public function set_prev(Zend_Pdf_Trailer_Keeper $prev)
     {
         $this->_prev = $prev;
     }
-
     /**
      * Getter for $this->_prev
      *
      * @return Zend_Pdf_Trailer
      */
-    public function getPrev()
+    public function get_prev()
     {
         return $this->_prev;
     }
-
     /**
      * Get length of source PDF
      *
      * @return string
      */
-    public function getPDFLength()
+    public function get_pdf_length()
     {
-        return $this->_context->getParser()->getLength();
+        return $this->_context->get_parser()->get_length();
     }
-
     /**
      * Get PDF String
      *
      * @return string
      */
-    public function getPDFString()
+    public function get_pdf_string()
     {
-        return $this->_context->getParser()->getString();
+        return $this->_context->get_parser()->get_string();
     }
-
     /**
      * Get reference table, which corresponds to the trailer.
      * Proxy to the $_context member methad call
      *
      * @return Zend_Pdf_Element_Reference_Context
      */
-    public function getRefTable()
+    public function get_ref_table()
     {
-        return $this->_context->getRefTable();
+        return $this->_context->get_ref_table();
     }
-
     /**
      * Get header of free objects list
      * Returns object number of last free object
@@ -120,12 +106,12 @@ class Zend_Pdf_Trailer_Keeper extends Zend_Pdf_Trailer
      * @throws Zend_Pdf_Exception
      * @return integer
      */
-    public function getLastFreeObject()
+    public function get_last_free_object()
     {
         try {
-            $this->_context->getRefTable()->getNextFree('0 65535 R');
+            $this->_context->get_ref_table()->get_next_free('0 65535 R');
         } catch (Zend_Pdf_Exception $e) {
-            if ($e->getMessage() == 'Object not found.') {
+            if ($e->get_message() == 'Object not found.') {
                 /**
                  * Here is work around for some wrong generated PDFs.
                  * We have not found reference to the header of free object list,
@@ -133,8 +119,7 @@ class Zend_Pdf_Trailer_Keeper extends Zend_Pdf_Trailer
                  */
                 return 0;
             }
-
-            throw new Zend_Pdf_Exception($e->getMessage(), $e->getCode(), $e);
+            throw new Zend_Pdf_Exception($e->get_message(), $e->get_code(), $e);
         }
     }
 }

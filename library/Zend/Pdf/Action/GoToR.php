@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,10 +21,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Action */
 #require_once 'Zend/Pdf/Action.php';
-
 /**
  * PDF 'Go to a destination in another document' action
  *
@@ -33,6 +31,6 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Action_GoToR extends Zend_Pdf_Action
+class Zend_pdf_action_go_To_R extends Zend_Pdf_Action
 {
 }

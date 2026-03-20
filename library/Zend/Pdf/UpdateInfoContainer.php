@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +20,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * Container which collects updated object info.
  *
@@ -28,102 +27,91 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_UpdateInfoContainer
+class Zend_pdf_update_Info_Container
 {
     /**
      * Object number
      *
      * @var integer
      */
-    private $_objNum;
-
+    private $_obj_num;
     /**
      * Generation number
      *
      * @var integer
      */
-    private $_genNum;
-
+    private $_gen_num;
     /**
      * Flag, which signals, that object is free
      *
      * @var boolean
      */
-    private $_isFree;
-
+    private $_is_free;
     /**
      * String representation of the object
      *
      * @var Zend_Memory_Container|null
      */
     private $_dump;
-
     /**
      * Object constructor
      *
      * @param integer $objCount
      */
-    public function __construct($objNum, $genNum, $isFree, $dump = null)
+    public function __construct($obj_num, $gen_num, $is_free, $dump = null)
     {
-        $this->_objNum = $objNum;
-        $this->_genNum = $genNum;
-        $this->_isFree = $isFree;
-
+        $this->_obj_num = $obj_num;
+        $this->_gen_num = $gen_num;
+        $this->_is_free = $is_free;
         if ($dump !== null) {
             if (strlen($dump) > 1024) {
                 #require_once 'Zend/Pdf.php';
-                $this->_dump = Zend_Pdf::getMemoryManager()->create($dump);
+                $this->_dump = Zend_Pdf::get_memory_manager()->create($dump);
             } else {
                 $this->_dump = $dump;
             }
         }
     }
-
     /**
      * Get object number
      *
      * @return integer
      */
-    public function getObjNum()
+    public function get_obj_num()
     {
-        return $this->_objNum;
+        return $this->_obj_num;
     }
-
     /**
      * Get generation number
      *
      * @return integer
      */
-    public function getGenNum()
+    public function get_gen_num()
     {
-        return $this->_genNum;
+        return $this->_gen_num;
     }
-
     /**
      * Check, that object is free
      *
      * @return boolean
      */
-    public function isFree()
+    public function is_free()
     {
-        return $this->_isFree;
+        return $this->_is_free;
     }
-
     /**
      * Get string representation of the object
      *
      * @return string
      */
-    public function getObjectDump()
+    public function get_object_dump()
     {
         if ($this->_dump === null) {
             return '';
         }
-
         if (is_string($this->_dump)) {
             return $this->_dump;
         }
-
-        return $this->_dump->getRef();
+        return $this->_dump->get_ref();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,13 +21,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
-
 /** Zend_Pdf_Resource_Font */
 #require_once 'Zend/Pdf/Resource/Font.php';
-
 /**
  * Adobe PDF Simple fonts implementation
  *
@@ -66,7 +63,6 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * @var Zend_Pdf_Cmap
      */
     protected $_cmap;
-
     /**
      * Array containing the widths of each of the glyphs contained in the font.
      *
@@ -77,8 +73,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      *
      * @var array
      */
-    protected $_glyphWidths;
-
+    protected $_glyph_widths;
     /**
      * Width for glyphs missed in the font
      *
@@ -90,12 +85,9 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      *
      * @var integer
      */
-    protected $_missingGlyphWidth = 0;
-
+    protected $_missing_glyph_width = 0;
     /**** Public Interface ****/
-
     /* Object Lifecycle */
-
     /**
      * Object constructor
      *
@@ -103,7 +95,6 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
     public function __construct()
     {
         parent::__construct();
-
         /**
          * @todo
          * It's easy to add other encodings support now (Standard-Encoding, MacRomanEncoding,
@@ -117,7 +108,6 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
          */
         $this->_resource->Encoding = new Zend_Pdf_Element_Name('WinAnsiEncoding');
     }
-
     /**
      * Returns an array of glyph numbers corresponding to the Unicode characters.
      *
@@ -129,11 +119,10 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * @param array $characterCodes Array of Unicode character codes (code points).
      * @return array Array of glyph numbers.
      */
-    public function glyphNumbersForCharacters($characterCodes)
+    public function glyph_numbers_for_characters($character_codes)
     {
-        return $this->_cmap->glyphNumbersForCharacters($characterCodes);
+        return $this->_cmap->glyph_numbers_for_characters($character_codes);
     }
-
     /**
      * Returns the glyph number corresponding to the Unicode character.
      *
@@ -146,11 +135,10 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * @param integer $characterCode Unicode character code (code point).
      * @return integer Glyph number.
      */
-    public function glyphNumberForCharacter($characterCode)
+    public function glyph_number_for_character($character_code)
     {
-        return $this->_cmap->glyphNumberForCharacter($characterCode);
+        return $this->_cmap->glyph_number_for_character($character_code);
     }
-
     /**
      * Returns a number between 0 and 1 inclusive that indicates the percentage
      * of characters in the string which are covered by glyphs in this font.
@@ -169,44 +157,41 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      *   If omitted, uses 'current locale'.
      * @return float
      */
-    public function getCoveredPercentage($string, $charEncoding = '')
+    public function get_covered_percentage($string, $char_encoding = '')
     {
         /* Convert the string to UTF-16BE encoding so we can match the string's
          * character codes to those found in the cmap.
          */
-        if ($charEncoding != 'UTF-16BE') {
-            if (PHP_OS != 'AIX') { // AIX doesnt know what UTF-16BE is
-                $string = iconv($charEncoding, 'UTF-16BE', $string);
+        if ($char_encoding != 'UTF-16BE') {
+            if (PHP_OS != 'AIX') {
+                // AIX doesnt know what UTF-16BE is
+                $string = iconv($char_encoding, 'UTF-16BE', $string);
             }
         }
-
-        $charCount = (PHP_OS != 'AIX') ? iconv_strlen($string, 'UTF-16BE') : strlen($string);
-        if ($charCount == 0) {
+        $char_count = PHP_OS != 'AIX' ? iconv_strlen($string, 'UTF-16BE') : strlen($string);
+        if ($char_count == 0) {
             return 0;
         }
-
         /* Fetch the covered character code list from the font's cmap.
          */
-        $coveredCharacters = $this->_cmap->getCoveredCharacters();
-
+        $covered_characters = $this->_cmap->get_covered_characters();
         /* Calculate the score by doing a lookup for each character.
          */
         $score = 0;
-        $maxIndex = strlen($string);
-        for ($i = 0; $i < $maxIndex; $i++) {
+        $max_index = strlen($string);
+        for ($i = 0; $i < $max_index; $i++) {
             /**
              * @todo Properly handle characters encoded as surrogate pairs.
              */
-            $charCode = (ord($string[$i]) << 8) | ord($string[++$i]);
+            $char_code = ord($string[$i]) << 8 | ord($string[++$i]);
             /* This could probably be optimized a bit with a binary search...
              */
-            if (in_array($charCode, $coveredCharacters)) {
+            if (in_array($char_code, $covered_characters)) {
                 $score++;
             }
         }
-        return $score / $charCount;
+        return $score / $char_count;
     }
-
     /**
      * Returns the widths of the glyphs.
      *
@@ -218,19 +203,18 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * @param array &$glyphNumbers Array of glyph numbers.
      * @return array Array of glyph widths (integers).
      */
-    public function widthsForGlyphs($glyphNumbers)
+    public function widths_for_glyphs($glyph_numbers)
     {
         $widths = [];
-        foreach ($glyphNumbers as $key => $glyphNumber) {
-            if (!isset($this->_glyphWidths[$glyphNumber])) {
-                $widths[$key] = $this->_missingGlyphWidth;
+        foreach ($glyph_numbers as $key => $glyph_number) {
+            if (!isset($this->_glyph_widths[$glyph_number])) {
+                $widths[$key] = $this->_missing_glyph_width;
             } else {
-                $widths[$key] = $this->_glyphWidths[$glyphNumber];
+                $widths[$key] = $this->_glyph_widths[$glyph_number];
             }
         }
         return $widths;
     }
-
     /**
      * Returns the width of the glyph.
      *
@@ -239,14 +223,13 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * @param integer $glyphNumber
      * @return integer
      */
-    public function widthForGlyph($glyphNumber)
+    public function width_for_glyph($glyph_number)
     {
-        if (!isset($this->_glyphWidths[$glyphNumber])) {
-            return $this->_missingGlyphWidth;
+        if (!isset($this->_glyph_widths[$glyph_number])) {
+            return $this->_missing_glyph_width;
         }
-        return $this->_glyphWidths[$glyphNumber];
+        return $this->_glyph_widths[$glyph_number];
     }
-
     /**
      * Convert string to the font encoding.
      *
@@ -256,15 +239,14 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * @param string $charEncoding Character encoding of source text.
      * @return string
      */
-    public function encodeString($string, $charEncoding)
+    public function encode_string($string, $char_encoding)
     {
         if (PHP_OS == 'AIX') {
-            return $string; // returning here b/c AIX doesnt know what CP1252 is
+            return $string;
+            // returning here b/c AIX doesnt know what CP1252 is
         }
-
-        return iconv($charEncoding, 'CP1252//IGNORE', $string);
+        return iconv($char_encoding, 'CP1252//IGNORE', $string);
     }
-
     /**
      * Convert string from the font encoding.
      *
@@ -274,8 +256,8 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * @param string $charEncoding Character encoding of resulting text.
      * @return string
      */
-    public function decodeString($string, $charEncoding)
+    public function decode_string($string, $char_encoding)
     {
-        return iconv('CP1252', $charEncoding, $string);
+        return iconv('CP1252', $char_encoding, $string);
     }
 }

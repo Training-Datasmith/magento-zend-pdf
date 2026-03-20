@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,10 +21,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
-
 /**
  * PDF name tree representation class
  *
@@ -34,7 +32,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_NameTree implements ArrayAccess, Iterator, Countable
+class Zend_pdf_name_Tree implements ArrayAccess, Iterator, Countable
 {
     /**
      * Elements
@@ -43,92 +41,80 @@ class Zend_Pdf_NameTree implements ArrayAccess, Iterator, Countable
      * @var array
      */
     protected $_items = [];
-
     /**
      * Object constructor
      *
      * @param Zend_Pdf_Element $rootDictionary root of name dictionary
      */
-    public function __construct(Zend_Pdf_Element $rootDictionary)
+    public function __construct(Zend_Pdf_Element $root_dictionary)
     {
-        if ($rootDictionary->getType() != Zend_Pdf_Element::TYPE_DICTIONARY) {
+        if ($root_dictionary->get_type() != Zend_Pdf_Element::TYPE_DICTIONARY) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Name tree root must be a dictionary.');
         }
-
-        $intermediateNodes = [];
-        $leafNodes         = [];
-        if ($rootDictionary->Kids !== null) {
-            $intermediateNodes[] = $rootDictionary;
+        $intermediate_nodes = [];
+        $leaf_nodes = [];
+        if ($root_dictionary->Kids !== null) {
+            $intermediate_nodes[] = $root_dictionary;
         } else {
-            $leafNodes[] = $rootDictionary;
+            $leaf_nodes[] = $root_dictionary;
         }
-
-        while (count($intermediateNodes) != 0) {
-            $newIntermediateNodes = [];
-            foreach ($intermediateNodes as $node) {
-                foreach ($node->Kids->items as $childNode) {
-                    if ($childNode->Kids !== null) {
-                        $newIntermediateNodes[] = $childNode;
+        while (count($intermediate_nodes) != 0) {
+            $new_intermediate_nodes = [];
+            foreach ($intermediate_nodes as $node) {
+                foreach ($node->Kids->items as $child_node) {
+                    if ($child_node->Kids !== null) {
+                        $new_intermediate_nodes[] = $child_node;
                     } else {
-                        $leafNodes[] = $childNode;
+                        $leaf_nodes[] = $child_node;
                     }
                 }
             }
-            $intermediateNodes = $newIntermediateNodes;
+            $intermediate_nodes = $new_intermediate_nodes;
         }
-
-        foreach ($leafNodes as $leafNode) {
-            $destinationsCount = count($leafNode->Names->items) / 2;
-            for ($count = 0; $count < $destinationsCount; $count++) {
-                $this->_items[$leafNode->Names->items[$count * 2]->value] = $leafNode->Names->items[$count * 2 + 1];
+        foreach ($leaf_nodes as $leaf_node) {
+            $destinations_count = count($leaf_node->Names->items) / 2;
+            for ($count = 0; $count < $destinations_count; $count++) {
+                $this->_items[$leaf_node->Names->items[$count * 2]->value] = $leaf_node->Names->items[$count * 2 + 1];
             }
         }
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function current()
     {
         return current($this->_items);
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function next()
     {
         return next($this->_items);
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function key()
     {
         return key($this->_items);
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function valid()
     {
         return current($this->_items) !== false;
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function rewind()
     {
         reset($this->_items);
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->_items);
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function offsetGet($offset)
     {
         return $this->_items[$offset];
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function offsetSet($offset, $value)
     {
         if ($offset === null) {
@@ -137,20 +123,17 @@ class Zend_Pdf_NameTree implements ArrayAccess, Iterator, Countable
             $this->_items[$offset] = $value;
         }
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function offsetUnset($offset)
     {
         unset($this->_items[$offset]);
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function clear()
     {
         $this->_items = [];
     }
-
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function count()
     {
         return count($this->_items);

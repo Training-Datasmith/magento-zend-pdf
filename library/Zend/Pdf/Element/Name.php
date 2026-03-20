@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
-
 /**
  * PDF file 'name' element implementation
  *
@@ -40,7 +38,6 @@ class Zend_Pdf_Element_Name extends Zend_Pdf_Element
      * @var string
      */
     public $value;
-
     /**
      * Object constructor
      *
@@ -54,107 +51,96 @@ class Zend_Pdf_Element_Name extends Zend_Pdf_Element
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Null character is not allowed in PDF Names');
         }
-        $this->value   = $val;
+        $this->value = $val;
     }
-
     /**
      * Return type of the element.
      */
-    public function getType(): int
+    public function get_type(): int
     {
         return Zend_Pdf_Element::TYPE_NAME;
     }
-
     /**
      * Escape string according to the PDF rules
      *
      * @param string $inStr
      */
-    public static function escape($inStr): string
+    public static function escape($in_str): string
     {
-        $outStr = '';
-
-        for ($count = 0; $count < strlen($inStr); $count++) {
-            $nextCode = ord($inStr[$count]);
-
-            switch ($inStr[$count]) {
+        $out_str = '';
+        for ($count = 0; $count < strlen($in_str); $count++) {
+            $next_code = ord($in_str[$count]);
+            switch ($in_str[$count]) {
                 case '(':
-                    // fall through to next case
+                // fall through to next case
                 case ')':
-                    // fall through to next case
+                // fall through to next case
                 case '<':
-                    // fall through to next case
+                // fall through to next case
                 case '>':
-                    // fall through to next case
+                // fall through to next case
                 case '[':
-                    // fall through to next case
+                // fall through to next case
                 case ']':
-                    // fall through to next case
+                // fall through to next case
                 case '{':
-                    // fall through to next case
+                // fall through to next case
                 case '}':
-                    // fall through to next case
+                // fall through to next case
                 case '/':
-                    // fall through to next case
+                // fall through to next case
                 case '%':
-                    // fall through to next case
+                // fall through to next case
                 case '\\':
-                    // fall through to next case
+                // fall through to next case
                 case '#':
-                    $outStr .= sprintf('#%02X', $nextCode);
+                    $out_str .= sprintf('#%02X', $next_code);
                     break;
-
                 default:
-                    if ($nextCode >= 33 && $nextCode <= 126) {
+                    if ($next_code >= 33 && $next_code <= 126) {
                         // Visible ASCII symbol
-                        $outStr .= $inStr[$count];
+                        $out_str .= $in_str[$count];
                     } else {
-                        $outStr .= sprintf('#%02X', $nextCode);
+                        $out_str .= sprintf('#%02X', $next_code);
                     }
             }
-
         }
-
-        return $outStr;
+        return $out_str;
     }
-
     /**
      * Unescape string according to the PDF rules
      *
      * @param string $inStr
      */
-    public static function unescape($inStr): string
+    public static function unescape($in_str): string
     {
-        $outStr = '';
-
-        for ($count = 0; $count < strlen($inStr); $count++) {
-            if ($inStr[$count] != '#') {
-                $outStr .= $inStr[$count];
+        $out_str = '';
+        for ($count = 0; $count < strlen($in_str); $count++) {
+            if ($in_str[$count] != '#') {
+                $out_str .= $in_str[$count];
             } else {
                 // Escape sequence
-                $outStr .= chr(base_convert(substr($inStr, $count + 1, 2), 16, 10));
+                $out_str .= chr(base_convert(substr($in_str, $count + 1, 2), 16, 10));
                 $count += 2;
             }
         }
-        return $outStr;
+        return $out_str;
     }
-
     /**
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
      */
-    public function toString($factory = null): string
+    public function to_string($factory = null): string
     {
-        return '/' . self::escape((string)$this->value);
+        return '/' . self::escape((string) $this->value);
     }
-
     /**
      * Convert PDF element to PHP type.
      *
      * @return string
      */
-    public function toPhp()
+    public function to_php()
     {
         return $this->value;
     }

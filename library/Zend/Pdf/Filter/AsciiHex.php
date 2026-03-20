@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Filter_Interface */
 #require_once 'Zend/Pdf/Filter/Interface.php';
-
 /**
  * AsciiHex stream filter
  *
@@ -31,7 +29,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Filter_AsciiHex implements Zend_Pdf_Filter_Interface
+class Zend_pdf_filter_ascii_Hex implements Zend_Pdf_Filter_Interface
 {
     /**
      * Encode data
@@ -44,7 +42,6 @@ class Zend_Pdf_Filter_AsciiHex implements Zend_Pdf_Filter_Interface
     {
         return bin2hex($data) . '>';
     }
-
     /**
      * Decode data
      *
@@ -54,81 +51,77 @@ class Zend_Pdf_Filter_AsciiHex implements Zend_Pdf_Filter_Interface
      */
     public static function decode($data, $params = null): string
     {
-        $output  = '';
-        $oddCode = true;
-        $commentMode = false;
-
-        for ($count = 0; $count < strlen($data)  &&  $data[$count] != '>'; $count++) {
-            $charCode = ord($data[$count]);
-
-            if ($commentMode) {
-                if ($charCode == 0x0A  || $charCode == 0x0D) {
-                    $commentMode = false;
+        $output = '';
+        $odd_code = true;
+        $comment_mode = false;
+        for ($count = 0; $count < strlen($data) && $data[$count] != '>'; $count++) {
+            $char_code = ord($data[$count]);
+            if ($comment_mode) {
+                if ($char_code == 0xa || $char_code == 0xd) {
+                    $comment_mode = false;
                 }
-
                 continue;
             }
-
-            switch ($charCode) {
+            switch ($char_code) {
                 //Skip white space
-                case 0x00: // null character
-                    // fall through to next case
-                case 0x09: // Tab
-                    // fall through to next case
-                case 0x0A: // Line feed
-                    // fall through to next case
-                case 0x0C: // Form Feed
-                    // fall through to next case
-                case 0x0D: // Carriage return
-                    // fall through to next case
-                case 0x20: // Space
+                case 0x0:
+                // null character
+                // fall through to next case
+                case 0x9:
+                // Tab
+                // fall through to next case
+                case 0xa:
+                // Line feed
+                // fall through to next case
+                case 0xc:
+                // Form Feed
+                // fall through to next case
+                case 0xd:
+                // Carriage return
+                // fall through to next case
+                case 0x20:
+                    // Space
                     // Do nothing
                     break;
-
-                case 0x25: // '%'
+                case 0x25:
+                    // '%'
                     // Switch to comment mode
-                    $commentMode = true;
+                    $comment_mode = true;
                     break;
-
                 default:
-                    if ($charCode >= 0x30 /*'0'*/ && $charCode <= 0x39 /*'9'*/) {
-                        $code = $charCode - 0x30;
-                    } elseif ($charCode >= 0x41 /*'A'*/ && $charCode <= 0x46 /*'F'*/) {
-                        $code = $charCode - 0x37/*0x41 - 0x0A*/;
-                    } elseif ($charCode >= 0x61 /*'a'*/ && $charCode <= 0x66 /*'f'*/) {
-                        $code = $charCode - 0x57/*0x61 - 0x0A*/;
+                    if ($char_code >= 0x30 && $char_code <= 0x39) {
+                        $code = $char_code - 0x30;
+                    } elseif ($char_code >= 0x41 && $char_code <= 0x46) {
+                        $code = $char_code - 0x37;
+                    } elseif ($char_code >= 0x61 && $char_code <= 0x66) {
+                        $code = $char_code - 0x57;
                     } else {
                         #require_once 'Zend/Pdf/Exception.php';
                         throw new Zend_Pdf_Exception('Wrong character in a encoded stream');
                     }
-
-                    if ($oddCode) {
+                    if ($odd_code) {
                         // Odd pass. Store hex digit for next pass
                         // Scope of $hexCodeHigh variable is whole function
-                        $hexCodeHigh = $code;
+                        $hex_code_high = $code;
                     } else {
                         // Even pass.
                         // Add decoded character to the output
                         // ($hexCodeHigh is stored in previous pass)
-                        $output .= chr($hexCodeHigh * 16 + $code);
+                        $output .= chr($hex_code_high * 16 + $code);
                     }
-                    $oddCode = !$oddCode;
-
+                    $odd_code = !$odd_code;
                     break;
             }
         }
-
         /* Check that stream is terminated by End Of Data marker */
         if ($data[$count] != '>') {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Wrong encoded stream End Of Data marker.');
         }
-
         /* Last '0' character is omitted */
-        if (!$oddCode) {
-            $output .= chr($hexCodeHigh * 16);
+        if (!$odd_code) {
+            $output .= chr($hex_code_high * 16);
         }
-
         return $output;
     }
 }

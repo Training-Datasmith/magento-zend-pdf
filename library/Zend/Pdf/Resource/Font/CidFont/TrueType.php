@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,17 +21,12 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
-
 #require_once 'Zend/Pdf/Element/Name.php';
-
 /** Zend_Pdf_Resource_Font_FontDescriptor */
 #require_once 'Zend/Pdf/Resource/Font/FontDescriptor.php';
-
 /** Zend_Pdf_Resource_Font_CidFont */
 #require_once 'Zend/Pdf/Resource/Font/CidFont.php';
-
 /**
  * Type 2 CIDFonts implementation
  *
@@ -47,7 +42,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Resource_Font_CidFont_TrueType extends Zend_Pdf_Resource_Font_CidFont
+class Zend_pdf_resource_font_cid_Font_true_Type extends Zend_pdf_resource_font_cid_Font
 {
     /**
      * Object constructor
@@ -59,30 +54,25 @@ class Zend_Pdf_Resource_Font_CidFont_TrueType extends Zend_Pdf_Resource_Font_Cid
      * @param integer $embeddingOptions Options for font embedding.
      * @throws Zend_Pdf_Exception
      */
-    public function __construct(Zend_Pdf_FileParser_Font_OpenType_TrueType $fontParser, $embeddingOptions)
+    public function __construct(Zend_pdf_file_Parser_font_open_Type_true_Type $font_parser, $embedding_options)
     {
-        parent::__construct($fontParser, $embeddingOptions);
-
-        $this->_fontType = Zend_Pdf_Font::TYPE_CIDFONT_TYPE_2;
-
-        $this->_resource->Subtype  = new Zend_Pdf_Element_Name('CIDFontType2');
-
-        $fontDescriptor = Zend_Pdf_Resource_Font_FontDescriptor::factory($this, $fontParser, $embeddingOptions);
-        $this->_resource->FontDescriptor = $this->_objectFactory->newObject($fontDescriptor);
-
+        parent::__construct($font_parser, $embedding_options);
+        $this->_font_type = Zend_Pdf_Font::TYPE_CIDFONT_TYPE_2;
+        $this->_resource->Subtype = new Zend_Pdf_Element_Name('CIDFontType2');
+        $font_descriptor = Zend_pdf_resource_font_font_Descriptor::factory($this, $font_parser, $embedding_options);
+        $this->_resource->font_descriptor = $this->_object_factory->new_object($font_descriptor);
         /* Prepare CIDToGIDMap */
         // Initialize 128K string of null characters (65536 2 byte integers)
-        $cidToGidMapData = str_repeat("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 8192);
+        $cid_to_gid_map_data = str_repeat("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 8192);
         // Fill the index
-        $charGlyphs = $this->_cmap->getCoveredCharactersGlyphs();
-        foreach ($charGlyphs as $charCode => $glyph) {
-            $cidToGidMapData[$charCode * 2    ] = chr($glyph >> 8);
-            $cidToGidMapData[$charCode * 2 + 1] = chr($glyph & 0xFF);
+        $char_glyphs = $this->_cmap->get_covered_characters_glyphs();
+        foreach ($char_glyphs as $char_code => $glyph) {
+            $cid_to_gid_map_data[$char_code * 2] = chr($glyph >> 8);
+            $cid_to_gid_map_data[$char_code * 2 + 1] = chr($glyph & 0xff);
         }
         // Store CIDToGIDMap within compressed stream object
-        $cidToGidMap = $this->_objectFactory->newStreamObject($cidToGidMapData);
-        $cidToGidMap->dictionary->Filter = new Zend_Pdf_Element_Name('FlateDecode');
-        $this->_resource->CIDToGIDMap = $cidToGidMap;
+        $cid_to_gid_map = $this->_object_factory->new_stream_object($cid_to_gid_map_data);
+        $cid_to_gid_map->dictionary->Filter = new Zend_Pdf_Element_Name('FlateDecode');
+        $this->_resource->cid_to_gid_map = $cid_to_gid_map;
     }
-
 }

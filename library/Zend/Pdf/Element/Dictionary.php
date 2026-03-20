@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,13 +20,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
-
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
-
 /**
  * PDF file 'dictionary' element implementation
  *
@@ -44,7 +41,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      * @var array
      */
     private $_items = [];
-
     /**
      * Object constructor
      *
@@ -60,7 +56,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Argument must be an array');
         }
-
         foreach ($val as $name => $element) {
             if (!$element instanceof Zend_Pdf_Element) {
                 #require_once 'Zend/Pdf/Exception.php';
@@ -73,7 +68,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
             $this->_items[$name] = $element;
         }
     }
-
     /**
      * Add element to an array
      *
@@ -85,15 +79,13 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
     {
         $this->_items[$name->value] = $val;
     }
-
     /**
      * Return dictionary keys
      */
-    public function getKeys(): array
+    public function get_keys(): array
     {
         return array_keys($this->_items);
     }
-
     /**
      * Get handler
      *
@@ -104,7 +96,6 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
     {
         return $this->_items[$item] ?? null;
     }
-
     /**
      * Set handler
      *
@@ -119,43 +110,36 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
             $this->_items[$item] = $value;
         }
     }
-
     /**
      * Return type of the element.
      */
-    public function getType(): int
+    public function get_type(): int
     {
         return Zend_Pdf_Element::TYPE_DICTIONARY;
     }
-
     /**
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
      */
-    public function toString($factory = null): string
+    public function to_string($factory = null): string
     {
-        $outStr = '<<';
-        $lastNL = 0;
-
+        $out_str = '<<';
+        $last_nl = 0;
         foreach ($this->_items as $name => $element) {
             if (!is_object($element)) {
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Wrong data');
             }
-
-            if (strlen($outStr) - $lastNL > 128) {
-                $outStr .= "\n";
-                $lastNL = strlen($outStr);
+            if (strlen($out_str) - $last_nl > 128) {
+                $out_str .= "\n";
+                $last_nl = strlen($out_str);
             }
-
-            $nameObj = new Zend_Pdf_Element_Name($name);
-            $outStr .= $nameObj->toString($factory) . ' ' . $element->toString($factory) . ' ';
+            $name_obj = new Zend_Pdf_Element_Name($name);
+            $out_str .= $name_obj->to_string($factory) . ' ' . $element->to_string($factory) . ' ';
         }
-
-        return $outStr . '>>';
+        return $out_str . '>>';
     }
-
     /**
      * Detach PDF object from the factory (if applicable), clone it and attach to new factory.
      *
@@ -165,7 +149,7 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      * @returns Zend_Pdf_Element
      * @throws Zend_Pdf_Exception
      */
-    public function makeClone(Zend_Pdf_ElementFactory $factory, array &$processed, $mode)
+    public function make_clone(Zend_pdf_element_Factory $factory, array &$processed, $mode)
     {
         if (isset($this->_items['Type'])) {
             if ($this->_items['Type']->value == 'Pages') {
@@ -173,35 +157,27 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
                 // skip it and its children
                 return new Zend_Pdf_Element_Null();
             }
-
-            if ($this->_items['Type']->value == 'Page'  &&
-                $mode == Zend_Pdf_Element::CLONE_MODE_SKIP_PAGES
-            ) {
+            if ($this->_items['Type']->value == 'Page' && $mode == Zend_Pdf_Element::CLONE_MODE_SKIP_PAGES) {
                 // It's a page node, skip it
                 return new Zend_Pdf_Element_Null();
             }
         }
-
-        $newDictionary = new self();
+        $new_dictionary = new self();
         foreach ($this->_items as $key => $value) {
-            $newDictionary->_items[$key] = $value->makeClone($factory, $processed, $mode);
+            $new_dictionary->_items[$key] = $value->make_clone($factory, $processed, $mode);
         }
-
-        return $newDictionary;
+        return $new_dictionary;
     }
-
     /**
      * Set top level parent indirect object.
      */
-    public function setParentObject(Zend_Pdf_Element_Object $parent)
+    public function set_parent_object(Zend_Pdf_Element_Object $parent)
     {
-        parent::setParentObject($parent);
-
+        parent::set_parent_object($parent);
         foreach ($this->_items as $item) {
-            $item->setParentObject($parent);
+            $item->set_parent_object($parent);
         }
     }
-
     /**
      * Convert PDF element to PHP type.
      *
@@ -209,14 +185,12 @@ class Zend_Pdf_Element_Dictionary extends Zend_Pdf_Element
      *
      * @return mixed[]
      */
-    public function toPhp(): array
+    public function to_php(): array
     {
-        $phpArray = [];
-
-        foreach ($this->_items as $itemName => $item) {
-            $phpArray[$itemName] = $item->toPhp();
+        $php_array = [];
+        foreach ($this->_items as $item_name => $item) {
+            $php_array[$item_name] = $item->to_php();
         }
-
-        return $phpArray;
+        return $php_array;
     }
 }

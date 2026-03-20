@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Element_String */
 #require_once 'Zend/Pdf/Element/String.php';
-
 /**
  * PDF file 'binary string' element implementation
  *
@@ -40,53 +38,48 @@ class Zend_Pdf_Element_String_Binary extends Zend_Pdf_Element_String
      * @var string
      */
     public $value;
-
     /**
      * Escape string according to the PDF rules
      *
      * @param string $inStr
      */
-    public static function escape($inStr): string
+    public static function escape($in_str): string
     {
-        return strtoupper(bin2hex($inStr));
+        return strtoupper(bin2hex($in_str));
     }
-
     /**
      * Unescape string according to the PDF rules
      *
      * @param string $inStr
      */
-    public static function unescape($inStr): string
+    public static function unescape($in_str): string
     {
         $chunks = [];
         $offset = 0;
         $length = 0;
-        while ($offset < strlen($inStr)) {
+        while ($offset < strlen($in_str)) {
             // Collect hexadecimal characters
             $start = $offset;
-            $offset += strspn($inStr, '0123456789abcdefABCDEF', $offset);
-            $chunks[] = substr($inStr, $start, $offset - $start);
+            $offset += strspn($in_str, '0123456789abcdefABCDEF', $offset);
+            $chunks[] = substr($in_str, $start, $offset - $start);
             $length += strlen(end($chunks));
-
             // Skip non-hexadecimal characters
-            $offset += strcspn($inStr, '0123456789abcdefABCDEF', $offset);
+            $offset += strcspn($in_str, '0123456789abcdefABCDEF', $offset);
         }
         if ($length % 2 != 0) {
             // We have odd number of digits.
             // Final digit is assumed to be '0'
             $chunks[] = '0';
         }
-
         return pack('H*', implode('', $chunks));
     }
-
     /**
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
      */
-    public function toString($factory = null): string
+    public function to_string($factory = null): string
     {
-        return '<' . self::escape((string)$this->value) . '>';
+        return '<' . self::escape((string) $this->value) . '>';
     }
 }

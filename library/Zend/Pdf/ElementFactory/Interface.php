@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +20,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * PDF element factory interface.
  * Responsibility is to log PDF changes
@@ -29,62 +28,54 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Zend_Pdf_ElementFactory_Interface
+interface Zend_pdf_element_Factory_interface
 {
     /**
      * Get factory
      *
      * @return Zend_Pdf_ElementFactory_Interface
      */
-    public function getFactory();
-
+    public function get_factory();
     /**
      * Close factory and clean-up resources
      *
      * @internal
      */
     public function close();
-
     /**
      * Get source factory object
      *
      * @return Zend_Pdf_ElementFactory
      */
     public function resolve();
-
     /**
      * Get factory ID
      *
      * @return integer
      */
-    public function getId();
-
+    public function get_id();
     /**
      * Set object counter
      *
      * @param integer $objCount
      */
-    public function setObjectCount($objCount);
-
+    public function set_object_count($obj_count);
     /**
      * Get object counter
      *
      * @return integer
      */
-    public function getObjectCount();
-
+    public function get_object_count();
     /**
      * Attach factory to the current;
      */
-    public function attach(Zend_Pdf_ElementFactory_Interface $factory);
-
+    public function attach(Zend_pdf_element_Factory_interface $factory);
     /**
      * Calculate object enumeration shift.
      *
      * @return integer
      */
-    public function calculateShift(Zend_Pdf_ElementFactory_Interface $factory);
-
+    public function calculate_shift(Zend_pdf_element_Factory_interface $factory);
     /**
      * Clean enumeration shift cache.
      * Has to be used after PDF render operation to let followed updates be correct.
@@ -92,30 +83,26 @@ interface Zend_Pdf_ElementFactory_Interface
      * @param Zend_Pdf_ElementFactory_Interface $factory
      * @return integer
      */
-    public function cleanEnumerationShiftCache();
-
+    public function clean_enumeration_shift_cache();
     /**
      * Retrive object enumeration shift.
      *
      * @return integer
      * @throws Zend_Pdf_Exception
      */
-    public function getEnumerationShift(Zend_Pdf_ElementFactory_Interface $factory);
-
+    public function get_enumeration_shift(Zend_pdf_element_Factory_interface $factory);
     /**
      * Mark object as modified in context of current factory.
      *
      * @throws Zend_Pdf_Exception
      */
-    public function markAsModified(Zend_Pdf_Element_Object $obj);
-
+    public function mark_as_modified(Zend_Pdf_Element_Object $obj);
     /**
      * Remove object in context of current factory.
      *
      * @throws Zend_Pdf_Exception
      */
     public function remove(Zend_Pdf_Element_Object $obj);
-
     /**
      * Generate new Zend_Pdf_Element_Object
      *
@@ -123,8 +110,7 @@ interface Zend_Pdf_ElementFactory_Interface
      *
      * @return Zend_Pdf_Element_Object
      */
-    public function newObject(Zend_Pdf_Element $objectValue);
-
+    public function new_object(Zend_Pdf_Element $object_value);
     /**
      * Generate new Zend_Pdf_Element_Object_Stream
      *
@@ -133,8 +119,7 @@ interface Zend_Pdf_ElementFactory_Interface
      * @param mixed $objectValue
      * @return Zend_Pdf_Element_Object_Stream
      */
-    public function newStreamObject($streamValue);
-
+    public function new_stream_object($stream_value);
     /**
      * Enumerate modified objects.
      * Returns array of Zend_Pdf_UpdateInfoContainer
@@ -142,12 +127,11 @@ interface Zend_Pdf_ElementFactory_Interface
      * @param Zend_Pdf_ElementFactory $rootFactory
      * @return array
      */
-    public function listModifiedObjects($rootFactory = null);
-
+    public function list_modified_objects($root_factory = null);
     /**
      * Check if PDF file was modified
      *
      * @return boolean
      */
-    public function isModified();
+    public function is_modified();
 }

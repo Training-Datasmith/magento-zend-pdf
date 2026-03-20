@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,15 +21,11 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
-
 /** Zend_Pdf_Image */
 #require_once 'Zend/Pdf/Image.php';
-
 /** Zend_Pdf_FileParser */
 #require_once 'Zend/Pdf/FileParser.php';
-
 /**
  * FileParser for Zend_Pdf_Image subclasses.
  *
@@ -38,15 +34,14 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Pdf_FileParser_Image extends Zend_Pdf_FileParser
+abstract class Zend_pdf_file_Parser_image extends Zend_pdf_file_Parser
 {
     /**
      * Image Type
      *
      * @var integer
      */
-    protected $imageType;
-
+    protected $image_type;
     /**
      * Object constructor.
      *
@@ -54,9 +49,9 @@ abstract class Zend_Pdf_FileParser_Image extends Zend_Pdf_FileParser
      *
      * @throws Zend_Pdf_Exception
      */
-    public function __construct(Zend_Pdf_FileParserDataSource $dataSource)
+    public function __construct(Zend_pdf_file_Parser_Data_Source $data_source)
     {
-        parent::__construct($dataSource);
-        $this->imageType = Zend_Pdf_Image::TYPE_UNKNOWN;
+        parent::__construct($data_source);
+        $this->image_type = Zend_Pdf_Image::TYPE_UNKNOWN;
     }
 }

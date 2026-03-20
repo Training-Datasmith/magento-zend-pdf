@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Filter_Compression */
 #require_once 'Zend/Pdf/Filter/Compression.php';
-
 /**
  * LZW stream filter
  *
@@ -44,13 +42,11 @@ class Zend_Pdf_Filter_Compression_Lzw extends Zend_Pdf_Filter_Compression
     public static function encode($data, $params = null)
     {
         if ($params != null) {
-            $data = self::_applyEncodeParams($data, $params);
+            $data = self::_apply_encode_params($data, $params);
         }
-
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Not implemented yet');
     }
-
     /**
      * Decode data
      *

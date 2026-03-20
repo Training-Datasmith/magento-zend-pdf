@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,13 +20,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf.php';
-
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
-
 /**
  * PDF file 'stream' element implementation
  *
@@ -43,7 +40,6 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
      * @var Zend_Memory_Container
      */
     public $value;
-
     /**
      * Object constructor
      *
@@ -51,37 +47,33 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
      */
     public function __construct($val)
     {
-        $this->value = Zend_Pdf::getMemoryManager()->create($val);
+        $this->value = Zend_Pdf::get_memory_manager()->create($val);
     }
-
     /**
      * Return type of the element.
      */
-    public function getType(): int
+    public function get_type(): int
     {
         return Zend_Pdf_Element::TYPE_STREAM;
     }
-
     /**
      * Stream length.
      * (Method is used to avoid string copying, which may occurs in some cases)
      */
     public function length(): int
     {
-        return strlen($this->value->getRef());
+        return strlen($this->value->get_ref());
     }
-
     /**
      * Clear stream
      *
      */
     public function clear()
     {
-        $ref = &$this->value->getRef();
+        $ref =& $this->value->get_ref();
         $ref = '';
         $this->value->touch();
     }
-
     /**
      * Append value to a stream
      *
@@ -89,11 +81,10 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
      */
     public function append($val)
     {
-        $ref = &$this->value->getRef();
-        $ref .= (string)$val;
+        $ref =& $this->value->get_ref();
+        $ref .= (string) $val;
         $this->value->touch();
     }
-
     /**
      * Detach PDF object from the factory (if applicable), clone it and attach to new factory.
      *
@@ -102,27 +93,25 @@ class Zend_Pdf_Element_Stream extends Zend_Pdf_Element
      * @param integer $mode  Cloning mode (defines filter for objects cloning)
      * @returns Zend_Pdf_Element
      */
-    public function makeClone(Zend_Pdf_ElementFactory $factory, array &$processed, $mode): self
+    public function make_clone(Zend_pdf_element_Factory $factory, array &$processed, $mode): self
     {
-        return new self($this->value->getRef());
+        return new self($this->value->get_ref());
     }
-
     /**
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
      */
-    public function toString($factory = null): string
+    public function to_string($factory = null): string
     {
-        return "stream\n" . $this->value->getRef() . "\nendstream";
+        return "stream\n" . $this->value->get_ref() . "\nendstream";
     }
-
     /**
      * Convert PDF element to PHP type.
      *
      * @return Zend_Memory_Container
      */
-    public function toPhp()
+    public function to_php()
     {
         return $this->value;
     }

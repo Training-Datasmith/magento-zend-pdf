@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
-
 /**
  * PDF file 'numeric' element implementation
  *
@@ -40,7 +38,6 @@ class Zend_Pdf_Element_Numeric extends Zend_Pdf_Element
      * @var numeric
      */
     public $value;
-
     /**
      * Object constructor
      *
@@ -53,48 +50,43 @@ class Zend_Pdf_Element_Numeric extends Zend_Pdf_Element
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Argument must be numeric');
         }
-
         $this->value = $val;
     }
-
     /**
      * Return type of the element.
      */
-    public function getType(): int
+    public function get_type(): int
     {
         return Zend_Pdf_Element::TYPE_NUMERIC;
     }
-
     /**
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
      */
-    public function toString($factory = null): string
+    public function to_string($factory = null): string
     {
         if (is_integer($this->value)) {
-            return (string)$this->value;
+            return (string) $this->value;
         }
-
         /**
          * PDF doesn't support exponental format.
          * Fixed point format must be used instead
          */
         $prec = 0;
         $v = $this->value;
-        while (abs(floor($v) - $v) > 1e-10) {
+        while (abs(floor($v) - $v) > 1.0E-10) {
             $prec++;
             $v *= 10;
         }
         return sprintf("%.{$prec}F", $this->value);
     }
-
     /**
      * Convert PDF element to PHP type.
      *
      * @return numeric
      */
-    public function toPhp()
+    public function to_php()
     {
         return $this->value;
     }

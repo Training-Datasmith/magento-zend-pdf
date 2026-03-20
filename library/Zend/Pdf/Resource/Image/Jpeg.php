@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,14 +20,11 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 /** Zend_Pdf_Resource_Image */
 #require_once 'Zend/Pdf/Resource/Image.php';
-
 /**
  * JPEG image
  *
@@ -39,115 +36,101 @@ class Zend_Pdf_Resource_Image_Jpeg extends Zend_Pdf_Resource_Image
 {
     protected $_width;
     protected $_height;
-    protected $_imageProperties;
-
+    protected $_image_properties;
     /**
      * Object constructor
      *
      * @param string $imageFileName
      * @throws Zend_Pdf_Exception
      */
-    public function __construct($imageFileName)
+    public function __construct($image_file_name)
     {
         if (!function_exists('gd_info')) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Image extension is not installed.');
         }
-
         $gd_options = gd_info();
-        if ((!isset($gd_options['JPG Support'])  || $gd_options['JPG Support']  != true)  &&
-             (!isset($gd_options['JPEG Support']) || $gd_options['JPEG Support'] != true)) {
+        if ((!isset($gd_options['JPG Support']) || $gd_options['JPG Support'] != true) && (!isset($gd_options['JPEG Support']) || $gd_options['JPEG Support'] != true)) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('JPG support is not configured properly.');
         }
-
-        if (($imageInfo = getimagesize($imageFileName)) === false) {
+        if (($image_info = getimagesize($image_file_name)) === false) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Corrupted image or image doesn\'t exist.');
         }
-        if ($imageInfo[2] != IMAGETYPE_JPEG && $imageInfo[2] != IMAGETYPE_JPEG2000) {
+        if ($image_info[2] != IMAGETYPE_JPEG && $image_info[2] != IMAGETYPE_JPEG2000) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('ImageType is not JPG');
         }
-
         parent::__construct();
-
-        switch ($imageInfo['channels']) {
+        switch ($image_info['channels']) {
             case 3:
-                $colorSpace = 'DeviceRGB';
+                $color_space = 'DeviceRGB';
                 break;
             case 4:
-                $colorSpace = 'DeviceCMYK';
+                $color_space = 'DeviceCMYK';
                 break;
             default:
-                $colorSpace = 'DeviceGray';
+                $color_space = 'DeviceGray';
                 break;
         }
-
-        $imageDictionary = $this->_resource->dictionary;
-        $imageDictionary->Width            = new Zend_Pdf_Element_Numeric($imageInfo[0]);
-        $imageDictionary->Height           = new Zend_Pdf_Element_Numeric($imageInfo[1]);
-        $imageDictionary->ColorSpace       = new Zend_Pdf_Element_Name($colorSpace);
-        $imageDictionary->BitsPerComponent = new Zend_Pdf_Element_Numeric($imageInfo['bits']);
-        if ($imageInfo[2] == IMAGETYPE_JPEG) {
-            $imageDictionary->Filter       = new Zend_Pdf_Element_Name('DCTDecode');
-        } elseif ($imageInfo[2] == IMAGETYPE_JPEG2000) {
-            $imageDictionary->Filter       = new Zend_Pdf_Element_Name('JPXDecode');
+        $image_dictionary = $this->_resource->dictionary;
+        $image_dictionary->Width = new Zend_Pdf_Element_Numeric($image_info[0]);
+        $image_dictionary->Height = new Zend_Pdf_Element_Numeric($image_info[1]);
+        $image_dictionary->color_space = new Zend_Pdf_Element_Name($color_space);
+        $image_dictionary->bits_per_component = new Zend_Pdf_Element_Numeric($image_info['bits']);
+        if ($image_info[2] == IMAGETYPE_JPEG) {
+            $image_dictionary->Filter = new Zend_Pdf_Element_Name('DCTDecode');
+        } elseif ($image_info[2] == IMAGETYPE_JPEG2000) {
+            $image_dictionary->Filter = new Zend_Pdf_Element_Name('JPXDecode');
         }
-
-        if (($imageFile = @fopen($imageFileName, 'rb')) === false) {
+        if (($image_file = @fopen($image_file_name, 'rb')) === false) {
             #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception("Can not open '$imageFileName' file for reading.");
+            throw new Zend_Pdf_Exception("Can not open '{$image_file_name}' file for reading.");
         }
-        $byteCount = filesize($imageFileName);
+        $byte_count = filesize($image_file_name);
         $this->_resource->value = '';
-
-        while ($byteCount > 0 && !feof($imageFile)) {
-            $nextBlock = fread($imageFile, $byteCount);
-            if ($nextBlock === false) {
+        while ($byte_count > 0 && !feof($image_file)) {
+            $next_block = fread($image_file, $byte_count);
+            if ($next_block === false) {
                 #require_once 'Zend/Pdf/Exception.php';
-                throw new Zend_Pdf_Exception("Error occured while '$imageFileName' file reading.");
+                throw new Zend_Pdf_Exception("Error occured while '{$image_file_name}' file reading.");
             }
-
-            $this->_resource->value .= $nextBlock;
-            $byteCount -= strlen($nextBlock);
+            $this->_resource->value .= $next_block;
+            $byte_count -= strlen($next_block);
         }
-        if ($byteCount != 0) {
+        if ($byte_count != 0) {
             #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception("Error occured while '$imageFileName' file reading.");
+            throw new Zend_Pdf_Exception("Error occured while '{$image_file_name}' file reading.");
         }
-        fclose($imageFile);
-        $this->_resource->skipFilters();
-
-        $this->_width  = $imageInfo[0];
-        $this->_height = $imageInfo[1];
-        $this->_imageProperties = [];
-        $this->_imageProperties['bitDepth'] = $imageInfo['bits'];
-        $this->_imageProperties['jpegImageType'] = $imageInfo[2];
-        $this->_imageProperties['jpegColorType'] = $imageInfo['channels'];
+        fclose($image_file);
+        $this->_resource->skip_filters();
+        $this->_width = $image_info[0];
+        $this->_height = $image_info[1];
+        $this->_image_properties = [];
+        $this->_image_properties['bitDepth'] = $image_info['bits'];
+        $this->_image_properties['jpegImageType'] = $image_info[2];
+        $this->_image_properties['jpegColorType'] = $image_info['channels'];
     }
-
     /**
      * Image width
      */
-    public function getPixelWidth()
+    public function get_pixel_width()
     {
         return $this->_width;
     }
-
     /**
      * Image height
      */
-    public function getPixelHeight()
+    public function get_pixel_height()
     {
         return $this->_height;
     }
-
     /**
      * Image properties
      */
-    public function getProperties()
+    public function get_properties()
     {
-        return $this->_imageProperties;
+        return $this->_image_properties;
     }
 }

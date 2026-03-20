@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,9 +20,7 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id: Style.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
-
 #require_once 'Zend/Pdf/Canvas/Abstract.php';
-
 /**
  * Canvas is an abstract rectangle drawing area which can be dropped into
  * page object at specified place.
@@ -40,26 +38,20 @@ class Zend_Pdf_Canvas extends Zend_Pdf_Canvas_Abstract
      *
      * @var array
      */
-    protected $_procSet = [];
-
+    protected $_proc_set = [];
     /**
      * Canvas width expressed in default user space units (1/72 inch)
      *
      * @var float
      */
     protected $_width;
-
     /**
      * Canvas height expressed in default user space units (1/72 inch)
      *
      * @var float
      */
     protected $_height;
-
-    protected $_resources = ['Font'      => [],
-                                  'XObject'   => [],
-                                  'ExtGState' => []];
-
+    protected $_resources = ['Font' => [], 'XObject' => [], 'ExtGState' => []];
     /**
      * Object constructor
      *
@@ -68,20 +60,18 @@ class Zend_Pdf_Canvas extends Zend_Pdf_Canvas_Abstract
      */
     public function __construct($width, $height)
     {
-        $this->_width  = $width;
+        $this->_width = $width;
         $this->_height = $height;
     }
-
     /**
      * Add procedure set to the canvas description
      *
      * @param string $procSetName
      */
-    protected function _addProcSet($procSetName)
+    protected function _add_proc_set($proc_set_name)
     {
-        $this->_procSet[$procSetName] = 1;
+        $this->_proc_set[$proc_set_name] = 1;
     }
-
     /**
      * Attach resource to the canvas
      *
@@ -93,26 +83,22 @@ class Zend_Pdf_Canvas extends Zend_Pdf_Canvas_Abstract
      * @param string $type
      * @return string
      */
-    protected function _attachResource($type, Zend_Pdf_Resource $resource)
+    protected function _attach_resource($type, Zend_Pdf_Resource $resource)
     {
         // Check, that resource is already attached to resource set.
-        $resObject = $resource->getResource();
-        foreach ($this->_resources[$type] as $resName => $collectedResObject) {
-            if ($collectedResObject === $resObject) {
-                return $resName;
+        $res_object = $resource->get_resource();
+        foreach ($this->_resources[$type] as $res_name => $collected_res_object) {
+            if ($collected_res_object === $res_object) {
+                return $res_name;
             }
         }
-
-        $idCounter = 1;
+        $id_counter = 1;
         do {
-            $newResName = $type[0] . $idCounter++;
-        } while (isset($this->_resources[$type][$newResName]));
-
-        $this->_resources[$type][$newResName] = $resObject;
-
-        return $newResName;
+            $new_res_name = $type[0] . $id_counter++;
+        } while (isset($this->_resources[$type][$new_res_name]));
+        $this->_resources[$type][$new_res_name] = $res_object;
+        return $new_res_name;
     }
-
     /**
      * Returns dictionaries of used resources.
      *
@@ -142,12 +128,11 @@ class Zend_Pdf_Canvas extends Zend_Pdf_Canvas_Abstract
      * @internal
      * @return array
      */
-    public function getResources()
+    public function get_resources()
     {
-        $this->_resources['ProcSet'] = array_keys($this->_procSet);
+        $this->_resources['ProcSet'] = array_keys($this->_proc_set);
         return $this->_resources;
     }
-
     /**
      * Get drawing instructions stream
      *
@@ -156,27 +141,25 @@ class Zend_Pdf_Canvas extends Zend_Pdf_Canvas_Abstract
      * @internal
      * @returns Zend_Pdf_Resource_ContentStream
      */
-    public function getContents()
+    public function get_contents()
     {
         /** @todo implementation */
     }
-
     /**
      * Return the height of this page in points.
      *
      * @return float
      */
-    public function getHeight()
+    public function get_height()
     {
         return $this->_height;
     }
-
     /**
      * Return the width of this page in points.
      *
      * @return float
      */
-    public function getWidth()
+    public function get_width()
     {
         return $this->_width;
     }

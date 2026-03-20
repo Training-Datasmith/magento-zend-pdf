@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
-
 /**
  * PDF file 'null' element implementation
  *
@@ -40,7 +38,6 @@ class Zend_Pdf_Element_Null extends Zend_Pdf_Element
      * @var mixed
      */
     public $value;
-
     /**
      * Object constructor
      */
@@ -48,31 +45,28 @@ class Zend_Pdf_Element_Null extends Zend_Pdf_Element
     {
         $this->value = null;
     }
-
     /**
      * Return type of the element.
      */
-    public function getType(): int
+    public function get_type(): int
     {
         return Zend_Pdf_Element::TYPE_NULL;
     }
-
     /**
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
      */
-    public function toString($factory = null): string
+    public function to_string($factory = null): string
     {
         return 'null';
     }
-
     /**
      * Convert PDF element to PHP type.
      *
      * @return mixed
      */
-    public function toPhp()
+    public function to_php()
     {
         return $this->value;
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,10 +21,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
-
 /**
  * Abstract PDF annotation representation class
  *
@@ -44,115 +42,101 @@ abstract class Zend_Pdf_Annotation
      *
      * @var Zend_Pdf_Element_Dictionary|Zend_Pdf_Element_Object|Zend_Pdf_Element_Reference
      */
-    protected $_annotationDictionary;
-
+    protected $_annotation_dictionary;
     /**
      * Get annotation dictionary
      *
      * @internal
      * @return Zend_Pdf_Element
      */
-    public function getResource()
+    public function get_resource()
     {
-        return $this->_annotationDictionary;
+        return $this->_annotation_dictionary;
     }
-
     /**
      * Set bottom edge of the annotation rectangle.
      *
      * @param float $bottom
      * @return Zend_Pdf_Annotation
      */
-    public function setBottom($bottom)
+    public function set_bottom($bottom)
     {
-        $this->_annotationDictionary->Rect->items[1]->touch();
-        $this->_annotationDictionary->Rect->items[1]->value = $bottom;
-
+        $this->_annotation_dictionary->Rect->items[1]->touch();
+        $this->_annotation_dictionary->Rect->items[1]->value = $bottom;
         return $this;
     }
-
     /**
      * Get bottom edge of the annotation rectangle.
      *
      * @return float
      */
-    public function getBottom()
+    public function get_bottom()
     {
-        return $this->_annotationDictionary->Rect->items[1]->value;
+        return $this->_annotation_dictionary->Rect->items[1]->value;
     }
-
     /**
      * Set top edge of the annotation rectangle.
      *
      * @param float $top
      * @return Zend_Pdf_Annotation
      */
-    public function setTop($top)
+    public function set_top($top)
     {
-        $this->_annotationDictionary->Rect->items[3]->touch();
-        $this->_annotationDictionary->Rect->items[3]->value = $top;
-
+        $this->_annotation_dictionary->Rect->items[3]->touch();
+        $this->_annotation_dictionary->Rect->items[3]->value = $top;
         return $this;
     }
-
     /**
      * Get top edge of the annotation rectangle.
      *
      * @return float
      */
-    public function getTop()
+    public function get_top()
     {
-        return $this->_annotationDictionary->Rect->items[3]->value;
+        return $this->_annotation_dictionary->Rect->items[3]->value;
     }
-
     /**
      * Set right edge of the annotation rectangle.
      *
      * @param float $right
      * @return Zend_Pdf_Annotation
      */
-    public function setRight($right)
+    public function set_right($right)
     {
-        $this->_annotationDictionary->Rect->items[2]->touch();
-        $this->_annotationDictionary->Rect->items[2]->value = $right;
-
+        $this->_annotation_dictionary->Rect->items[2]->touch();
+        $this->_annotation_dictionary->Rect->items[2]->value = $right;
         return $this;
     }
-
     /**
      * Get right edge of the annotation rectangle.
      *
      * @return float
      */
-    public function getRight()
+    public function get_right()
     {
-        return $this->_annotationDictionary->Rect->items[2]->value;
+        return $this->_annotation_dictionary->Rect->items[2]->value;
     }
-
     /**
      * Set left edge of the annotation rectangle.
      *
      * @param float $left
      * @return Zend_Pdf_Annotation
      */
-    public function setLeft($left)
+    public function set_left($left)
     {
-        $this->_annotationDictionary->Rect->items[0]->touch();
-        $this->_annotationDictionary->Rect->items[0]->value = $left;
-
+        $this->_annotation_dictionary->Rect->items[0]->touch();
+        $this->_annotation_dictionary->Rect->items[0]->value = $left;
         return $this;
     }
-
     /**
      * Get left edge of the annotation rectangle.
      *
      * @return float
      */
-    public function getLeft()
+    public function get_left()
     {
-        return $this->_annotationDictionary->Rect->items[0]->value;
+        return $this->_annotation_dictionary->Rect->items[0]->value;
     }
-
     /**
      * Return text to be displayed for the annotation or, if this type of annotation
      * does not display text, an alternate description of the annotation’s contents
@@ -160,15 +144,13 @@ abstract class Zend_Pdf_Annotation
      *
      * @return string
      */
-    public function getText()
+    public function get_text()
     {
-        if ($this->_annotationDictionary->Contents === null) {
+        if ($this->_annotation_dictionary->Contents === null) {
             return '';
         }
-
-        return $this->_annotationDictionary->Contents->value;
+        return $this->_annotation_dictionary->Contents->value;
     }
-
     /**
      * Set text to be displayed for the annotation or, if this type of annotation
      * does not display text, an alternate description of the annotation’s contents
@@ -177,56 +159,43 @@ abstract class Zend_Pdf_Annotation
      * @param string $text
      * @return Zend_Pdf_Annotation
      */
-    public function setText($text)
+    public function set_text($text)
     {
         #require_once 'Zend/Pdf/Element/String.php';
-
-        if ($this->_annotationDictionary->Contents === null) {
-            $this->_annotationDictionary->touch();
-            $this->_annotationDictionary->Contents = new Zend_Pdf_Element_String($text);
+        if ($this->_annotation_dictionary->Contents === null) {
+            $this->_annotation_dictionary->touch();
+            $this->_annotation_dictionary->Contents = new Zend_Pdf_Element_String($text);
         } else {
-            $this->_annotationDictionary->Contents->touch();
-            $this->_annotationDictionary->Contents->value = new Zend_Pdf_Element_String($text);
+            $this->_annotation_dictionary->Contents->touch();
+            $this->_annotation_dictionary->Contents->value = new Zend_Pdf_Element_String($text);
         }
-
         return $this;
     }
-
     /**
      * Annotation object constructor
      *
      * @throws Zend_Pdf_Exception
      */
-    public function __construct(Zend_Pdf_Element $annotationDictionary)
+    public function __construct(Zend_Pdf_Element $annotation_dictionary)
     {
-        if ($annotationDictionary->getType() != Zend_Pdf_Element::TYPE_DICTIONARY) {
+        if ($annotation_dictionary->get_type() != Zend_Pdf_Element::TYPE_DICTIONARY) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Annotation dictionary resource has to be a dictionary.');
         }
-
-        $this->_annotationDictionary = $annotationDictionary;
-
-        if ($this->_annotationDictionary->Type !== null  &&
-            $this->_annotationDictionary->Type->value != 'Annot') {
+        $this->_annotation_dictionary = $annotation_dictionary;
+        if ($this->_annotation_dictionary->Type !== null && $this->_annotation_dictionary->Type->value != 'Annot') {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Wrong resource type. \'Annot\' expected.');
         }
-
-        if ($this->_annotationDictionary->Rect === null) {
+        if ($this->_annotation_dictionary->Rect === null) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('\'Rect\' dictionary entry is required.');
         }
-
-        if (count($this->_annotationDictionary->Rect->items) != 4 ||
-            $this->_annotationDictionary->Rect->items[0]->getType() != Zend_Pdf_Element::TYPE_NUMERIC ||
-            $this->_annotationDictionary->Rect->items[1]->getType() != Zend_Pdf_Element::TYPE_NUMERIC ||
-            $this->_annotationDictionary->Rect->items[2]->getType() != Zend_Pdf_Element::TYPE_NUMERIC ||
-            $this->_annotationDictionary->Rect->items[3]->getType() != Zend_Pdf_Element::TYPE_NUMERIC) {
+        if (count($this->_annotation_dictionary->Rect->items) != 4 || $this->_annotation_dictionary->Rect->items[0]->get_type() != Zend_Pdf_Element::TYPE_NUMERIC || $this->_annotation_dictionary->Rect->items[1]->get_type() != Zend_Pdf_Element::TYPE_NUMERIC || $this->_annotation_dictionary->Rect->items[2]->get_type() != Zend_Pdf_Element::TYPE_NUMERIC || $this->_annotation_dictionary->Rect->items[3]->get_type() != Zend_Pdf_Element::TYPE_NUMERIC) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('\'Rect\' dictionary entry must be an array of four numeric elements.');
         }
     }
-
     /**
      * Load Annotation object from a specified resource
      *

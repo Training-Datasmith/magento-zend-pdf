@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,13 +20,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 /** Zend_Pdf_Color */
 #require_once 'Zend/Pdf/Color.php';
-
 /**
  * CMYK color implementation
  *
@@ -44,7 +41,6 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      * @var Zend_Pdf_Element_Numeric
      */
     private $_c;
-
     /**
      * Magenta level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
@@ -52,7 +48,6 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      * @var Zend_Pdf_Element_Numeric
      */
     private $_m;
-
     /**
      * Yellow level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
@@ -60,7 +55,6 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      * @var Zend_Pdf_Element_Numeric
      */
     private $_y;
-
     /**
      * Key (BlacK) level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
@@ -68,7 +62,6 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      * @var Zend_Pdf_Element_Numeric
      */
     private $_k;
-
     /**
      * Object constructor
      *
@@ -85,34 +78,29 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
         if ($c > 1) {
             $c = 1;
         }
-
         if ($m < 0) {
             $m = 0;
         }
         if ($m > 1) {
             $m = 1;
         }
-
         if ($y < 0) {
             $y = 0;
         }
         if ($y > 1) {
             $y = 1;
         }
-
         if ($k < 0) {
             $k = 0;
         }
         if ($k > 1) {
             $k = 1;
         }
-
         $this->_c = new Zend_Pdf_Element_Numeric($c);
         $this->_m = new Zend_Pdf_Element_Numeric($m);
         $this->_y = new Zend_Pdf_Element_Numeric($y);
         $this->_k = new Zend_Pdf_Element_Numeric($k);
     }
-
     /**
      * Instructions, which can be directly inserted into content stream
      * to switch color.
@@ -122,16 +110,12 @@ class Zend_Pdf_Color_Cmyk extends Zend_Pdf_Color
      */
     public function instructions($stroking): string
     {
-        return $this->_c->toString() . ' '
-             . $this->_m->toString() . ' '
-             . $this->_y->toString() . ' '
-             . $this->_k->toString() .     ($stroking ? " K\n" : " k\n");
+        return $this->_c->to_string() . ' ' . $this->_m->to_string() . ' ' . $this->_y->to_string() . ' ' . $this->_k->to_string() . ($stroking ? " K\n" : " k\n");
     }
-
     /**
      * Get color components (color space dependent)
      */
-    public function getComponents(): array
+    public function get_components(): array
     {
         return [$this->_c->value, $this->_m->value, $this->_y->value, $this->_k->value];
     }

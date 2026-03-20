@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,14 +21,11 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
 #require_once 'Zend/Pdf/Element/String.php';
-
 /** Zend_Pdf_Destination */
 #require_once 'Zend/Pdf/Destination.php';
-
 /**
  * Destination array: [page /Fit]
  *
@@ -50,8 +47,7 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
      *
      * @var Zend_Pdf_Element_Name|Zend_Pdf_Element_String
      */
-    protected $_nameElement;
-
+    protected $_name_element;
     /**
      * Named destination object constructor
      *
@@ -59,14 +55,12 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
      */
     public function __construct(Zend_Pdf_Element $resource)
     {
-        if ($resource->getType() != Zend_Pdf_Element::TYPE_NAME  &&  $resource->getType() != Zend_Pdf_Element::TYPE_STRING) {
+        if ($resource->get_type() != Zend_Pdf_Element::TYPE_NAME && $resource->get_type() != Zend_Pdf_Element::TYPE_STRING) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Named destination resource must be a PDF name or a PDF string.');
         }
-
-        $this->_nameElement = $resource;
+        $this->_name_element = $resource;
     }
-
     /**
      * Create named destination object
      *
@@ -76,25 +70,23 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
     {
         return new Zend_Pdf_Destination_Named(new Zend_Pdf_Element_String($name));
     }
-
     /**
      * Get name
      *
      * @return Zend_Pdf_Element
      */
-    public function getName()
+    public function get_name()
     {
-        return $this->_nameElement->value;
+        return $this->_name_element->value;
     }
-
     /**
      * Get resource
      *
      * @internal
      * @return Zend_Pdf_Element
      */
-    public function getResource()
+    public function get_resource()
     {
-        return $this->_nameElement;
+        return $this->_name_element;
     }
 }

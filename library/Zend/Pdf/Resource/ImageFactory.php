@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +20,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * Zend_Pdf_ImageFactory
  *
@@ -31,7 +30,7 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @todo       Use Zend_Mime not file extension for type determination.
  */
-class Zend_Pdf_Resource_ImageFactory
+class Zend_pdf_resource_image_Factory
 {
     public static function factory($filename)
     {
@@ -46,7 +45,7 @@ class Zend_Pdf_Resource_ImageFactory
          */
         switch (strtolower($extension)) {
             case 'tif':
-                //Fall through to next case;
+            //Fall through to next case;
             case 'tiff':
                 #require_once 'Zend/Pdf/Resource/Image/Tiff.php';
                 return new Zend_Pdf_Resource_Image_Tiff($filename);
@@ -54,9 +53,9 @@ class Zend_Pdf_Resource_ImageFactory
                 #require_once 'Zend/Pdf/Resource/Image/Png.php';
                 return new Zend_Pdf_Resource_Image_Png($filename);
             case 'jpg':
-                //Fall through to next case;
+            //Fall through to next case;
             case 'jpe':
-                //Fall through to next case;
+            //Fall through to next case;
             case 'jpeg':
                 #require_once 'Zend/Pdf/Resource/Image/Jpeg.php';
                 return new Zend_Pdf_Resource_Image_Jpeg($filename);

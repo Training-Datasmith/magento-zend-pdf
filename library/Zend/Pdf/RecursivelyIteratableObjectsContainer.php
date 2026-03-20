@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,7 +21,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * Iteratable objects container
  *
@@ -29,82 +28,73 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_RecursivelyIteratableObjectsContainer implements RecursiveIterator, Countable
+class Zend_pdf_recursively_Iteratable_Objects_Container implements Recursive_Iterator, Countable
 {
     protected $_objects = [];
-
     public function __construct(array $objects)
     {
         $this->_objects = $objects;
     }
-
     /**
      * @inheritDoc
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function current()
     {
         return current($this->_objects);
     }
-
     /**
      * @inheritDoc
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function key()
     {
         return key($this->_objects);
     }
-
     /**
      * @inheritDoc
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function next()
     {
         return next($this->_objects);
     }
-
     /**
      * @inheritDoc
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function rewind()
     {
         return reset($this->_objects);
     }
-
     /**
      * @inheritDoc
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function valid()
     {
         return current($this->_objects) !== false;
     }
-
     /**
      * @inheritDoc
      */
-    #[\ReturnTypeWillChange]
-    public function getChildren()
+    #[\Return_Type_Will_Change]
+    public function get_children()
     {
         return current($this->_objects);
     }
-
     /**
      * @inheritDoc
      */
-    #[\ReturnTypeWillChange]
-    public function hasChildren()
+    #[\Return_Type_Will_Change]
+    public function has_children()
     {
         return count($this->_objects) > 0;
     }
-
     /**
      * @inheritDoc
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function count()
     {
         return count($this->_objects);

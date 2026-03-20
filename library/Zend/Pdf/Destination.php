@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,13 +21,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
-
 /** Zend_Pdf_Target */
 #require_once 'Zend/Pdf/Target.php';
-
 /**
  * Abstract PDF destination representation class
  *
@@ -47,12 +44,11 @@ abstract class Zend_Pdf_Destination extends Zend_Pdf_Target
     public static function load(Zend_Pdf_Element $resource)
     {
         #require_once 'Zend/Pdf/Element.php';
-        if ($resource->getType() == Zend_Pdf_Element::TYPE_NAME  ||  $resource->getType() == Zend_Pdf_Element::TYPE_STRING) {
+        if ($resource->get_type() == Zend_Pdf_Element::TYPE_NAME || $resource->get_type() == Zend_Pdf_Element::TYPE_STRING) {
             #require_once 'Zend/Pdf/Destination/Named.php';
             return new Zend_Pdf_Destination_Named($resource);
         }
-
-        if ($resource->getType() != Zend_Pdf_Element::TYPE_ARRAY) {
+        if ($resource->get_type() != Zend_Pdf_Element::TYPE_ARRAY) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('An explicit destination must be a direct or an indirect array object.');
         }
@@ -60,40 +56,31 @@ abstract class Zend_Pdf_Destination extends Zend_Pdf_Target
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('An explicit destination array must contain at least two elements.');
         }
-
         switch ($resource->items[1]->value) {
             case 'XYZ':
                 #require_once 'Zend/Pdf/Destination/Zoom.php';
                 return new Zend_Pdf_Destination_Zoom($resource);
-
             case 'Fit':
                 #require_once 'Zend/Pdf/Destination/Fit.php';
                 return new Zend_Pdf_Destination_Fit($resource);
-
             case 'FitH':
                 #require_once 'Zend/Pdf/Destination/FitHorizontally.php';
-                return new Zend_Pdf_Destination_FitHorizontally($resource);
-
+                return new Zend_pdf_destination_fit_Horizontally($resource);
             case 'FitV':
                 #require_once 'Zend/Pdf/Destination/FitVertically.php';
-                return new Zend_Pdf_Destination_FitVertically($resource);
-
+                return new Zend_pdf_destination_fit_Vertically($resource);
             case 'FitR':
                 #require_once 'Zend/Pdf/Destination/FitRectangle.php';
-                return new Zend_Pdf_Destination_FitRectangle($resource);
-
+                return new Zend_pdf_destination_fit_Rectangle($resource);
             case 'FitB':
                 #require_once 'Zend/Pdf/Destination/FitBoundingBox.php';
-                return new Zend_Pdf_Destination_FitBoundingBox($resource);
-
+                return new Zend_pdf_destination_fit_Bounding_Box($resource);
             case 'FitBH':
                 #require_once 'Zend/Pdf/Destination/FitBoundingBoxHorizontally.php';
-                return new Zend_Pdf_Destination_FitBoundingBoxHorizontally($resource);
-
+                return new Zend_pdf_destination_fit_Bounding_Box_Horizontally($resource);
             case 'FitBV':
                 #require_once 'Zend/Pdf/Destination/FitBoundingBoxVertically.php';
-                return new Zend_Pdf_Destination_FitBoundingBoxVertically($resource);
-
+                return new Zend_pdf_destination_fit_Bounding_Box_Vertically($resource);
             default:
                 #require_once 'Zend/Pdf/Destination/Unknown.php';
                 return new Zend_Pdf_Destination_Unknown($resource);

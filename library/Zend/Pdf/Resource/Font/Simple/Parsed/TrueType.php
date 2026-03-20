@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,16 +21,12 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Name.php';
-
 /** Zend_Pdf_Resource_Font_FontDescriptor */
 #require_once 'Zend/Pdf/Resource/Font/FontDescriptor.php';
-
 /** Zend_Pdf_Resource_Font_Simple_Parsed */
 #require_once 'Zend/Pdf/Resource/Font/Simple/Parsed.php';
-
 /**
  * TrueType fonts implementation
  *
@@ -42,7 +38,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Resource_Font_Simple_Parsed_TrueType extends Zend_Pdf_Resource_Font_Simple_Parsed
+class Zend_pdf_resource_font_simple_parsed_true_Type extends Zend_Pdf_Resource_Font_Simple_Parsed
 {
     /**
      * Object constructor
@@ -52,16 +48,12 @@ class Zend_Pdf_Resource_Font_Simple_Parsed_TrueType extends Zend_Pdf_Resource_Fo
      * @param integer $embeddingOptions Options for font embedding.
      * @throws Zend_Pdf_Exception
      */
-    public function __construct(Zend_Pdf_FileParser_Font_OpenType_TrueType $fontParser, $embeddingOptions)
+    public function __construct(Zend_pdf_file_Parser_font_open_Type_true_Type $font_parser, $embedding_options)
     {
-        parent::__construct($fontParser, $embeddingOptions);
-
-        $this->_fontType = Zend_Pdf_Font::TYPE_TRUETYPE;
-
-        $this->_resource->Subtype  = new Zend_Pdf_Element_Name('TrueType');
-
-        $fontDescriptor = Zend_Pdf_Resource_Font_FontDescriptor::factory($this, $fontParser, $embeddingOptions);
-        $this->_resource->FontDescriptor = $this->_objectFactory->newObject($fontDescriptor);
+        parent::__construct($font_parser, $embedding_options);
+        $this->_font_type = Zend_Pdf_Font::TYPE_TRUETYPE;
+        $this->_resource->Subtype = new Zend_Pdf_Element_Name('TrueType');
+        $font_descriptor = Zend_pdf_resource_font_font_Descriptor::factory($this, $font_parser, $embedding_options);
+        $this->_resource->font_descriptor = $this->_object_factory->new_object($font_descriptor);
     }
-
 }

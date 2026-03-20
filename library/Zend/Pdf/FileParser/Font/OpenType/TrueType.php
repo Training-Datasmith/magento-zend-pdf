@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,10 +21,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_FileParser_Font_OpenType */
 #require_once 'Zend/Pdf/FileParser/Font/OpenType.php';
-
 /**
  * Parses an OpenType font file containing TrueType outlines.
  *
@@ -33,12 +31,10 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_FileParser_Font_OpenType_TrueType extends Zend_Pdf_FileParser_Font_OpenType
+class Zend_pdf_file_Parser_font_open_Type_true_Type extends Zend_pdf_file_Parser_font_open_Type
 {
     /**** Public Interface ****/
-
     /* Concrete Class Implementation */
-
     /**
      * Verifies that the font file actually contains TrueType outlines.
      *
@@ -46,31 +42,24 @@ class Zend_Pdf_FileParser_Font_OpenType_TrueType extends Zend_Pdf_FileParser_Fon
      */
     public function screen()
     {
-        if ($this->_isScreened) {
+        if ($this->_is_screened) {
             return;
         }
-
         parent::screen();
-
-        switch ($this->_readScalerType()) {
-            case 0x00010000:    // version 1.0 - Windows TrueType signature
+        switch ($this->_read_scaler_type()) {
+            case 0x10000:
+                // version 1.0 - Windows TrueType signature
                 break;
-
-            case 0x74727565:    // 'true' - Macintosh TrueType signature
+            case 0x74727565:
+                // 'true' - Macintosh TrueType signature
                 break;
-
             default:
                 #require_once 'Zend/Pdf/Exception.php';
-                throw new Zend_Pdf_Exception(
-                    'Not a TrueType font file',
-                    Zend_Pdf_Exception::WRONG_FONT_TYPE
-                );
+                throw new Zend_Pdf_Exception('Not a TrueType font file', Zend_Pdf_Exception::WRONG_FONT_TYPE);
         }
-
-        $this->fontType = Zend_Pdf_Font::TYPE_TRUETYPE;
-        $this->_isScreened = true;
+        $this->font_type = Zend_Pdf_Font::TYPE_TRUETYPE;
+        $this->_is_screened = true;
     }
-
     /**
      * Reads and parses the TrueType font data from the file on disk.
      *
@@ -78,15 +67,12 @@ class Zend_Pdf_FileParser_Font_OpenType_TrueType extends Zend_Pdf_FileParser_Fon
      */
     public function parse()
     {
-        if ($this->_isParsed) {
+        if ($this->_is_parsed) {
             return;
         }
-
         parent::parse();
-
         /* There is nothing additional to parse for TrueType fonts at this time.
          */
-
-        $this->_isParsed = true;
+        $this->_is_parsed = true;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +20,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * PDF file element implementation
  *
@@ -30,30 +29,27 @@ declare(strict_types=1);
  */
 abstract class Zend_Pdf_Element
 {
-    public const TYPE_BOOL        = 1;
-    public const TYPE_NUMERIC     = 2;
-    public const TYPE_STRING      = 3;
-    public const TYPE_NAME        = 4;
-    public const TYPE_ARRAY       = 5;
-    public const TYPE_DICTIONARY  = 6;
-    public const TYPE_STREAM      = 7;
-    public const TYPE_NULL        = 11;
-
+    public const TYPE_BOOL = 1;
+    public const TYPE_NUMERIC = 2;
+    public const TYPE_STRING = 3;
+    public const TYPE_NAME = 4;
+    public const TYPE_ARRAY = 5;
+    public const TYPE_DICTIONARY = 6;
+    public const TYPE_STREAM = 7;
+    public const TYPE_NULL = 11;
     /**
      * Reference to the top level indirect object, which contains this element.
      *
      * @var Zend_Pdf_Element_Object
      */
-    private $_parentObject;
-
+    private $_parent_object;
     /**
      * Return type of the element.
      * See ZPdfPDFConst for possible values
      *
      * @return integer
      */
-    abstract public function getType();
-
+    abstract public function get_type();
     /**
      * Convert element to a string, which can be directly
      * written to a PDF file.
@@ -63,11 +59,11 @@ abstract class Zend_Pdf_Element
      * @param Zend_Pdf_Factory $factory
      * @return string
      */
-    abstract public function toString($factory = null);
-
-    public const CLONE_MODE_SKIP_PAGES    = 1; // Do not follow pages during deep copy process
-    public const CLONE_MODE_FORCE_CLONING = 2; // Force top level object cloning even it's already processed
-
+    abstract public function to_string($factory = null);
+    public const CLONE_MODE_SKIP_PAGES = 1;
+    // Do not follow pages during deep copy process
+    public const CLONE_MODE_FORCE_CLONING = 2;
+    // Force top level object cloning even it's already processed
     /**
      * Detach PDF object from the factory (if applicable), clone it and attach to new factory.
      *
@@ -79,29 +75,26 @@ abstract class Zend_Pdf_Element
      * @param integer $mode  Cloning mode (defines filter for objects cloning)
      * @returns Zend_Pdf_Element
      */
-    public function makeClone(Zend_Pdf_ElementFactory $factory, array &$processed, $mode)
+    public function make_clone(Zend_pdf_element_Factory $factory, array &$processed, $mode)
     {
         return clone $this;
     }
-
     /**
      * Set top level parent indirect object.
      */
-    public function setParentObject(Zend_Pdf_Element_Object $parent)
+    public function set_parent_object(Zend_Pdf_Element_Object $parent)
     {
-        $this->_parentObject = $parent;
+        $this->_parent_object = $parent;
     }
-
     /**
      * Get top level parent indirect object.
      *
      * @return Zend_Pdf_Element_Object
      */
-    public function getParentObject()
+    public function get_parent_object()
     {
-        return $this->_parentObject;
+        return $this->_parent_object;
     }
-
     /**
      * Mark object as modified, to include it into new PDF file segment.
      *
@@ -110,33 +103,30 @@ abstract class Zend_Pdf_Element
      */
     public function touch()
     {
-        if ($this->_parentObject !== null) {
-            $this->_parentObject->touch();
+        if ($this->_parent_object !== null) {
+            $this->_parent_object->touch();
         }
     }
-
     /**
      * Clean up resources, used by object
      */
-    public function cleanUp()
+    public function clean_up()
     {
         // Do nothing
     }
-
     /**
      * Convert PDF element to PHP type.
      *
      * @return mixed
      */
-    abstract public function toPhp();
-
+    abstract public function to_php();
     /**
      * Convert PHP value into PDF element.
      *
      * @param mixed $input
      * @return Zend_Pdf_Element
      */
-    public static function phpToPdf($input)
+    public static function php_to_pdf($input)
     {
         if (is_numeric($input)) {
             #require_once 'Zend/Pdf/Element/Numeric.php';
@@ -147,24 +137,22 @@ abstract class Zend_Pdf_Element
             return new Zend_Pdf_Element_Boolean($input);
         }
         if (is_array($input)) {
-            $pdfElementsArray = [];
-            $isDictionary = false;
-
+            $pdf_elements_array = [];
+            $is_dictionary = false;
             foreach ($input as $key => $value) {
                 if (is_string($key)) {
-                    $isDictionary = true;
+                    $is_dictionary = true;
                 }
-                $pdfElementsArray[$key] = Zend_Pdf_Element::phpToPdf($value);
+                $pdf_elements_array[$key] = Zend_Pdf_Element::php_to_pdf($value);
             }
-
-            if ($isDictionary) {
+            if ($is_dictionary) {
                 #require_once 'Zend/Pdf/Element/Dictionary.php';
-                return new Zend_Pdf_Element_Dictionary($pdfElementsArray);
+                return new Zend_Pdf_Element_Dictionary($pdf_elements_array);
             }
             #require_once 'Zend/Pdf/Element/Array.php';
-            return new Zend_Pdf_Element_Array($pdfElementsArray);
+            return new Zend_Pdf_Element_Array($pdf_elements_array);
         }
         #require_once 'Zend/Pdf/Element/String.php';
-        return new Zend_Pdf_Element_String((string)$input);
+        return new Zend_Pdf_Element_String((string) $input);
     }
 }

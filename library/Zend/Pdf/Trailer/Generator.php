@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Trailer */
 #require_once 'Zend/Pdf/Trailer.php';
-
 /**
  * PDF file trailer generator (used for just created PDF)
  *
@@ -36,26 +34,24 @@ class Zend_Pdf_Trailer_Generator extends Zend_Pdf_Trailer
     /**
      * Get length of source PDF
      */
-    public function getPDFLength(): int
+    public function get_pdf_length(): int
     {
         #require_once 'Zend/Pdf.php';
         return strlen(Zend_Pdf::PDF_HEADER);
     }
-
     /**
      * Get PDF String
      */
-    public function getPDFString(): string
+    public function get_pdf_string(): string
     {
         #require_once 'Zend/Pdf.php';
         return Zend_Pdf::PDF_HEADER;
     }
-
     /**
      * Get header of free objects list
      * Returns object number of last free object
      */
-    public function getLastFreeObject(): int
+    public function get_last_free_object(): int
     {
         return 0;
     }

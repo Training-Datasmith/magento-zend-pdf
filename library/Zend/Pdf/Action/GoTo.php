@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,16 +21,12 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Destination.php';
-
 #require_once 'Zend/Pdf/Element/Dictionary.php';
 #require_once 'Zend/Pdf/Element/Name.php';
-
 /** Zend_Pdf_Action */
 #require_once 'Zend/Pdf/Action.php';
-
 /**
  * PDF 'Go to' action
  *
@@ -39,7 +35,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Action_GoTo extends Zend_Pdf_Action
+class Zend_pdf_action_go_To extends Zend_Pdf_Action
 {
     /**
      * GoTo Action destination
@@ -47,67 +43,57 @@ class Zend_Pdf_Action_GoTo extends Zend_Pdf_Action
      * @var Zend_Pdf_Destination
      */
     protected $_destination;
-
     /**
      * Object constructor
      *
      * @param Zend_Pdf_Element_Dictionary $dictionary
      * @param SplObjectStorage            $processedActions  list of already processed action dictionaries, used to avoid cyclic references
      */
-    public function __construct(Zend_Pdf_Element $dictionary, SplObjectStorage $processedActions)
+    public function __construct(Zend_Pdf_Element $dictionary, Spl_Object_Storage $processed_actions)
     {
-        parent::__construct($dictionary, $processedActions);
-
+        parent::__construct($dictionary, $processed_actions);
         $this->_destination = Zend_Pdf_Destination::load($dictionary->D);
     }
-
     /**
      * Create new Zend_Pdf_Action_GoTo object using specified destination
      *
      * @param Zend_Pdf_Destination|string $destination
      */
-    public static function create($destination): \Zend_Pdf_Action_GoTo
+    public static function create($destination): \Zend_pdf_action_go_To
     {
         if (is_string($destination)) {
             #require_once 'Zend/Pdf/Destination/Named.php';
             $destination = Zend_Pdf_Destination_Named::create($destination);
         }
-
         if (!$destination instanceof Zend_Pdf_Destination) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('$destination parameter must be a Zend_Pdf_Destination object or string.');
         }
-
         $dictionary = new Zend_Pdf_Element_Dictionary();
         $dictionary->Type = new Zend_Pdf_Element_Name('Action');
-        $dictionary->S    = new Zend_Pdf_Element_Name('GoTo');
+        $dictionary->S = new Zend_Pdf_Element_Name('GoTo');
         $dictionary->Next = null;
-        $dictionary->D    = $destination->getResource();
-
-        return new Zend_Pdf_Action_GoTo($dictionary, new SplObjectStorage());
+        $dictionary->D = $destination->get_resource();
+        return new Zend_pdf_action_go_To($dictionary, new Spl_Object_Storage());
     }
-
     /**
      * Set goto action destination
      *
      * @param Zend_Pdf_Destination|string $destination
      */
-    public function setDestination(Zend_Pdf_Destination $destination): self
+    public function set_destination(Zend_Pdf_Destination $destination): self
     {
         $this->_destination = $destination;
-
-        $this->_actionDictionary->touch();
-        $this->_actionDictionary->D = $destination->getResource();
-
+        $this->_action_dictionary->touch();
+        $this->_action_dictionary->D = $destination->get_resource();
         return $this;
     }
-
     /**
      * Get goto action destination
      *
      * @return Zend_Pdf_Destination
      */
-    public function getDestination()
+    public function get_destination()
     {
         return $this->_destination;
     }

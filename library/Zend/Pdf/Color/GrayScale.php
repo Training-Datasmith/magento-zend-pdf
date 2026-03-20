@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,13 +20,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 /** Zend_Pdf_Color */
 #require_once 'Zend/Pdf/Color.php';
-
 /**
  * GrayScale color implementation
  *
@@ -35,7 +32,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Color_GrayScale extends Zend_Pdf_Color
+class Zend_pdf_color_gray_Scale extends Zend_Pdf_Color
 {
     /**
      * GrayLevel.
@@ -43,25 +40,22 @@ class Zend_Pdf_Color_GrayScale extends Zend_Pdf_Color
      *
      * @var Zend_Pdf_Element_Numeric
      */
-    private $_grayLevel;
-
+    private $_gray_level;
     /**
      * Object constructor
      *
      * @param float $grayLevel
      */
-    public function __construct($grayLevel)
+    public function __construct($gray_level)
     {
-        if ($grayLevel < 0) {
-            $grayLevel = 0;
+        if ($gray_level < 0) {
+            $gray_level = 0;
         }
-        if ($grayLevel > 1) {
-            $grayLevel = 1;
+        if ($gray_level > 1) {
+            $gray_level = 1;
         }
-
-        $this->_grayLevel = new Zend_Pdf_Element_Numeric($grayLevel);
+        $this->_gray_level = new Zend_Pdf_Element_Numeric($gray_level);
     }
-
     /**
      * Instructions, which can be directly inserted into content stream
      * to switch color.
@@ -71,14 +65,13 @@ class Zend_Pdf_Color_GrayScale extends Zend_Pdf_Color
      */
     public function instructions($stroking): string
     {
-        return $this->_grayLevel->toString() . ($stroking ? " G\n" : " g\n");
+        return $this->_gray_level->to_string() . ($stroking ? " G\n" : " g\n");
     }
-
     /**
      * Get color components (color space dependent)
      */
-    public function getComponents(): array
+    public function get_components(): array
     {
-        return [$this->_grayLevel->value];
+        return [$this->_gray_level->value];
     }
 }

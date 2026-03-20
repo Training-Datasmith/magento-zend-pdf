@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,15 +20,11 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
-
 /** Zend_Pdf_Element_Name */
 #require_once 'Zend/Pdf/Element/Name.php';
-
 /** Zend_Pdf_Resource */
 #require_once 'Zend/Pdf/Resource.php';
-
 /**
  * Image abstraction.
  *
@@ -44,8 +40,7 @@ abstract class Zend_Pdf_Resource_Image extends Zend_Pdf_Resource
     public function __construct()
     {
         parent::__construct('');
-
-        $this->_resource->dictionary->Type    = new Zend_Pdf_Element_Name('XObject');
+        $this->_resource->dictionary->Type = new Zend_Pdf_Element_Name('XObject');
         $this->_resource->dictionary->Subtype = new Zend_Pdf_Element_Name('Image');
     }
     /**
@@ -53,19 +48,17 @@ abstract class Zend_Pdf_Resource_Image extends Zend_Pdf_Resource
      *
      * @return integer
      */
-    abstract public function getPixelHeight();
-
+    abstract public function get_pixel_height();
     /**
      * get the width in pixels of the image
      *
      * @return integer
      */
-    abstract public function getPixelWidth();
-
+    abstract public function get_pixel_width();
     /**
      * gets an associative array of information about an image
      *
      * @return array
      */
-    abstract public function getProperties();
+    abstract public function get_properties();
 }

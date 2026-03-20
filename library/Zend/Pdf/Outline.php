@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,7 +21,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * Abstract PDF outline representation class
  *
@@ -32,7 +31,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
+abstract class Zend_Pdf_Outline implements Recursive_Iterator, Countable
 {
     /**
      * True if outline is open.
@@ -40,14 +39,12 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      * @var boolean
      */
     protected $_open = false;
-
     /**
      * Outline title.
      *
      * @var string
      */
     protected $_title;
-
     /**
      * True if outline item is displayed in italic.
      * Default value is false.
@@ -55,17 +52,14 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      * @var boolean
      */
     protected $_italic = false;
-
     /**
      * Color to be used for the outline entry’s text.
-
      * It uses the DeviceRGB color space for color representation.
      * Null means default value - black ([0.0 0.0 0.0] in RGB representation).
      *
      * @var Zend_Pdf_Color_Rgb
      */
     protected $_color;
-
     /**
      * True if outline item is displayed in bold.
      * Default value is false.
@@ -73,7 +67,6 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      * @var boolean
      */
     protected $_bold = false;
-
     /**
      * Target destination or action.
      * String means named destination
@@ -83,103 +76,90 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      * @var Zend_Pdf_Destination|Zend_Pdf_Action
      */
     protected $_target;
-
     /**
      * Array of child outlines (array of Zend_Pdf_Outline objects)
      *
      * @var array
      */
-    public $childOutlines = [];
-
+    public $child_outlines = [];
     /**
      * Get outline title.
      *
      * @return string
      */
-    abstract public function getTitle();
-
+    abstract public function get_title();
     /**
      * Set outline title
      *
      * @param string $title
      * @return Zend_Pdf_Outline
      */
-    abstract public function setTitle($title);
-
+    abstract public function set_title($title);
     /**
      * Returns true if outline item is open by default
      *
      * @return boolean
      */
-    public function isOpen()
+    public function is_open()
     {
         return $this->_open;
     }
-
     /**
      * Sets 'isOpen' outline flag
      *
      * @param boolean $isOpen
      * @return Zend_Pdf_Outline
      */
-    public function setIsOpen($isOpen)
+    public function set_is_open($is_open)
     {
-        $this->_open = $isOpen;
+        $this->_open = $is_open;
         return $this;
     }
-
     /**
      * Returns true if outline item is displayed in italic
      *
      * @return boolean
      */
-    abstract public function isItalic();
-
+    abstract public function is_italic();
     /**
      * Sets 'isItalic' outline flag
      *
      * @param boolean $isItalic
      * @return Zend_Pdf_Outline
      */
-    abstract public function setIsItalic($isItalic);
-
+    abstract public function set_is_italic($is_italic);
     /**
      * Returns true if outline item is displayed in bold
      *
      * @return boolean
      */
-    abstract public function isBold();
-
+    abstract public function is_bold();
     /**
      * Sets 'isBold' outline flag
      *
      * @param boolean $isBold
      * @return Zend_Pdf_Outline
      */
-    abstract public function setIsBold($isBold);
-
+    abstract public function set_is_bold($is_bold);
     /**
      * Get outline text color.
      *
      * @return Zend_Pdf_Color_Rgb
      */
-    abstract public function getColor();
-
+    abstract public function get_color();
     /**
      * Set outline text color.
      * (null means default color which is black)
      *
      * @return Zend_Pdf_Outline
      */
-    abstract public function setColor(Zend_Pdf_Color_Rgb $color);
-
+    abstract public function set_color(Zend_Pdf_Color_Rgb $color);
     /**
      * Get outline target.
      *
      * @return Zend_Pdf_Target
      */
-    abstract public function getTarget();
-
+    abstract public function get_target();
     /**
      * Set outline target.
      * Null means no target
@@ -187,65 +167,51 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      * @param Zend_Pdf_Target|string $target
      * @return Zend_Pdf_Outline
      */
-    abstract public function setTarget($target = null);
-
+    abstract public function set_target($target = null);
     /**
      * Get outline options
      *
      * @return array
      */
-    public function getOptions()
+    public function get_options()
     {
-        return ['title'  => $this->_title,
-                     'open'   => $this->_open,
-                     'color'  => $this->_color,
-                     'italic' => $this->_italic,
-                     'bold'   => $this->_bold,
-                     'target' => $this->_target];
+        return ['title' => $this->_title, 'open' => $this->_open, 'color' => $this->_color, 'italic' => $this->_italic, 'bold' => $this->_bold, 'target' => $this->_target];
     }
-
     /**
      * Set outline options
      *
      * @return Zend_Pdf_Action
      * @throws Zend_Pdf_Exception
      */
-    public function setOptions(array $options)
+    public function set_options(array $options)
     {
         foreach ($options as $key => $value) {
             switch ($key) {
                 case 'title':
-                    $this->setTitle($value);
+                    $this->set_title($value);
                     break;
-
                 case 'open':
-                    $this->setIsOpen($value);
+                    $this->set_is_open($value);
                     break;
-
                 case 'color':
-                    $this->setColor($value);
+                    $this->set_color($value);
                     break;
                 case 'italic':
-                    $this->setIsItalic($value);
+                    $this->set_is_italic($value);
                     break;
-
                 case 'bold':
-                    $this->setIsBold($value);
+                    $this->set_is_bold($value);
                     break;
-
                 case 'target':
-                    $this->setTarget($value);
+                    $this->set_target($value);
                     break;
-
                 default:
                     #require_once 'Zend/Pdf/Exception.php';
-                    throw new Zend_Pdf_Exception("Unknown option name - '$key'.");
+                    throw new Zend_Pdf_Exception("Unknown option name - '{$key}'.");
             }
         }
-
         return $this;
     }
-
     /**
      * Create new Outline object
      *
@@ -270,40 +236,35 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
     {
         #require_once 'Zend/Pdf/Outline/Created.php';
         if (is_string($param1)) {
-            if ($param2 !== null  &&  !($param2 instanceof Zend_Pdf_Target  ||  is_string($param2))) {
+            if ($param2 !== null && !($param2 instanceof Zend_Pdf_Target || is_string($param2))) {
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Outline create method takes $title (string) and $target (Zend_Pdf_Target or string) or an array as an input');
             }
-
-            return new Zend_Pdf_Outline_Created(['title'  => $param1,
-                                                      'target' => $param2]);
+            return new Zend_Pdf_Outline_Created(['title' => $param1, 'target' => $param2]);
         }
-        if (!is_array($param1)  ||  $param2 !== null) {
+        if (!is_array($param1) || $param2 !== null) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Outline create method takes $title (string) and $destination (Zend_Pdf_Destination) or an array as an input');
         }
         return new Zend_Pdf_Outline_Created($param1);
     }
-
     /**
      * Returns number of the total number of open items at all levels of the outline.
      *
      * @internal
      * @return integer
      */
-    public function openOutlinesCount()
+    public function open_outlines_count()
     {
-        $count = 1; // Include this outline
-
-        if ($this->isOpen()) {
-            foreach ($this->childOutlines as $child) {
-                $count += $child->openOutlinesCount();
+        $count = 1;
+        // Include this outline
+        if ($this->is_open()) {
+            foreach ($this->child_outlines as $child) {
+                $count += $child->open_outlines_count();
             }
         }
-
         return $count;
     }
-
     /**
      * Dump Outline and its child outlines into PDF structures
      *
@@ -316,103 +277,87 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
      * @param SplObjectStorage $processedOutlines  List of already processed outlines
      * @return Zend_Pdf_Element
      */
-    abstract public function dumpOutline(
-        Zend_Pdf_ElementFactory_Interface $factory,
-        $updateNavigation,
-        Zend_Pdf_Element $parent,
-        ?Zend_Pdf_Element $prev = null,
-        ?SplObjectStorage $processedOutlines = null
-    );
-
+    abstract public function dump_outline(Zend_pdf_element_Factory_interface $factory, $update_navigation, Zend_Pdf_Element $parent, ?Zend_Pdf_Element $prev = null, ?Spl_Object_Storage $processed_outlines = null);
     ////////////////////////////////////////////////////////////////////////
     //  RecursiveIterator interface methods
     //////////////
-
     /**
      * Returns the child outline.
      *
      * @return Zend_Pdf_Outline
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function current()
     {
-        return current($this->childOutlines);
+        return current($this->child_outlines);
     }
-
     /**
      * Returns current iterator key
      *
      * @return integer
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function key()
     {
-        return key($this->childOutlines);
+        return key($this->child_outlines);
     }
-
     /**
      * Go to next child
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function next()
     {
-        return next($this->childOutlines);
+        return next($this->child_outlines);
     }
-
     /**
      * Rewind children
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function rewind()
     {
-        return reset($this->childOutlines);
+        return reset($this->child_outlines);
     }
-
     /**
      * Check if current position is valid
      *
      * @return boolean
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function valid()
     {
-        return current($this->childOutlines) !== false;
+        return current($this->child_outlines) !== false;
     }
-
     /**
      * Returns the child outline.
      *
      * @return Zend_Pdf_Outline|null
      */
-    #[\ReturnTypeWillChange]
-    public function getChildren()
+    #[\Return_Type_Will_Change]
+    public function get_children()
     {
-        return current($this->childOutlines);
+        return current($this->child_outlines);
     }
-
     /**
      * Implements RecursiveIterator interface.
      *
      * @return bool  whether container has any pages
      */
-    #[\ReturnTypeWillChange]
-    public function hasChildren()
+    #[\Return_Type_Will_Change]
+    public function has_children()
     {
-        return count($this->childOutlines) > 0;
+        return count($this->child_outlines) > 0;
     }
-
     ////////////////////////////////////////////////////////////////////////
     //  Countable interface methods
     //////////////
-
     /**
      * count()
      *
      * @return int
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function count()
     {
-        return count($this->childOutlines);
+        return count($this->child_outlines);
     }
 }

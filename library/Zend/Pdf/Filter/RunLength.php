@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Filter_Interface */
 #require_once 'Zend/Pdf/Filter/Interface.php';
-
 /**
  * RunLength stream filter
  *
@@ -31,7 +29,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
+class Zend_pdf_filter_run_Length implements Zend_Pdf_Filter_Interface
 {
     /**
      * Encode data
@@ -43,45 +41,35 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
     public static function encode($data, $params = null): string
     {
         $output = '';
-
-        $chainStartOffset = 0;
+        $chain_start_offset = 0;
         $offset = 0;
-
         while ($offset < strlen($data)) {
             // Do not encode 2 char chains since they produce 2 char run sequence,
             // but it takes more time to decode such output (because of processing additional run)
-            if (($repeatedCharChainLength = strspn($data, $data[$offset], $offset + 1, 127) + 1)  >  2) {
-                if ($chainStartOffset != $offset) {
+            if (($repeated_char_chain_length = strspn($data, $data[$offset], $offset + 1, 127) + 1) > 2) {
+                if ($chain_start_offset != $offset) {
                     // Drop down previouse (non-repeatable chars) run
-                    $output .= chr($offset - $chainStartOffset - 1)
-                             . substr($data, $chainStartOffset, $offset - $chainStartOffset);
+                    $output .= chr($offset - $chain_start_offset - 1) . substr($data, $chain_start_offset, $offset - $chain_start_offset);
                 }
-
-                $output .= chr(257 - $repeatedCharChainLength) . $data[$offset];
-
-                $offset += $repeatedCharChainLength;
-                $chainStartOffset = $offset;
+                $output .= chr(257 - $repeated_char_chain_length) . $data[$offset];
+                $offset += $repeated_char_chain_length;
+                $chain_start_offset = $offset;
             } else {
                 $offset++;
-
-                if ($offset - $chainStartOffset == 128) {
+                if ($offset - $chain_start_offset == 128) {
                     // Maximum run length is reached
                     // Drop down non-repeatable chars run
-                    $output .= "\x7F" . substr($data, $chainStartOffset, 128);
-
-                    $chainStartOffset = $offset;
+                    $output .= "" . substr($data, $chain_start_offset, 128);
+                    $chain_start_offset = $offset;
                 }
             }
         }
-
-        if ($chainStartOffset != $offset) {
+        if ($chain_start_offset != $offset) {
             // Drop down non-repeatable chars run
-            $output .= chr($offset - $chainStartOffset - 1) . substr($data, $chainStartOffset, $offset - $chainStartOffset);
+            $output .= chr($offset - $chain_start_offset - 1) . substr($data, $chain_start_offset, $offset - $chain_start_offset);
         }
-
         return $output . "\x80";
     }
-
     /**
      * Decode data
      *
@@ -91,30 +79,24 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
      */
     public static function decode($data, $params = null): string
     {
-        $dataLength = strlen($data);
+        $data_length = strlen($data);
         $output = '';
         $offset = 0;
-
-        while ($offset < $dataLength) {
+        while ($offset < $data_length) {
             $length = ord($data[$offset]);
-
             $offset++;
-
             if ($length == 128) {
                 // EOD byte
                 break;
             } elseif ($length < 128) {
                 $length++;
-
                 $output .= substr($data, $offset, $length);
-
                 $offset += $length;
             } else {
                 $output .= str_repeat($data[$offset], 257 - $length);
                 $offset++;
             }
         }
-
         return $output;
     }
 }

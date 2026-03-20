@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,10 +21,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Cmap_ByteEncoding */
 #require_once 'Zend/Pdf/Cmap/ByteEncoding.php';
-
 /**
  * Custom cmap type used for the Adobe Standard 14 PDF fonts.
  *
@@ -36,12 +34,10 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Cmap_ByteEncoding_Static extends Zend_Pdf_Cmap_ByteEncoding
+class Zend_pdf_cmap_byte_Encoding_static extends Zend_pdf_cmap_byte_Encoding
 {
     /**** Public Interface ****/
-
     /* Object Lifecycle */
-
     /**
      * Object constructor
      *
@@ -49,16 +45,12 @@ class Zend_Pdf_Cmap_ByteEncoding_Static extends Zend_Pdf_Cmap_ByteEncoding
      *   values are glyph numbers.
      * @throws Zend_Pdf_Exception
      */
-    public function __construct($cmapData)
+    public function __construct($cmap_data)
     {
-        if (! is_array($cmapData)) {
+        if (!is_array($cmap_data)) {
             #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception(
-                'Constructor parameter must be an array',
-                Zend_Pdf_Exception::BAD_PARAMETER_TYPE
-            );
+            throw new Zend_Pdf_Exception('Constructor parameter must be an array', Zend_Pdf_Exception::BAD_PARAMETER_TYPE);
         }
-        $this->_glyphIndexArray = $cmapData;
+        $this->_glyph_index_array = $cmap_data;
     }
-
 }

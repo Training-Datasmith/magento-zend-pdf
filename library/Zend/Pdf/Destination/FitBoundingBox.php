@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,15 +21,12 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Array.php';
 #require_once 'Zend/Pdf/Element/Name.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 /** Zend_Pdf_Destination_Explicit */
 #require_once 'Zend/Pdf/Destination/Explicit.php';
-
 /**
  * Zend_Pdf_Destination_FitBoundingBox explicit detination
  *
@@ -46,7 +43,7 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Destination_FitBoundingBox extends Zend_Pdf_Destination_Explicit
+class Zend_pdf_destination_fit_Bounding_Box extends Zend_Pdf_Destination_Explicit
 {
     /**
      * Create destination object
@@ -54,21 +51,18 @@ class Zend_Pdf_Destination_FitBoundingBox extends Zend_Pdf_Destination_Explicit
      * @param Zend_Pdf_Page|integer $page  Page object or page number
      * @throws Zend_Pdf_Exception
      */
-    public static function create($page): \Zend_Pdf_Destination_FitBoundingBox
+    public static function create($page): \Zend_pdf_destination_fit_Bounding_Box
     {
-        $destinationArray = new Zend_Pdf_Element_Array();
-
+        $destination_array = new Zend_Pdf_Element_Array();
         if ($page instanceof Zend_Pdf_Page) {
-            $destinationArray->items[] = $page->getPageDictionary();
+            $destination_array->items[] = $page->get_page_dictionary();
         } elseif (is_integer($page)) {
-            $destinationArray->items[] = new Zend_Pdf_Element_Numeric($page);
+            $destination_array->items[] = new Zend_Pdf_Element_Numeric($page);
         } else {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Page entry must be a Zend_Pdf_Page object or a page number.');
         }
-
-        $destinationArray->items[] = new Zend_Pdf_Element_Name('FitB');
-
-        return new Zend_Pdf_Destination_FitBoundingBox($destinationArray);
+        $destination_array->items[] = new Zend_Pdf_Element_Name('FitB');
+        return new Zend_pdf_destination_fit_Bounding_Box($destination_array);
     }
 }

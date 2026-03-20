@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,13 +21,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Font.php';
-
 /** Zend_Pdf_FileParser */
 #require_once 'Zend/Pdf/FileParser.php';
-
 /**
  * Abstract helper class for {@link Zend_Pdf_Font} that parses font files.
  *
@@ -40,23 +37,20 @@ declare(strict_types=1);
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
+abstract class Zend_pdf_file_Parser_font extends Zend_pdf_file_Parser
 {
     /**** Instance Variables ****/
-
     /**
      * Array of parsed font properties. Used with {@link __get()} and
      * {@link __set()}.
      * @var array
      */
-    private $_fontProperties = [];
-
+    private $_font_properties = [];
     /**
      * Flag indicating whether or not debug logging is active.
      * @var boolean
      */
     private $_debug = false;
-
     /**** Public Interface ****/
     /* Object Lifecycle */
     /**
@@ -66,12 +60,11 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      *
      * @throws Zend_Pdf_Exception
      */
-    public function __construct(Zend_Pdf_FileParserDataSource $dataSource)
+    public function __construct(Zend_pdf_file_Parser_Data_Source $data_source)
     {
-        parent::__construct($dataSource);
-        $this->fontType = Zend_Pdf_Font::TYPE_UNKNOWN;
+        parent::__construct($data_source);
+        $this->font_type = Zend_Pdf_Font::TYPE_UNKNOWN;
     }
-
     /* Accessors */
     /**
      * Get handler
@@ -80,13 +73,10 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      */
     public function __get(string $property)
     {
-        return $this->_fontProperties[$property] ?? null;
+        return $this->_font_properties[$property] ?? null;
     }
-
     /* NOTE: The set handler is defined below in the internal methods group. */
-
     /* Parser Methods */
-
     /**
      * Reads the Unicode UTF-16-encoded string from the binary file at the
      * current offset location. Overridden to fix return character set at UTF-16BE.
@@ -101,14 +91,10 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      * @return string
      * @throws Zend_Pdf_Exception
      */
-    public function readStringUTF16(
-        $byteCount,
-        $byteOrder = Zend_Pdf_FileParser::BYTE_ORDER_BIG_ENDIAN,
-        $characterSet = ''
-    ) {
-        return parent::readStringUTF16($byteCount, $byteOrder, 'UTF-16BE');
+    public function read_string_utf16($byte_count, $byte_order = Zend_pdf_file_Parser::BYTE_ORDER_BIG_ENDIAN, $character_set = '')
+    {
+        return parent::read_string_utf16($byte_count, $byte_order, 'UTF-16BE');
     }
-
     /**
      * Reads the Mac Roman-encoded string from the binary file at the current
      * offset location. Overridden to fix return character set at UTF-16BE.
@@ -118,11 +104,10 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      * @return string
      * @throws Zend_Pdf_Exception
      */
-    public function readStringMacRoman($byteCount, $characterSet = '')
+    public function read_string_mac_roman($byte_count, $character_set = '')
     {
-        return parent::readStringMacRoman($byteCount, 'UTF-16BE');
+        return parent::read_string_mac_roman($byte_count, 'UTF-16BE');
     }
-
     /**
      * Reads the Pascal string from the binary file at the current offset
      * location. Overridden to fix return character set at UTF-16BE.
@@ -133,21 +118,18 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      * @return string
      * @throws Zend_Pdf_Exception
      */
-    public function readStringPascal($characterSet = '', $lengthBytes = 1)
+    public function read_string_pascal($character_set = '', $length_bytes = 1)
     {
-        return parent::readStringPascal('UTF-16BE');
+        return parent::read_string_pascal('UTF-16BE');
     }
-
     /* Utility Methods */
-
     /**
      * Writes the entire font properties array to STDOUT. Used only for debugging.
      */
-    public function writeDebug()
+    public function write_debug()
     {
-        print_r($this->_fontProperties);
+        print_r($this->_font_properties);
     }
-
     /**** Internal Methods ****/
     /* Internal Accessors */
     /**
@@ -161,14 +143,12 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
     public function __set(string $property, $value)
     {
         if ($value === null) {
-            unset($this->_fontProperties[$property]);
+            unset($this->_font_properties[$property]);
         } else {
-            $this->_fontProperties[$property] = $value;
+            $this->_font_properties[$property] = $value;
         }
     }
-
     /* Internal Utility Methods */
-
     /**
      * If debug logging is enabled, writes the log message.
      *
@@ -178,9 +158,9 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      * @param string $message
      * @param mixed (optional, multiple) Additional arguments
      */
-    protected function _debugLog($message)
+    protected function _debug_log($message)
     {
-        if (! $this->_debug) {
+        if (!$this->_debug) {
             return;
         }
         if (func_num_args() > 1) {
@@ -188,7 +168,6 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
             $message = array_shift($args);
             $message = vsprintf($message, $args);
         }
-
         #require_once 'Zend/Log.php';
         $logger = new Zend_Log();
         $logger->log($message, Zend_Log::DEBUG);

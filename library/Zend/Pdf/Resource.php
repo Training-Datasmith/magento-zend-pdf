@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +20,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * PDF file Resource abstraction
  *
@@ -48,15 +47,13 @@ abstract class Zend_Pdf_Resource
      *
      * @var Zend_Pdf_ElementFactory_Interface
      */
-    protected $_objectFactory;
-
+    protected $_object_factory;
     /**
      * Main resource object
      *
      * @var Zend_Pdf_Element_Object
      */
     protected $_resource;
-
     /**
      * Object constructor.
      *
@@ -68,22 +65,18 @@ abstract class Zend_Pdf_Resource
     public function __construct($resource)
     {
         if ($resource instanceof Zend_Pdf_Element_Object) {
-            $this->_objectFactory = $resource->getFactory();
-            $this->_resource      = $resource;
-
+            $this->_object_factory = $resource->get_factory();
+            $this->_resource = $resource;
             return;
         }
-
         #require_once 'Zend/Pdf/ElementFactory.php';
-
-        $this->_objectFactory = Zend_Pdf_ElementFactory::createFactory(1);
+        $this->_object_factory = Zend_pdf_element_Factory::create_factory(1);
         if ($resource instanceof Zend_Pdf_Element) {
-            $this->_resource  = $this->_objectFactory->newObject($resource);
+            $this->_resource = $this->_object_factory->new_object($resource);
         } else {
-            $this->_resource  = $this->_objectFactory->newStreamObject($resource);
+            $this->_resource = $this->_object_factory->new_stream_object($resource);
         }
     }
-
     /**
      * Clone page, extract it and dependent objects from the current document,
      * so it can be used within other docs.
@@ -91,7 +84,6 @@ abstract class Zend_Pdf_Resource
     public function __clone()
     {
         /** @todo implementation*/
-
         //        $factory = Zend_Pdf_ElementFactory::createFactory(1);
         //        $processed = array();
         //
@@ -111,7 +103,6 @@ abstract class Zend_Pdf_Resource
         //        $this->_style          = null;
         //        $this->_font           = null;
     }
-
     /**
      * Clone resource, extract it and dependent objects from the current document,
      * so it can be used within other docs.
@@ -121,10 +112,9 @@ abstract class Zend_Pdf_Resource
      * @param array $processed
      * @return Zend_Pdf_Page
      */
-    public function cloneResource($factory, &$processed)
+    public function clone_resource($factory, &$processed)
     {
         /** @todo implementation*/
-
         //        // Clone dictionary object.
         //        // Do it explicitly to prevent sharing page attributes between different
         //        // results of clonePage() operation (other resources are still shared)
@@ -140,7 +130,6 @@ abstract class Zend_Pdf_Resource
         //
         //        return $clonedPage;
     }
-
     /**
      * Get resource.
      * Used to reference resource in an internal PDF data structures (resource dictionaries)
@@ -148,19 +137,18 @@ abstract class Zend_Pdf_Resource
      * @internal
      * @return Zend_Pdf_Element_Object
      */
-    public function getResource()
+    public function get_resource()
     {
         return $this->_resource;
     }
-
     /**
      * Get factory.
      *
      * @internal
      * @return Zend_Pdf_ElementFactory_Interface
      */
-    public function getFactory()
+    public function get_factory()
     {
-        return $this->_objectFactory;
+        return $this->_object_factory;
     }
 }

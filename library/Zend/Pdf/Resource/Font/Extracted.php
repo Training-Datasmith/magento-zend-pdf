@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,10 +21,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** @see Zend_Pdf_Resource_Font */
 #require_once 'Zend/Pdf/Resource/Font.php';
-
 /**
  * Extracted fonts implementation
  *
@@ -42,9 +40,8 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * Messages
      */
     public const TYPE_NOT_SUPPORTED = 'Unsupported font type.';
-    public const ENCODING_NOT_SUPPORTED  = 'Font encoding is not supported';
+    public const ENCODING_NOT_SUPPORTED = 'Font encoding is not supported';
     public const OPERATION_NOT_SUPPORTED = 'Operation is not supported for extracted fonts';
-
     /**
      * Extracted font encoding
      *
@@ -53,7 +50,6 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * @var string
      */
     protected $_encoding;
-
     /**
      * Object constructor
      *
@@ -62,79 +58,76 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * @param mixed $fontDictionary
      * @throws Zend_Pdf_Exception
      */
-    public function __construct($fontDictionary)
+    public function __construct($font_dictionary)
     {
         // Extract object factory and resource object from font dirctionary object
-        $this->_objectFactory = $fontDictionary->getFactory();
-        $this->_resource      = $fontDictionary;
-
-        if ($fontDictionary->Encoding !== null) {
-            $this->_encoding = $fontDictionary->Encoding->value;
+        $this->_object_factory = $font_dictionary->get_factory();
+        $this->_resource = $font_dictionary;
+        if ($font_dictionary->Encoding !== null) {
+            $this->_encoding = $font_dictionary->Encoding->value;
         }
-
-        switch ($fontDictionary->Subtype->value) {
+        switch ($font_dictionary->Subtype->value) {
             case 'Type0':
                 // Composite type 0 font
-                if (count($fontDictionary->DescendantFonts->items) != 1) {
+                if (count($font_dictionary->descendant_fonts->items) != 1) {
                     // Multiple descendant fonts are not supported
                     #require_once 'Zend/Pdf/Exception.php';
                     throw new Zend_Pdf_Exception(self::TYPE_NOT_SUPPORTED);
                 }
-
-                $fontDictionaryIterator = $fontDictionary->DescendantFonts->items->getIterator();
-                $fontDictionaryIterator->rewind();
-                $descendantFont = $fontDictionaryIterator->current();
-                $fontDescriptor = $descendantFont->FontDescriptor;
+                $font_dictionary_iterator = $font_dictionary->descendant_fonts->items->getIterator();
+                $font_dictionary_iterator->rewind();
+                $descendant_font = $font_dictionary_iterator->current();
+                $font_descriptor = $descendant_font->font_descriptor;
                 break;
-
             case 'Type1':
-                if ($fontDictionary->FontDescriptor === null) {
+                if ($font_dictionary->font_descriptor === null) {
                     // That's one of the standard fonts
-                    $standardFont = Zend_Pdf_Font::fontWithName($fontDictionary->BaseFont->value);
-
-                    $this->_fontNames          = $standardFont->getFontNames();
-                    $this->_isBold             = $standardFont->isBold();
-                    $this->_isItalic           = $standardFont->isItalic();
-                    $this->_isMonospace        = $standardFont->isMonospace();
-                    $this->_underlinePosition  = $standardFont->getUnderlinePosition();
-                    $this->_underlineThickness = $standardFont->getUnderlineThickness();
-                    $this->_strikePosition     = $standardFont->getStrikePosition();
-                    $this->_strikeThickness    = $standardFont->getStrikeThickness();
-                    $this->_unitsPerEm         = $standardFont->getUnitsPerEm();
-                    $this->_ascent             = $standardFont->getAscent();
-                    $this->_descent            = $standardFont->getDescent();
-                    $this->_lineGap            = $standardFont->getLineGap();
-
+                    $standard_font = Zend_Pdf_Font::font_with_name($font_dictionary->base_font->value);
+                    $this->_font_names = $standard_font->get_font_names();
+                    $this->_is_bold = $standard_font->is_bold();
+                    $this->_is_italic = $standard_font->is_italic();
+                    $this->_is_monospace = $standard_font->is_monospace();
+                    $this->_underline_position = $standard_font->get_underline_position();
+                    $this->_underline_thickness = $standard_font->get_underline_thickness();
+                    $this->_strike_position = $standard_font->get_strike_position();
+                    $this->_strike_thickness = $standard_font->get_strike_thickness();
+                    $this->_units_per_em = $standard_font->get_units_per_em();
+                    $this->_ascent = $standard_font->get_ascent();
+                    $this->_descent = $standard_font->get_descent();
+                    $this->_line_gap = $standard_font->get_line_gap();
                     return;
                 }
-
-                $fontDescriptor = $fontDictionary->FontDescriptor;
+                $font_descriptor = $font_dictionary->font_descriptor;
                 break;
-
             case 'TrueType':
-                $fontDescriptor = $fontDictionary->FontDescriptor;
+                $font_descriptor = $font_dictionary->font_descriptor;
                 break;
-
             default:
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception(self::TYPE_NOT_SUPPORTED);
         }
-
-        $this->_fontNames[Zend_Pdf_Font::NAME_POSTSCRIPT]['en'] = iconv('UTF-8', 'UTF-16BE', $fontDictionary->BaseFont->value);
-
-        $this->_isBold             = false; // this property is actually not used anywhere
-        $this->_isItalic           = (($fontDescriptor->Flags->value & (1 << 6)) != 0); // Bit-7 is set
-        $this->_isMonospace        = (($fontDescriptor->Flags->value & (1 << 0)) != 0); // Bit-1 is set
-        $this->_underlinePosition  = null; // Can't be extracted
-        $this->_underlineThickness = null; // Can't be extracted
-        $this->_strikePosition     = null; // Can't be extracted
-        $this->_strikeThickness    = null; // Can't be extracted
-        $this->_unitsPerEm         = null; // Can't be extracted
-        $this->_ascent             = $fontDescriptor->Ascent->value;
-        $this->_descent            = $fontDescriptor->Descent->value;
-        $this->_lineGap            = null; // Can't be extracted
+        $this->_font_names[Zend_Pdf_Font::NAME_POSTSCRIPT]['en'] = iconv('UTF-8', 'UTF-16BE', $font_dictionary->base_font->value);
+        $this->_is_bold = false;
+        // this property is actually not used anywhere
+        $this->_is_italic = ($font_descriptor->Flags->value & 1 << 6) != 0;
+        // Bit-7 is set
+        $this->_is_monospace = ($font_descriptor->Flags->value & 1 << 0) != 0;
+        // Bit-1 is set
+        $this->_underline_position = null;
+        // Can't be extracted
+        $this->_underline_thickness = null;
+        // Can't be extracted
+        $this->_strike_position = null;
+        // Can't be extracted
+        $this->_strike_thickness = null;
+        // Can't be extracted
+        $this->_units_per_em = null;
+        // Can't be extracted
+        $this->_ascent = $font_descriptor->Ascent->value;
+        $this->_descent = $font_descriptor->Descent->value;
+        $this->_line_gap = null;
+        // Can't be extracted
     }
-
     /**
      * Returns an array of glyph numbers corresponding to the Unicode characters.
      *
@@ -146,12 +139,11 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * @param array $characterCodes Array of Unicode character codes (code points).
      * @return array Array of glyph numbers.
      */
-    public function glyphNumbersForCharacters($characterCodes)
+    public function glyph_numbers_for_characters($character_codes)
     {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception(self::OPERATION_NOT_SUPPORTED);
     }
-
     /**
      * Returns the glyph number corresponding to the Unicode character.
      *
@@ -164,12 +156,11 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * @param integer $characterCode Unicode character code (code point).
      * @return integer Glyph number.
      */
-    public function glyphNumberForCharacter($characterCode)
+    public function glyph_number_for_character($character_code)
     {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception(self::OPERATION_NOT_SUPPORTED);
     }
-
     /**
      * Returns a number between 0 and 1 inclusive that indicates the percentage
      * of characters in the string which are covered by glyphs in this font.
@@ -188,12 +179,11 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      *   If omitted, uses 'current locale'.
      * @return float
      */
-    public function getCoveredPercentage($string, $charEncoding = '')
+    public function get_covered_percentage($string, $char_encoding = '')
     {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception(self::OPERATION_NOT_SUPPORTED);
     }
-
     /**
      * Returns the widths of the glyphs.
      *
@@ -206,12 +196,11 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * @return array Array of glyph widths (integers).
      * @throws Zend_Pdf_Exception
      */
-    public function widthsForGlyphs($glyphNumbers)
+    public function widths_for_glyphs($glyph_numbers)
     {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception(self::OPERATION_NOT_SUPPORTED);
     }
-
     /**
      * Returns the width of the glyph.
      *
@@ -221,12 +210,11 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * @return integer
      * @throws Zend_Pdf_Exception
      */
-    public function widthForGlyph($glyphNumber)
+    public function width_for_glyph($glyph_number)
     {
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception(self::OPERATION_NOT_SUPPORTED);
     }
-
     /**
      * Convert string to the font encoding.
      *
@@ -236,20 +224,17 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * @param string $charEncoding Character encoding of source text.
      * @return string
      */
-    public function encodeString($string, $charEncoding)
+    public function encode_string($string, $char_encoding)
     {
         if ($this->_encoding == 'Identity-H') {
-            return iconv($charEncoding, 'UTF-16BE', $string);
+            return iconv($char_encoding, 'UTF-16BE', $string);
         }
-
         if ($this->_encoding == 'WinAnsiEncoding') {
-            return iconv($charEncoding, 'CP1252//IGNORE', $string);
+            return iconv($char_encoding, 'CP1252//IGNORE', $string);
         }
-
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception(self::ENCODING_NOT_SUPPORTED);
     }
-
     /**
      * Convert string from the font encoding.
      *
@@ -259,16 +244,14 @@ class Zend_Pdf_Resource_Font_Extracted extends Zend_Pdf_Resource_Font
      * @param string $charEncoding Character encoding of resulting text.
      * @return string
      */
-    public function decodeString($string, $charEncoding)
+    public function decode_string($string, $char_encoding)
     {
         if ($this->_encoding == 'Identity-H') {
-            return iconv('UTF-16BE', $charEncoding, $string);
+            return iconv('UTF-16BE', $char_encoding, $string);
         }
-
         if ($this->_encoding == 'WinAnsiEncoding') {
-            return iconv('CP1252', $charEncoding, $string);
+            return iconv('CP1252', $char_encoding, $string);
         }
-
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception(self::ENCODING_NOT_SUPPORTED);
     }

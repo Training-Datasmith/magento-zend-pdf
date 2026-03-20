@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,16 +21,13 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Array.php';
 #require_once 'Zend/Pdf/Element/Name.php';
 #require_once 'Zend/Pdf/Element/Null.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 /** Zend_Pdf_Destination_Explicit */
 #require_once 'Zend/Pdf/Destination/Explicit.php';
-
 /**
  * Zend_Pdf_Destination_Zoom explicit detination
  *
@@ -60,118 +57,103 @@ class Zend_Pdf_Destination_Zoom extends Zend_Pdf_Destination_Explicit
      */
     public static function create($page, $left = null, $top = null, $zoom = null): \Zend_Pdf_Destination_Zoom
     {
-        $destinationArray = new Zend_Pdf_Element_Array();
-
+        $destination_array = new Zend_Pdf_Element_Array();
         if ($page instanceof Zend_Pdf_Page) {
-            $destinationArray->items[] = $page->getPageDictionary();
+            $destination_array->items[] = $page->get_page_dictionary();
         } elseif (is_integer($page)) {
-            $destinationArray->items[] = new Zend_Pdf_Element_Numeric($page);
+            $destination_array->items[] = new Zend_Pdf_Element_Numeric($page);
         } else {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Page entry must be a Zend_Pdf_Page object or a page number.');
         }
-
-        $destinationArray->items[] = new Zend_Pdf_Element_Name('XYZ');
-
+        $destination_array->items[] = new Zend_Pdf_Element_Name('XYZ');
         if ($left === null) {
-            $destinationArray->items[] = new Zend_Pdf_Element_Null();
+            $destination_array->items[] = new Zend_Pdf_Element_Null();
         } else {
-            $destinationArray->items[] = new Zend_Pdf_Element_Numeric($left);
+            $destination_array->items[] = new Zend_Pdf_Element_Numeric($left);
         }
-
         if ($top === null) {
-            $destinationArray->items[] = new Zend_Pdf_Element_Null();
+            $destination_array->items[] = new Zend_Pdf_Element_Null();
         } else {
-            $destinationArray->items[] = new Zend_Pdf_Element_Numeric($top);
+            $destination_array->items[] = new Zend_Pdf_Element_Numeric($top);
         }
-
         if ($zoom === null) {
-            $destinationArray->items[] = new Zend_Pdf_Element_Null();
+            $destination_array->items[] = new Zend_Pdf_Element_Null();
         } else {
-            $destinationArray->items[] = new Zend_Pdf_Element_Numeric($zoom);
+            $destination_array->items[] = new Zend_Pdf_Element_Numeric($zoom);
         }
-
-        return new Zend_Pdf_Destination_Zoom($destinationArray);
+        return new Zend_Pdf_Destination_Zoom($destination_array);
     }
-
     /**
      * Get left edge of the displayed page (null means viewer application 'current value')
      *
      * @return float
      */
-    public function getLeftEdge()
+    public function get_left_edge()
     {
-        return $this->_destinationArray->items[2]->value;
+        return $this->_destination_array->items[2]->value;
     }
-
     /**
      * Set left edge of the displayed page (null means viewer application 'current value')
      *
      * @param float $left
      * @return Zend_Pdf_Action_Zoom
      */
-    public function setLeftEdge($left): self
+    public function set_left_edge($left): self
     {
         if ($left === null) {
-            $this->_destinationArray->items[2] = new Zend_Pdf_Element_Null();
+            $this->_destination_array->items[2] = new Zend_Pdf_Element_Null();
         } else {
-            $this->_destinationArray->items[2] = new Zend_Pdf_Element_Numeric($left);
+            $this->_destination_array->items[2] = new Zend_Pdf_Element_Numeric($left);
         }
-
         return $this;
     }
-
     /**
      * Get top edge of the displayed page (null means viewer application 'current value')
      *
      * @return float
      */
-    public function getTopEdge()
+    public function get_top_edge()
     {
-        return $this->_destinationArray->items[3]->value;
+        return $this->_destination_array->items[3]->value;
     }
-
     /**
      * Set top edge of the displayed page (null means viewer application 'current viewer')
      *
      * @param float $top
      * @return Zend_Pdf_Action_Zoom
      */
-    public function setTopEdge($top): self
+    public function set_top_edge($top): self
     {
         if ($top === null) {
-            $this->_destinationArray->items[3] = new Zend_Pdf_Element_Null();
+            $this->_destination_array->items[3] = new Zend_Pdf_Element_Null();
         } else {
-            $this->_destinationArray->items[3] = new Zend_Pdf_Element_Numeric($top);
+            $this->_destination_array->items[3] = new Zend_Pdf_Element_Numeric($top);
         }
-
         return $this;
     }
-
     /**
      * Get ZoomFactor of the displayed page (null or 0 means viewer application 'current value')
      *
      * @return float
      */
-    public function getZoomFactor()
+    public function get_zoom_factor()
     {
-        return $this->_destinationArray->items[4]->value;
+        return $this->_destination_array->items[4]->value;
     }
-
     /**
      * Set ZoomFactor of the displayed page (null or 0 means viewer application 'current viewer')
      *
      * @param float $zoom
      * @return Zend_Pdf_Action_Zoom
      */
-    public function setZoomFactor($zoom): self
+    public function set_zoom_factor($zoom): self
     {
         if ($zoom === null) {
-            $this->_destinationArray->items[4] = new Zend_Pdf_Element_Null();
+            $this->_destination_array->items[4] = new Zend_Pdf_Element_Null();
         } else {
-            $this->_destinationArray->items[4] = new Zend_Pdf_Element_Numeric($zoom);
+            $this->_destination_array->items[4] = new Zend_Pdf_Element_Numeric($zoom);
         }
-
         return $this;
     }
 }

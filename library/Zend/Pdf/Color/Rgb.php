@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,13 +20,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element/Numeric.php';
-
 /** Zend_Pdf_Color */
 #require_once 'Zend/Pdf/Color.php';
-
 /**
  * RGB color implementation
  *
@@ -44,7 +41,6 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
      * @var Zend_Pdf_Element_Numeric
      */
     private $_r;
-
     /**
      * Green level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
@@ -52,7 +48,6 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
      * @var Zend_Pdf_Element_Numeric
      */
     private $_g;
-
     /**
      * Blue level.
      * 0.0 (zero concentration) - 1.0 (maximum concentration)
@@ -60,7 +55,6 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
      * @var Zend_Pdf_Element_Numeric
      */
     private $_b;
-
     /**
      * Object constructor
      *
@@ -77,26 +71,22 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
         if ($r > 1) {
             $r = 1;
         }
-
         if ($g < 0) {
             $g = 0;
         }
         if ($g > 1) {
             $g = 1;
         }
-
         if ($b < 0) {
             $b = 0;
         }
         if ($b > 1) {
             $b = 1;
         }
-
         $this->_r = new Zend_Pdf_Element_Numeric($r);
         $this->_g = new Zend_Pdf_Element_Numeric($g);
         $this->_b = new Zend_Pdf_Element_Numeric($b);
     }
-
     /**
      * Instructions, which can be directly inserted into content stream
      * to switch color.
@@ -106,15 +96,12 @@ class Zend_Pdf_Color_Rgb extends Zend_Pdf_Color
      */
     public function instructions($stroking): string
     {
-        return $this->_r->toString() . ' '
-             . $this->_g->toString() . ' '
-             . $this->_b->toString() .     ($stroking ? " RG\n" : " rg\n");
+        return $this->_r->to_string() . ' ' . $this->_g->to_string() . ' ' . $this->_b->to_string() . ($stroking ? " RG\n" : " rg\n");
     }
-
     /**
      * Get color components (color space dependent)
      */
-    public function getComponents(): array
+    public function get_components(): array
     {
         return [$this->_r->value, $this->_g->value, $this->_b->value];
     }

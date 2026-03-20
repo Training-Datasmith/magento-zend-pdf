@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,10 +20,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Element */
 #require_once 'Zend/Pdf/Element.php';
-
 /**
  * PDF file 'string' element implementation
  *
@@ -40,7 +38,6 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
      * @var string
      */
     public $value;
-
     /**
      * Object constructor
      *
@@ -48,37 +45,33 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
      */
     public function __construct($val)
     {
-        $this->value   = (string)$val;
+        $this->value = (string) $val;
     }
-
     /**
      * Return type of the element.
      */
-    public function getType(): int
+    public function get_type(): int
     {
         return Zend_Pdf_Element::TYPE_STRING;
     }
-
     /**
      * Return object as string
      *
      * @param Zend_Pdf_Factory $factory
      */
-    public function toString($factory = null): string
+    public function to_string($factory = null): string
     {
-        return '(' . self::escape((string)$this->value) . ')';
+        return '(' . self::escape((string) $this->value) . ')';
     }
-
     /**
      * Convert PDF element to PHP type.
      *
      * @return string
      */
-    public function toPhp()
+    public function to_php()
     {
         return $this->value;
     }
-
     /**
      * Escape string according to the PDF rules
      *
@@ -86,56 +79,46 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
      */
     public static function escape($str): string
     {
-        $outEntries = [];
-
+        $out_entries = [];
         foreach (str_split($str, 128) as $chunk) {
             // Collect sequence of unescaped characters
-            $offset = strcspn($chunk, "\n\r\t\x08\x0C()\\");
-            $chunkOut = substr($chunk, 0, $offset);
-
+            $offset = strcspn($chunk, "\n\r\t\x08\f()\\");
+            $chunk_out = substr($chunk, 0, $offset);
             while ($offset < strlen($chunk)) {
-                $nextCode = ord($chunk[$offset++]);
-                switch ($nextCode) {
+                $next_code = ord($chunk[$offset++]);
+                switch ($next_code) {
                     // "\n" - line feed (LF)
                     case 10:
-                        $chunkOut .= '\\n';
+                        $chunk_out .= '\n';
                         break;
-
-                        // "\r" - carriage return (CR)
+                    // "\r" - carriage return (CR)
                     case 13:
-                        $chunkOut .= '\\r';
+                        $chunk_out .= '\r';
                         break;
-
-                        // "\t" - horizontal tab (HT)
+                    // "\t" - horizontal tab (HT)
                     case 9:
-                        $chunkOut .= '\\t';
+                        $chunk_out .= '\t';
                         break;
-
-                        // "\b" - backspace (BS)
+                    // "\b" - backspace (BS)
                     case 8:
-                        $chunkOut .= '\\b';
+                        $chunk_out .= '\b';
                         break;
-
-                        // "\f" - form feed (FF)
+                    // "\f" - form feed (FF)
                     case 12:
-                        $chunkOut .= '\\f';
+                        $chunk_out .= '\f';
                         break;
-
-                        // '(' - left paranthesis
+                    // '(' - left paranthesis
                     case 40:
-                        $chunkOut .= '\\(';
+                        $chunk_out .= '\(';
                         break;
-
-                        // ')' - right paranthesis
+                    // ')' - right paranthesis
                     case 41:
-                        $chunkOut .= '\\)';
+                        $chunk_out .= '\)';
                         break;
-
-                        // '\' - backslash
+                    // '\' - backslash
                     case 92:
-                        $chunkOut .= '\\\\';
+                        $chunk_out .= '\\\\';
                         break;
-
                     default:
                         // This code is never executed extually
                         //
@@ -146,22 +129,17 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
                         // } else {
                         //     $chunkEntries[] = sprintf('\\%03o', $nextCode);
                         // }
-
                         break;
                 }
-
                 // Collect sequence of unescaped characters
                 $start = $offset;
-                $offset += strcspn($chunk, "\n\r\t\x08\x0C()\\", $offset);
-                $chunkOut .= substr($chunk, $start, $offset - $start);
+                $offset += strcspn($chunk, "\n\r\t\x08\f()\\", $offset);
+                $chunk_out .= substr($chunk, $start, $offset - $start);
             }
-
-            $outEntries[] = $chunkOut;
+            $out_entries[] = $chunk_out;
         }
-
-        return implode("\\\n", $outEntries);
+        return implode("\\\n", $out_entries);
     }
-
     /**
      * Unescape string according to the PDF rules
      *
@@ -169,97 +147,80 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
      */
     public static function unescape($str): string
     {
-        $outEntries = [];
-
+        $out_entries = [];
         $offset = 0;
         while ($offset < strlen($str)) {
             // Searche for the next escaped character/sequence
-            $escapeCharOffset = strpos($str, '\\', $offset);
-            if ($escapeCharOffset === false  ||  $escapeCharOffset == strlen($str) - 1) {
+            $escape_char_offset = strpos($str, '\\', $offset);
+            if ($escape_char_offset === false || $escape_char_offset == strlen($str) - 1) {
                 // There are no escaped characters or '\' char has came at the end of string
-                $outEntries[] = substr($str, $offset);
+                $out_entries[] = substr($str, $offset);
                 break;
             } else {
                 // Collect unescaped characters sequence
-                $outEntries[] = substr($str, $offset, $escapeCharOffset - $offset);
+                $out_entries[] = substr($str, $offset, $escape_char_offset - $offset);
                 // Go to the escaped character
-                $offset = $escapeCharOffset + 1;
-
+                $offset = $escape_char_offset + 1;
                 switch ($str[$offset]) {
                     // '\\n' - line feed (LF)
                     case 'n':
-                        $outEntries[] = "\n";
+                        $out_entries[] = "\n";
                         break;
-
-                        // '\\r' - carriage return (CR)
+                    // '\\r' - carriage return (CR)
                     case 'r':
-                        $outEntries[] = "\r";
+                        $out_entries[] = "\r";
                         break;
-
-                        // '\\t' - horizontal tab (HT)
+                    // '\\t' - horizontal tab (HT)
                     case 't':
-                        $outEntries[] = "\t";
+                        $out_entries[] = "\t";
                         break;
-
-                        // '\\b' - backspace (BS)
+                    // '\\b' - backspace (BS)
                     case 'b':
-                        $outEntries[] = "\x08";
+                        $out_entries[] = "\x08";
                         break;
-
-                        // '\\f' - form feed (FF)
+                    // '\\f' - form feed (FF)
                     case 'f':
-                        $outEntries[] = "\x0C";
+                        $out_entries[] = "\f";
                         break;
-
-                        // '\\(' - left paranthesis
+                    // '\\(' - left paranthesis
                     case '(':
-                        $outEntries[] = '(';
+                        $out_entries[] = '(';
                         break;
-
-                        // '\\)' - right paranthesis
+                    // '\\)' - right paranthesis
                     case ')':
-                        $outEntries[] = ')';
+                        $out_entries[] = ')';
                         break;
-
-                        // '\\\\' - backslash
+                    // '\\\\' - backslash
                     case '\\':
-                        $outEntries[] = '\\';
+                        $out_entries[] = '\\';
                         break;
-
-                        // "\\\n" or "\\\n\r"
+                    // "\\\n" or "\\\n\r"
                     case "\n":
                         // skip new line symbol
                         if ($str[$offset + 1] == "\r") {
                             $offset++;
                         }
                         break;
-
                     default:
                         if (strpos('0123456789', $str[$offset]) !== false) {
                             // Character in octal representation
                             // '\\xxx'
-                            $nextCode = '0' . $str[$offset];
-
+                            $next_code = '0' . $str[$offset];
                             if (strpos('0123456789', $str[$offset + 1]) !== false) {
-                                $nextCode .= $str[++$offset];
-
+                                $next_code .= $str[++$offset];
                                 if (strpos('0123456789', $str[$offset + 1]) !== false) {
-                                    $nextCode .= $str[++$offset];
+                                    $next_code .= $str[++$offset];
                                 }
                             }
-
-                            $outEntries[] = chr(octdec($nextCode));
+                            $out_entries[] = chr(octdec($next_code));
                         } else {
-                            $outEntries[] = $str[$offset];
+                            $out_entries[] = $str[$offset];
                         }
                         break;
                 }
-
                 $offset++;
             }
         }
-
-        return implode('', $outEntries);
+        return implode('', $out_entries);
     }
-
 }

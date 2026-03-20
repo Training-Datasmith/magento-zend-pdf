@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,13 +21,10 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
-
 /** Zend_Pdf_Destination */
 #require_once 'Zend/Pdf/Destination.php';
-
 /**
  * Abstract PDF explicit destination representation class
  *
@@ -43,76 +40,65 @@ abstract class Zend_Pdf_Destination_Explicit extends Zend_Pdf_Destination
      *
      * @var Zend_Pdf_Element_Array
      */
-    protected $_destinationArray;
-
+    protected $_destination_array;
     /**
      * True if it's a remote destination
      *
      * @var boolean
      */
-    protected $_isRemote;
-
+    protected $_is_remote;
     /**
      * Explicit destination object constructor
      *
      * @throws Zend_Pdf_Exception
      */
-    public function __construct(Zend_Pdf_Element $destinationArray)
+    public function __construct(Zend_Pdf_Element $destination_array)
     {
-        if ($destinationArray->getType() != Zend_Pdf_Element::TYPE_ARRAY) {
+        if ($destination_array->get_type() != Zend_Pdf_Element::TYPE_ARRAY) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Explicit destination resource Array must be a direct or an indirect array object.');
         }
-
-        $this->_destinationArray = $destinationArray;
-
-        switch (count($this->_destinationArray->items)) {
+        $this->_destination_array = $destination_array;
+        switch (count($this->_destination_array->items)) {
             case 0:
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Destination array must contain a page reference.');
-
             case 1:
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Destination array must contain a destination type name.');
-
             default:
                 // Do nothing
                 break;
         }
-
-        switch ($this->_destinationArray->items[0]->getType()) {
+        switch ($this->_destination_array->items[0]->get_type()) {
             case Zend_Pdf_Element::TYPE_NUMERIC:
-                $this->_isRemote = true;
+                $this->_is_remote = true;
                 break;
-
             case Zend_Pdf_Element::TYPE_DICTIONARY:
-                $this->_isRemote = false;
+                $this->_is_remote = false;
                 break;
-
             default:
                 #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Destination target must be a page number or page dictionary object.');
         }
     }
-
     /**
      * Returns true if it's a remote destination
      *
      * @return boolean
      */
-    public function isRemote()
+    public function is_remote()
     {
-        return $this->_isRemote;
+        return $this->_is_remote;
     }
-
     /**
      * Get resource
      *
      * @internal
      * @return Zend_Pdf_Element
      */
-    public function getResource()
+    public function get_resource()
     {
-        return $this->_destinationArray;
+        return $this->_destination_array;
     }
 }

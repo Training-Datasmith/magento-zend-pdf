@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,7 +21,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * PDF target (action or destination)
  *
@@ -42,8 +41,8 @@ abstract class Zend_Pdf_Target
     public static function load(Zend_Pdf_Element $resource)
     {
         #require_once 'Zend/Pdf/Element.php';
-        if ($resource->getType() == Zend_Pdf_Element::TYPE_DICTIONARY) {
-            if (($resource->Type === null  ||  $resource->Type->value == 'Action')  &&  $resource->S !== null) {
+        if ($resource->get_type() == Zend_Pdf_Element::TYPE_DICTIONARY) {
+            if (($resource->Type === null || $resource->Type->value == 'Action') && $resource->S !== null) {
                 // It's a well-formed action, load it
                 #require_once 'Zend/Pdf/Action.php';
                 return Zend_Pdf_Action::load($resource);
@@ -56,10 +55,7 @@ abstract class Zend_Pdf_Target
                 throw new Zend_Pdf_Exception('Wrong resource type.');
             }
         }
-
-        if ($resource->getType() == Zend_Pdf_Element::TYPE_ARRAY  ||
-            $resource->getType() == Zend_Pdf_Element::TYPE_NAME   ||
-            $resource->getType() == Zend_Pdf_Element::TYPE_STRING) {
+        if ($resource->get_type() == Zend_Pdf_Element::TYPE_ARRAY || $resource->get_type() == Zend_Pdf_Element::TYPE_NAME || $resource->get_type() == Zend_Pdf_Element::TYPE_STRING) {
             // Resource is an array, just treat it as an explicit destination array
             #require_once 'Zend/Pdf/Destination.php';
             return Zend_Pdf_Destination::load($resource);
@@ -67,12 +63,11 @@ abstract class Zend_Pdf_Target
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Wrong resource type.');
     }
-
     /**
      * Get resource
      *
      * @internal
      * @return Zend_Pdf_Element
      */
-    abstract public function getResource();
+    abstract public function get_resource();
 }

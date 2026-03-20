@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +20,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /**
  * PDF file reference table
  *
@@ -37,7 +36,6 @@ class Zend_Pdf_Element_Reference_Table
      * @var Zend_Pdf_Element_Reference_Table
      */
     private $_parent;
-
     /**
      * Free entries
      * 'reference' => next free object number
@@ -45,7 +43,6 @@ class Zend_Pdf_Element_Reference_Table
      * @var array
      */
     private $_free;
-
     /**
      * Generation numbers for free objects.
      * Array: objNum => nextGeneration
@@ -53,7 +50,6 @@ class Zend_Pdf_Element_Reference_Table
      * @var array
      */
     private $_generations;
-
     /**
      * In use entries
      * 'reference' => offset
@@ -61,27 +57,24 @@ class Zend_Pdf_Element_Reference_Table
      * @var array
      */
     private $_inuse;
-
     /**
      * Generation numbers for free objects.
      * Array: objNum => objGeneration
      *
      * @var array
      */
-    private $_usedObjects;
-
+    private $_used_objects;
     /**
      * Object constructor
      */
     public function __construct()
     {
         $this->_parent = null;
-        $this->_free   = [];
+        $this->_free = [];
         $this->_generations = [];
-        $this->_inuse  = [];
-        $this->_usedObjects = [];
+        $this->_inuse = [];
+        $this->_used_objects = [];
     }
-
     /**
      * Add reference to the reference table
      *
@@ -89,56 +82,49 @@ class Zend_Pdf_Element_Reference_Table
      * @param integer $offset
      * @param boolean $inuse
      */
-    public function addReference($ref, $offset, $inuse = true)
+    public function add_reference($ref, $offset, $inuse = true)
     {
-        $refElements = explode(' ', $ref);
-        if (!is_numeric($refElements[0]) || !is_numeric($refElements[1]) || $refElements[2] != 'R') {
+        $ref_elements = explode(' ', $ref);
+        if (!is_numeric($ref_elements[0]) || !is_numeric($ref_elements[1]) || $ref_elements[2] != 'R') {
             #require_once 'Zend/Pdf/Exception.php';
-            throw new Zend_Pdf_Exception("Incorrect reference: '$ref'");
+            throw new Zend_Pdf_Exception("Incorrect reference: '{$ref}'");
         }
-        $objNum = (int)$refElements[0];
-        $genNum = (int)$refElements[1];
-
+        $obj_num = (int) $ref_elements[0];
+        $gen_num = (int) $ref_elements[1];
         if ($inuse) {
-            $this->_inuse[$ref]          = $offset;
-            $this->_usedObjects[$objNum] = $objNum;
+            $this->_inuse[$ref] = $offset;
+            $this->_used_objects[$obj_num] = $obj_num;
         } else {
-            $this->_free[$ref]           = $offset;
-            $this->_generations[$objNum] = $genNum;
+            $this->_free[$ref] = $offset;
+            $this->_generations[$obj_num] = $gen_num;
         }
     }
-
     /**
      * Set parent reference table
      */
-    public function setParent(self $parent)
+    public function set_parent(self $parent)
     {
         $this->_parent = $parent;
     }
-
     /**
      * Get object offset
      *
      * @param string $ref
      * @return integer
      */
-    public function getOffset($ref)
+    public function get_offset($ref)
     {
         if (isset($this->_inuse[$ref])) {
             return $this->_inuse[$ref];
         }
-
         if (isset($this->_free[$ref])) {
             return null;
         }
-
         if (isset($this->_parent)) {
-            return $this->_parent->getOffset($ref);
+            return $this->_parent->get_offset($ref);
         }
-
         return null;
     }
-
     /**
      * Get next object from a list of free objects.
      *
@@ -146,46 +132,39 @@ class Zend_Pdf_Element_Reference_Table
      * @return integer
      * @throws Zend_Pdf_Exception
      */
-    public function getNextFree($ref)
+    public function get_next_free($ref)
     {
         if (isset($this->_inuse[$ref])) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Object is not free');
         }
-
         if (isset($this->_free[$ref])) {
             return $this->_free[$ref];
         }
-
         if (isset($this->_parent)) {
-            return $this->_parent->getNextFree($ref);
+            return $this->_parent->get_next_free($ref);
         }
-
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Object not found.');
     }
-
     /**
      * Get next generation number for free object
      *
      * @param integer $objNum
      * @return unknown
      */
-    public function getNewGeneration($objNum)
+    public function get_new_generation($obj_num)
     {
-        if (isset($this->_usedObjects[$objNum])) {
+        if (isset($this->_used_objects[$obj_num])) {
             #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Object is not free');
         }
-
-        if (isset($this->_generations[$objNum])) {
-            return $this->_generations[$objNum];
+        if (isset($this->_generations[$obj_num])) {
+            return $this->_generations[$obj_num];
         }
-
         if (isset($this->_parent)) {
-            return $this->_parent->getNewGeneration($objNum);
+            return $this->_parent->get_new_generation($obj_num);
         }
-
         #require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Object not found.');
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -21,10 +21,8 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
-
 /** Zend_Pdf_Resource */
 #require_once 'Zend/Pdf/Resource.php';
-
 /**
  * Zend_Pdf_Font
  *
@@ -32,7 +30,6 @@ declare(strict_types=1);
  * and its subclusses.
  */
 #require_once 'Zend/Pdf/Font.php';
-
 /**
  * Abstract class which manages PDF fonts.
  *
@@ -52,89 +49,73 @@ declare(strict_types=1);
 abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
 {
     /**** Instance Variables ****/
-
     /**
      * The type of font. Use TYPE_ constants defined in {@link Zend_Pdf_Font}.
      * @var integer
      */
-    protected $_fontType = Zend_Pdf_Font::TYPE_UNKNOWN;
-
+    protected $_font_type = Zend_Pdf_Font::TYPE_UNKNOWN;
     /**
      * Array containing descriptive names for the font. See {@link fontName()}.
      * @var array
      */
-    protected $_fontNames = [];
-
+    protected $_font_names = [];
     /**
      * Flag indicating whether or not this font is bold.
      * @var boolean
      */
-    protected $_isBold = false;
-
+    protected $_is_bold = false;
     /**
      * Flag indicating whether or not this font is italic.
      * @var boolean
      */
-    protected $_isItalic = false;
-
+    protected $_is_italic = false;
     /**
      * Flag indicating whether or not this font is monospaced.
      * @var boolean
      */
-    protected $_isMonospace = false;
-
+    protected $_is_monospace = false;
     /**
      * The position below the text baseline of the underline (in glyph units).
      * @var integer
      */
-    protected $_underlinePosition = 0;
-
+    protected $_underline_position = 0;
     /**
      * The thickness of the underline (in glyph units).
      * @var integer
      */
-    protected $_underlineThickness = 0;
-
+    protected $_underline_thickness = 0;
     /**
      * The position above the text baseline of the strikethrough (in glyph units).
      * @var integer
      */
-    protected $_strikePosition = 0;
-
+    protected $_strike_position = 0;
     /**
      * The thickness of the strikethrough (in glyph units).
      * @var integer
      */
-    protected $_strikeThickness = 0;
-
+    protected $_strike_thickness = 0;
     /**
      * Number of glyph units per em. See {@link getUnitsPerEm()}.
      * @var integer
      */
-    protected $_unitsPerEm = 0;
-
+    protected $_units_per_em = 0;
     /**
      * Typographical ascent. See {@link getAscent()}.
      * @var integer
      */
     protected $_ascent = 0;
-
     /**
      * Typographical descent. See {@link getDescent()}.
      * @var integer
      */
     protected $_descent = 0;
-
     /**
      * Typographical line gap. See {@link getLineGap()}.
      * @var integer
      */
-    protected $_lineGap = 0;
-
+    protected $_line_gap = 0;
     /**** Public Interface ****/
-
     /* Object Lifecycle */
-
     /**
      * Object constructor.
      *
@@ -144,7 +125,6 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
         parent::__construct(new Zend_Pdf_Element_Dictionary());
         $this->_resource->Type = new Zend_Pdf_Element_Name('Font');
     }
-
     /* Object Magic Methods */
     /**
      * Returns the full name of the font in the encoding method of the current
@@ -153,22 +133,19 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      */
     public function __toString(): string
     {
-        return $this->getFontName(Zend_Pdf_Font::NAME_FULL, '', '//TRANSLIT');
+        return $this->get_font_name(Zend_Pdf_Font::NAME_FULL, '', '//TRANSLIT');
     }
-
     /* Accessors */
-
     /**
      * Returns the type of font.
      *
      * @return integer One of the TYPE_ constants defined in
      *   {@link Zend_Pdf_Font}.
      */
-    public function getFontType()
+    public function get_font_type()
     {
-        return $this->_fontType;
+        return $this->_font_type;
     }
-
     /**
      * Returns the specified descriptive name for the font.
      *
@@ -214,78 +191,72 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      *   You may use any character set supported by {@link iconv()};
      * @return string
      */
-    public function getFontName($nameType, $language, $characterSet = null)
+    public function get_font_name($name_type, $language, $character_set = null)
     {
-        if (! isset($this->_fontNames[$nameType])) {
+        if (!isset($this->_font_names[$name_type])) {
             return null;
         }
         $name = null;
         if (is_array($language)) {
             foreach ($language as $code) {
-                if (isset($this->_fontNames[$nameType][$code])) {
-                    $name = $this->_fontNames[$nameType][$code];
+                if (isset($this->_font_names[$name_type][$code])) {
+                    $name = $this->_font_names[$name_type][$code];
                     break;
                 }
             }
-        } else {
-            if (isset($this->_fontNames[$nameType][$language])) {
-                $name = $this->_fontNames[$nameType][$language];
-            }
+        } else if (isset($this->_font_names[$name_type][$language])) {
+            $name = $this->_font_names[$name_type][$language];
         }
         /* If the preferred language could not be found, use whatever is first.
          */
         if ($name === null) {
-            $names = $this->_fontNames[$nameType];
-            $name  = reset($names);
+            $names = $this->_font_names[$name_type];
+            $name = reset($names);
         }
         /* Convert the character set if requested.
          */
-        if (($characterSet !== null) && ($characterSet != 'UTF-16BE') && PHP_OS != 'AIX') { // AIX knows not this charset
-            return iconv('UTF-16BE', $characterSet, $name);
+        if ($character_set !== null && $character_set != 'UTF-16BE' && PHP_OS != 'AIX') {
+            // AIX knows not this charset
+            return iconv('UTF-16BE', $character_set, $name);
         }
         return $name;
     }
-
     /**
      * Returns whole set of font names.
      *
      * @return array
      */
-    public function getFontNames()
+    public function get_font_names()
     {
-        return $this->_fontNames;
+        return $this->_font_names;
     }
-
     /**
      * Returns true if font is bold.
      *
      * @return boolean
      */
-    public function isBold()
+    public function is_bold()
     {
-        return $this->_isBold;
+        return $this->_is_bold;
     }
-
     /**
      * Returns true if font is italic.
      *
      * @return boolean
      */
-    public function isItalic()
+    public function is_italic()
     {
-        return $this->_isItalic;
+        return $this->_is_italic;
     }
-
     /**
      * Returns true if font is monospace.
      *
      * @return boolean
      */
-    public function isMonospace()
+    public function is_monospace()
     {
-        return $this->_isMonospace;
+        return $this->_is_monospace;
     }
-
     /**
      * Returns the suggested position below the text baseline of the underline
      * in glyph units.
@@ -294,42 +265,38 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      *
      * @return integer
      */
-    public function getUnderlinePosition()
+    public function get_underline_position()
     {
-        return $this->_underlinePosition;
+        return $this->_underline_position;
     }
-
     /**
      * Returns the suggested line thickness of the underline in glyph units.
      *
      * @return integer
      */
-    public function getUnderlineThickness()
+    public function get_underline_thickness()
     {
-        return $this->_underlineThickness;
+        return $this->_underline_thickness;
     }
-
     /**
      * Returns the suggested position above the text baseline of the
      * strikethrough in glyph units.
      *
      * @return integer
      */
-    public function getStrikePosition()
+    public function get_strike_position()
     {
-        return $this->_strikePosition;
+        return $this->_strike_position;
     }
-
     /**
      * Returns the suggested line thickness of the strikethrough in glyph units.
      *
      * @return integer
      */
-    public function getStrikeThickness()
+    public function get_strike_thickness()
     {
-        return $this->_strikeThickness;
+        return $this->_strike_thickness;
     }
-
     /**
      * Returns the number of glyph units per em.
      *
@@ -338,11 +305,10 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      *
      * @return integer
      */
-    public function getUnitsPerEm()
+    public function get_units_per_em()
     {
-        return $this->_unitsPerEm;
+        return $this->_units_per_em;
     }
-
     /**
      * Returns the typographic ascent in font glyph units.
      *
@@ -352,11 +318,10 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      *
      * @return integer
      */
-    public function getAscent()
+    public function get_ascent()
     {
         return $this->_ascent;
     }
-
     /**
      * Returns the typographic descent in font glyph units.
      *
@@ -365,11 +330,10 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      *
      * @return integer
      */
-    public function getDescent()
+    public function get_descent()
     {
         return $this->_descent;
     }
-
     /**
      * Returns the typographic line gap in font glyph units.
      *
@@ -380,11 +344,10 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      *
      * @return integer
      */
-    public function getLineGap()
+    public function get_line_gap()
     {
-        return $this->_lineGap;
+        return $this->_line_gap;
     }
-
     /**
      * Returns the suggested line height (or leading) in font glyph units.
      *
@@ -398,13 +361,11 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      *
      * @return integer
      */
-    public function getLineHeight()
+    public function get_line_height()
     {
-        return $this->_ascent - $this->_descent + $this->_lineGap;
+        return $this->_ascent - $this->_descent + $this->_line_gap;
     }
-
     /* Information and Conversion Methods */
-
     /**
      * Returns an array of glyph numbers corresponding to the Unicode characters.
      *
@@ -416,8 +377,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      * @param array $characterCodes Array of Unicode character codes (code points).
      * @return array Array of glyph numbers.
      */
-    abstract public function glyphNumbersForCharacters($characterCodes);
-
+    abstract public function glyph_numbers_for_characters($character_codes);
     /**
      * Returns the glyph number corresponding to the Unicode character.
      *
@@ -430,8 +390,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      * @param integer $characterCode Unicode character code (code point).
      * @return integer Glyph number.
      */
-    abstract public function glyphNumberForCharacter($characterCode);
-
+    abstract public function glyph_number_for_character($character_code);
     /**
      * Returns a number between 0 and 1 inclusive that indicates the percentage
      * of characters in the string which are covered by glyphs in this font.
@@ -450,8 +409,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      *   If omitted, uses 'current locale'.
      * @return float
      */
-    abstract public function getCoveredPercentage($string, $charEncoding = '');
-
+    abstract public function get_covered_percentage($string, $char_encoding = '');
     /**
      * Returns the widths of the glyphs.
      *
@@ -464,8 +422,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      * @return array Array of glyph widths (integers).
      * @throws Zend_Pdf_Exception
      */
-    abstract public function widthsForGlyphs($glyphNumbers);
-
+    abstract public function widths_for_glyphs($glyph_numbers);
     /**
      * Returns the width of the glyph.
      *
@@ -475,8 +432,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      * @return integer
      * @throws Zend_Pdf_Exception
      */
-    abstract public function widthForGlyph($glyphNumber);
-
+    abstract public function width_for_glyph($glyph_number);
     /**
      * Convert string to the font encoding.
      *
@@ -486,8 +442,7 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      * @param string $charEncoding Character encoding of source text.
      * @return string
      */
-    abstract public function encodeString($string, $charEncoding);
-
+    abstract public function encode_string($string, $char_encoding);
     /**
      * Convert string from the font encoding.
      *
@@ -497,10 +452,8 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      * @param string $charEncoding Character encoding of resulting text.
      * @return string
      */
-    abstract public function decodeString($string, $charEncoding);
-
+    abstract public function decode_string($string, $char_encoding);
     /**** Internal Methods ****/
-
     /**
      * If the font's glyph space is not 1000 units per em, converts the value.
      *
@@ -508,11 +461,12 @@ abstract class Zend_Pdf_Resource_Font extends Zend_Pdf_Resource
      * @param integer $value
      * @return integer
      */
-    public function toEmSpace($value)
+    public function to_em_space($value)
     {
-        if ($this->_unitsPerEm == 1000) {
+        if ($this->_units_per_em == 1000) {
             return $value;
         }
-        return ceil(($value / $this->_unitsPerEm) * 1000);    // always round up
+        return ceil($value / $this->_units_per_em * 1000);
+        // always round up
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Zend Framework
  *
@@ -20,7 +20,6 @@ declare(strict_types=1);
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id:
  */
-
 /** Internally used classes */
 #require_once 'Zend/Pdf/Element.php';
 #require_once 'Zend/Pdf/Element/Array.php';
@@ -31,7 +30,6 @@ declare(strict_types=1);
 #require_once 'Zend/Pdf/Element/Null.php';
 #require_once 'Zend/Pdf/Element/Numeric.php';
 #require_once 'Zend/Pdf/Element/String.php';
-
 /**
  * Resource extractor class is used to detach resources from original PDF document.
  *
@@ -56,31 +54,28 @@ class Zend_Pdf_Resource_Extractor
      * @var Zend_Pdf_ElementFactory_Interface
      */
     protected $_factory;
-
     /**
      * Reusable list of already processed objects
      *
      * @var array
      */
     protected $_processed;
-
     /**
      * Object constructor.
      */
     public function __construct()
     {
-        $this->_factory   = Zend_Pdf_ElementFactory::createFactory(1);
+        $this->_factory = Zend_pdf_element_Factory::create_factory(1);
         $this->_processed = [];
     }
-
     /**
      * Clone page, extract it and dependent objects from the current document,
      * so it can be used within other docs
      *
      * return Zend_Pdf_Page
      */
-    public function clonePage(Zend_Pdf_Page $page)
+    public function clone_page(Zend_Pdf_Page $page)
     {
-        return $page->clonePage($this->_factory, $this->_processed);
+        return $page->clone_page($this->_factory, $this->_processed);
     }
 }
