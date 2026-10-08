@@ -27,6 +27,8 @@ foreach ($tests as $test) {
 $runner = new PHPUnit\TextUI\TestRunner();
 $result = $runner->doRun($shuffled, array(
     'configuration' => $config,
+    'loadedExtensions' => array(),
+    'notLoadedExtensions' => array(),
 ), false);
 
 $ran = $result->count();

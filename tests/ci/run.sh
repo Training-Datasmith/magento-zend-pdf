@@ -14,47 +14,37 @@ if ! docker info >/dev/null 2>&1; then
   DOCKER=(sudo docker)
 fi
 
-run_in_container() {
-  "${DOCKER[@]}" run --rm -v "$ROOT:/app" -w /app "$PHP_IMAGE" bash -lc "$1"
-}
+"${DOCKER[@]}" run --rm -v "$ROOT:/app" -w /app "$PHP_IMAGE" bash -lc "
+set -euo pipefail
+export DEBIAN_FRONTEND=noninteractive
+sed -i 's|deb.debian.org|archive.debian.org|g; s|security.debian.org|archive.debian.org|g' /etc/apt/sources.list
+echo 'Acquire::Check-Valid-Until false;' > /etc/apt/apt.conf.d/99no-check-valid
+apt-get update -qq
+apt-get install -y -qq git unzip curl libzip-dev libpng-dev libjpeg62-turbo-dev
+docker-php-ext-configure gd --with-jpeg-dir=/usr/include/
+docker-php-ext-install -j\"\$(nproc)\" gd zip
+php -v
+php -m | grep -E '^(gd|zlib|iconv|ctype)$'
 
-echo "== PHP extensions =="
-run_in_container '
-  set -euo pipefail
-  export DEBIAN_FRONTEND=noninteractive
-  sed -i "s|deb.debian.org|archive.debian.org|g; s|security.debian.org|archive.debian.org|g" /etc/apt/sources.list
-  echo "Acquire::Check-Valid-Until false;" > /etc/apt/apt.conf.d/99no-check-valid
-  apt-get update -qq
-  apt-get install -y -qq git unzip libzip-dev libpng-dev libjpeg62-turbo-dev
-  docker-php-ext-configure gd --with-jpeg-dir=/usr/include/
-  docker-php-ext-install -j"$(nproc)" gd zip
-  php -v
-  php -m | grep -E "^(gd|zlib|iconv|ctype)$"
-'
+EXPECTED=\$(curl -fsSL '${COMPOSER_SIG_URL}')
+curl -fsSL '${COMPOSER_INSTALLER_URL}' -o /tmp/composer-setup.php
+ACTUAL=\$(php -r \"echo hash_file('sha384', '/tmp/composer-setup.php');\")
+if [ \"\${EXPECTED}\" != \"\${ACTUAL}\" ]; then
+  echo 'Composer installer checksum mismatch' >&2
+  exit 1
+fi
+php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}
+composer --version
+composer install --no-interaction --prefer-dist
 
-echo "== Composer ${COMPOSER_VERSION} (verified installer) =="
-run_in_container "
-  set -euo pipefail
-  EXPECTED=\$(curl -fsSL '${COMPOSER_SIG_URL}')
-  curl -fsSL '${COMPOSER_INSTALLER_URL}' -o /tmp/composer-setup.php
-  ACTUAL=\$(php -r \"echo hash_file('sha384', '/tmp/composer-setup.php');\")
-  if [ \"\${EXPECTED}\" != \"\${ACTUAL}\" ]; then
-    echo 'Composer installer checksum mismatch' >&2
-    exit 1
-  fi
-  php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}
-  composer --version
-  composer install --no-interaction --prefer-dist
+echo '== PHPUnit default order (run 1) =='
+php -d error_reporting=-1 vendor/bin/phpunit --configuration phpunit.xml.dist
+echo '== PHPUnit default order (run 2) =='
+php -d error_reporting=-1 vendor/bin/phpunit --configuration phpunit.xml.dist
+echo '== Seeded shuffle (run 1) =='
+php -d error_reporting=-1 tests/ci/run-shuffle.php
+echo '== Seeded shuffle (run 2) =='
+php -d error_reporting=-1 tests/ci/run-shuffle.php
 "
-
-echo "== PHPUnit default order (run 1) =="
-run_in_container 'php -d error_reporting=-1 vendor/bin/phpunit --configuration phpunit.xml.dist'
-echo "== PHPUnit default order (run 2) =="
-run_in_container 'php -d error_reporting=-1 vendor/bin/phpunit --configuration phpunit.xml.dist'
-
-echo "== Seeded shuffle (run 1) =="
-run_in_container 'php -d error_reporting=-1 tests/ci/run-shuffle.php'
-echo "== Seeded shuffle (run 2) =="
-run_in_container 'php -d error_reporting=-1 tests/ci/run-shuffle.php'
 
 echo "All suite gates passed."
