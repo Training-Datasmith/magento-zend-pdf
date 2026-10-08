@@ -1373,6 +1373,7 @@ class Zend_Pdf
                                 throw new Zend_Pdf_Exception('Wrong Trapped document property vale: \'' . $value . '\'. Only true, false and null values are allowed.');
                                 break;
                         }
+                        break;
 
                     case 'CreationDate':
                         // break intentionally omitted

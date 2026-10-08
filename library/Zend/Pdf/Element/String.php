@@ -238,7 +238,7 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
                     // "\\\n" or "\\\n\r"
                     case "\n":
                         // skip new line symbol
-                        if ($str[$offset + 1] == "\r") {
+                        if ($offset + 1 < strlen($str) && $str[$offset + 1] == "\r") {
                             $offset++;
                         }
                         break;
@@ -249,10 +249,10 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
                             // '\\xxx'
                             $nextCode = '0' . $str[$offset];
 
-                            if (strpos('0123456789', $str[$offset + 1]) !== false) {
+                            if ($offset + 1 < strlen($str) && strpos('0123456789', $str[$offset + 1]) !== false) {
                                 $nextCode .= $str[++$offset];
 
-                                if (strpos('0123456789', $str[$offset + 1]) !== false) {
+                                if ($offset + 1 < strlen($str) && strpos('0123456789', $str[$offset + 1]) !== false) {
                                     $nextCode .= $str[++$offset];
                                 }
                             }

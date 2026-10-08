@@ -155,7 +155,7 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
     {
         if (is_string($target)) {
             #require_once 'Zend/Pdf/Destination/Named.php';
-            $target = new Zend_Pdf_Destination_Named($target);
+            $target = Zend_Pdf_Destination_Named::create($target);
         }
 
         if ($target === null  ||  $target instanceof Zend_Pdf_Target) {

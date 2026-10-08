@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true">
+    <php>
+        <ini name="date.timezone" value="UTC"/>
+        <ini name="error_reporting" value="-1"/>
+    </php>
+    <testsuites>
+        <testsuite name="Zend_Pdf">
+            <directory suffix="Test.php">tests/Zend/Pdf</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
